@@ -65,11 +65,11 @@
       if (this.collection) this.collection.off(null, null, this);
     },
 
-    // Look up a property.  A leading dot means the property is relative to the
-    // model.  Otherwise it's relative to the root.
+    // Look up a property.  A leading @ means the property is relative to the
+    // model.  Otherwise it's relative to the root (window).
     resolve: function(path) {
 
-      // Use the view when there is a leading dot.
+      // Use the view when there is a leading @.
       var o = /^@/.test(path) ? this : root;
 
       // Split the rest of the string and walk the property path.
