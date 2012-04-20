@@ -58,4 +58,13 @@
     view.render();
   });
 
+  test('Resolve properties.', function() {
+    var view = new View();
+    view.x = {y: {z: {}}};
+    strictEqual(view.resolve('.x'), view.x);
+    strictEqual(view.resolve('.x.y'), view.x.y);
+    strictEqual(view.resolve('.x.y.z'), view.x.y.z);
+    strictEqual(view.resolve('Kinetic'), Kinetic);
+  });
+
 })(_, jQuery, Backbone, Kinetic);

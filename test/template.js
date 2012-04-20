@@ -43,7 +43,7 @@
     model.test = new Model({x: 1});
     var view = new View({model: model});
     view.template = function() {
-      return '<p data-template=\'{"name": "test", "model": "test"}\'></p>';
+      return '<p data-template=\'{"name": "test", "model": ".model.test"}\'></p>';
     };
     view.render();
     strictEqual(view.$('p').html(), '1');

@@ -63,6 +63,19 @@
       _.invoke(this.views, 'destroy');
       if (this.model) this.model.off(null, null, this);
       if (this.collection) this.collection.off(null, null, this);
+    },
+
+    // Look up a property.  A leading dot means the property is relative to the
+    // model.  Otherwise it's relative to the root.
+    resolve: function(path) {
+
+      // Use the view when there is a leading dot.
+      var o = /^\./.test(path) ? this : root;
+
+      // Split the rest of the string and walk the property path.
+      path = path.replace(/^\./, '').split('.');
+      while (path.length) o = o[path.shift()];
+      return o;
     }
 
   });
@@ -131,10 +144,10 @@
 
       // Set model/collection from provided properties.
       if (options.model) {
-        options.model = this.model[options.model];
+        options.model = this.resolve(options.model);
       }
       if (options.collection) {
-        options.collection = this.model[options.collection];
+        options.collection = this.resolve(options.collection);
       }
 
       _.defaults(options, {
