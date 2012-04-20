@@ -1,17 +1,18 @@
-(function($, Backbone, Kinetic) {
+(function(_, $, Backbone, Kinetic) {
 
   var View = Kinetic.View;
   var Model = Backbone.Model;
   var Collection = Backbone.Collection;
 
-  module('View');
+  var attrs = _.clone(Kinetic.attrs);
 
-  test('Views are removed on destroy.', function() {
-    var view = new View();
-    var container = $('<div></div>')[0];
-    view.render().$el.appendTo(container);
-    view.destroy();
-    ok(view.$el.parent()[0] !== container);
+  module('View', {
+
+    setup: function() {
+      delete Kinetic.selector;
+      Kinetic.attrs = attrs;
+    }
+
   });
 
   test('Collection and Model events are cleaned up on destroy.', 0, function() {
@@ -45,4 +46,16 @@
     ok(view.$2[0] === view.$('b')[0]);
   });
 
-})(jQuery, Backbone, Kinetic);
+  test('Dashes are inserted into data attributes.', 2, function() {
+    Kinetic.attrs.testAttr = function(el, options) {
+      strictEqual(options, 'test');
+      ok($(el).is('p'));
+    };
+    var view = new View();
+    view.template = function() {
+      return '<p data-test-attr="test"></p>';
+    };
+    view.render();
+  });
+
+})(_, jQuery, Backbone, Kinetic);

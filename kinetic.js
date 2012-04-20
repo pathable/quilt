@@ -31,9 +31,7 @@
       // Create the selector if it hasn't been created already.
       if (!Kinetic.selector) {
         selector = [];
-        for (attr in attrs) {
-          selector.push('[data-' + attr + ']');
-        }
+        for (attr in attrs) selector.push('[data-' + dash(attr) + ']');
         Kinetic.selector = selector.join(',');
       }
 
@@ -54,7 +52,6 @@
     },
 
     destroy: function() {
-      this.remove();
       _.invoke(this.views, 'destroy');
       if (this.model) this.model.off(null, null, this);
       if (this.collection) this.collection.off(null, null, this);
@@ -153,5 +150,10 @@
     };
 
   });
+
+  // Replace upper-case characters with a dash and their lower case version.
+  var dash = function(s) {
+    return s.replace(/[A-Z]/g, function(c){ return '-' + c.toLowerCase(); });
+  };
 
 }).call(this, _, jQuery, Backbone);
