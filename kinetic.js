@@ -17,7 +17,7 @@
     },
 
     render: function() {
-      var i, el, selector, elements, attr, view, options;
+      var i, el, selector, elements, attr, view, data;
       var attrs = Kinetic.attrs;
 
       // Destroy old views.
@@ -25,8 +25,8 @@
         view.destroy();
       }
 
-      // Execute the template.
-      this.$el.html(this.template());
+      // Render the template if it exists.
+      this.$el.html(this.template ? this.template() : '');
 
       // Create the selector if it hasn't been created already.
       if (!Kinetic.selector) {
@@ -38,24 +38,19 @@
       }
 
       // Find all elements with appropriate attributes.
-      elements = this.$(Kinetic.selector);
+      elements = this.$(Kinetic.selector).get();
 
-      // Create a view for each element.
-      for (attr in attrs) {
-        elements = elements.filter('[data-' + attr + ']');
-        for (i = 0; i < elements.length; i++) {
-          el = elements[i];
-          options = $(el).data(attr);
-          this.views.push(attrs[attr].call(this, el, options));
+      // Create a view for each element/attr pair.
+      while (el = elements.pop()) {
+        data = $(el).data();
+        for (attr in data) {
+          if (!attrs[attr]) continue;
+          view = attrs[attr].call(this, el, data[attr]);
+          if (view) this.views.push(view.render());
         }
-        elements = elements.end();
       }
 
       return this;
-    },
-
-    template: function() {
-      return '';
     },
 
     destroy: function() {
@@ -72,7 +67,6 @@
     // Render initial content and re-render on changes to the model.
     initialize: function() {
       _.defaults(this.options, {noScript: true});
-      this.render();
       this.model.on('change', this.change, this);
     },
 
@@ -92,21 +86,32 @@
 
   var Template = Kinetic.View.extend({
 
-    initialize: function() {
-      this.render();
-    },
-
     template: function() {
-      return Kinetic.templates[this.options.name]({
+      var layout = this.options.layout;
+      var templates = Kinetic.templates;
+      var template = templates[this.options.name];
+      var data = {
         view: this,
         model: this.model,
         collection: this.collection
-      });
+      };
+
+      // If no layout is specified, just render the template.
+      if (!layout) return template(data);
+
+      // Set hooks for the layout to render the template.
+      data.data = data;
+      data.template = template;
+      return templates[layout](data);
     }
 
   });
 
   Kinetic.attrs = {
+
+    ref: function(el, options) {
+      this['$' + options] = $(el);
+    },
 
     template: function(el, options) {
 

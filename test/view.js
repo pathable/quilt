@@ -35,4 +35,14 @@
     parent.destroy();
   });
 
+  test('data-ref', function() {
+    var view = new View();
+    view.template = function() {
+      return '<p data-ref="1"></p><div><b data-ref="2"></b></div>';
+    };
+    view.render();
+    ok(view.$1[0] === view.$('p')[0]);
+    ok(view.$2[0] === view.$('b')[0]);
+  });
+
 })(jQuery, Backbone, Kinetic);

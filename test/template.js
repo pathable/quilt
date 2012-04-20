@@ -49,4 +49,18 @@
     strictEqual(view.$('p').html(), '1');
   });
 
+  test('Layouts', function() {
+    Kinetic.templates = {
+      layout: _.template('<p><%= template(data) %></p>'),
+      test: _.template('<%= model.get("x") %>')
+    };
+    var model = new Model({x: 1});
+    var view = new View({model: model});
+    view.template = function() {
+      return '<div data-template=\'{"name": "test", "layout": "layout"}\'></div>';
+    };
+    view.render();
+    strictEqual(view.$('div').html(), '<p>1</p>');
+  });
+
 })(jQuery, Backbone, Kinetic);
