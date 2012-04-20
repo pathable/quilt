@@ -8,12 +8,8 @@
 </head>
 <body>
 
-  <div></div>
-
-  <script id='main' type='text/html'>
-    <div data-template='{"name": "content", "layout": "layout"}'>
-    </div>
-  </script>
+  <div data-template='{"name": "content", "layout": "layout"}'>
+  </div>
 
   <script id='layout' type='text/html'>
     <h1 data-html='title'></h1>
@@ -24,7 +20,7 @@
 
   <script id='content' type='text/html'>
     <p data-html='body'></p>
-    <div data-template='{"name": "author", "model": ".model.author"}'></div>
+    <div data-template='{"name": "author", "model": "@model.author"}'></div>
   </script>
 
   <script id='author' type='text/html'>
@@ -52,12 +48,9 @@
       });
 
       view = new Kinetic.View({
-        el: $('div'),
+        el: $('body'),
         model: post
-      });
-
-      view.template = templates.main;
-      view.render();
+      }).render();
 
     });
   </script>

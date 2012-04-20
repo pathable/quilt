@@ -29,7 +29,7 @@
       }
 
       // Render the template if it exists.
-      this.$el.html(this.template ? this.template() : '');
+      if (this.template) this.$el.html(this.template());
 
       // Create the selector if it hasn't been created already.
       if (!Kinetic.selector) {
