@@ -70,10 +70,10 @@
     resolve: function(path) {
 
       // Use the view when there is a leading dot.
-      var o = /^\./.test(path) ? this : root;
+      var o = /^@/.test(path) ? this : root;
 
       // Split the rest of the string and walk the property path.
-      path = path.replace(/^\./, '').split('.');
+      path = path.replace(/^@/, '').split('.');
       while (path.length) o = o[path.shift()];
       return o;
     }
