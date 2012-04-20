@@ -115,6 +115,9 @@
 
   });
 
+  // Extension point for custom attribute functions.  Should be specified in
+  // camel case.  Takes a DOM element and options as arguments.  Optionally
+  // returns a view that will be destroyed with the parent.
   Kinetic.attrs = {
 
     ref: function(el, options) {
