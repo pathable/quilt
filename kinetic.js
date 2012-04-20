@@ -57,6 +57,8 @@
       return this;
     },
 
+    // Destroy child views and ensure that references to this view are
+    // eliminated to prevent memory leaks.
     destroy: function() {
       _.invoke(this.views, 'destroy');
       if (this.model) this.model.off(null, null, this);
@@ -65,6 +67,8 @@
 
   });
 
+  // A view for data-html and data-text attributes.  Sets content when the
+  // model changes using $.fn.html or $.fn.text as appropriate.
   var Content = View.extend({
 
     // Render initial content and re-render on changes to the model.
@@ -87,6 +91,7 @@
 
   });
 
+  // Render a template with the specified model, collection, and layout.
   var Template = Kinetic.View.extend({
 
     template: function() {
