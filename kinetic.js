@@ -153,7 +153,7 @@
 
   // Replace upper-case characters with a dash and their lower case version.
   var dash = function(s) {
-    return s.replace(/[A-Z]/g, function(c){ return '-' + c.toLowerCase(); });
+    return s.replace(/([A-Z])/g, '-$1').toLowerCase();
   };
 
 }).call(this, _, jQuery, Backbone);
