@@ -9,6 +9,9 @@
   // Detect script tags in an html string.
   var rscript  = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
 
+  // Replace upper case characters for data attributes.
+  var dasher = /([A-Z])/g;
+
   var View = Kinetic.View = Backbone.View.extend({
 
     constructor: function() {
@@ -31,7 +34,10 @@
       // Create the selector if it hasn't been created already.
       if (!Kinetic.selector) {
         selector = [];
-        for (attr in attrs) selector.push('[data-' + dash(attr) + ']');
+        for (attr in attrs) {
+          attr = attr.replace(dasher, '-$1').toLowerCase();
+          selector.push('[data-' + attr + ']');
+        }
         Kinetic.selector = selector.join(',');
       }
 
@@ -150,10 +156,5 @@
     };
 
   });
-
-  // Replace upper-case characters with a dash and their lower case version.
-  var dash = function(s) {
-    return s.replace(/([A-Z])/g, '-$1').toLowerCase();
-  };
 
 }).call(this, _, jQuery, Backbone);
