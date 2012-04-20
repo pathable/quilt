@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+  <script src='../test/vendor/underscore.js'></script>
+  <script src='../test/vendor/jquery.js'></script>
+  <script src='../test/vendor/backbone.js'></script>
+  <script src='../kinetic.js'></script>
+</head>
+<body>
+
+  <div></div>
+
+  <script id='main' type='text/html'>
+    <div data-template='{"name": "content", "layout": "layout"}'>
+    </div>
+  </script>
+
+  <script id='layout' type='text/html'>
+    <h1 data-html='title'></h1>
+    <div>
+      <%= template(data) %>
+    </div>
+  </script>
+
+  <script id='content' type='text/html'>
+    <p data-html='body'></p>
+    <div data-template='{"name": "author", "model": ".model.author"}'></div>
+  </script>
+
+  <script id='author' type='text/html'>
+    <span data-html='title'></span>
+    <em data-html='name'></em>
+  </script>
+
+  <script>
+    jQuery(function($) {
+
+      templates = Kinetic.templates;
+
+      $('script[type="text/html"]').each(function() {
+        templates[this.id] = _.template($(this).html());
+      });
+
+      post = new Backbone.Model({
+        title: 'Stuff and Nonsense',
+        body: 'Lorem Ipsum dolor sit amet...'
+      });
+
+      post.author = new Backbone.Model({
+        title: 'Mr.',
+        name: 'Brad Dunbar'
+      });
+
+      view = new Kinetic.View({
+        el: $('div'),
+        model: post
+      });
+
+      view.template = templates.main;
+      view.render();
+
+    });
+  </script>
+</body>
+</html>
