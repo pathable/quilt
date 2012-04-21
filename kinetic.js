@@ -97,7 +97,15 @@
 
     render: function() {
       var value = this.model.get(this.options.attr);
+
+      // If $.truncate is available, use it to truncate the value.
+      if ($.truncate && this.options.truncate) {
+        value = $.truncate(value, this.options.truncate);
+      }
+
+      // Strip script tags if appropriate.
       if (this.options.noScript) value = (value + '').replace(rscript, '');
+
       this.$el[this.options.accessor](value);
       return this;
     }
