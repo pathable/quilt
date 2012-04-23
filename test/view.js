@@ -65,6 +65,8 @@
     strictEqual(view.resolve('@x.y'), view.x.y);
     strictEqual(view.resolve('@x.y.z'), view.x.y.z);
     strictEqual(view.resolve('Kinetic'), Kinetic);
+    strictEqual(view.resolve(null), null);
+    strictEqual(view.resolve(undefined), null);
   });
 
 })(_, jQuery, Backbone, Kinetic);

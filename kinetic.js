@@ -68,6 +68,7 @@
     // Look up a property.  A leading @ means the property is relative to the
     // model.  Otherwise it's relative to the root (window).
     resolve: function(path) {
+      if (path == null) return null;
 
       // Use the view when there is a leading @.
       var o = /^@/.test(path) ? this : root;
@@ -137,8 +138,9 @@
   });
 
   // Extension point for custom attribute functions.  Should be specified in
-  // camel case.  Takes a DOM element and options as arguments.  Optionally
-  // returns a view that will be destroyed with the parent.
+  // camel case (exampleAttr -> data-example-attr).  Takes a DOM element and
+  // options as arguments.  Optionally returns a view that will be destroyed
+  // with the parent.
   Kinetic.attrs = {
 
     ref: function(el, options) {
@@ -150,20 +152,12 @@
       // If `options` is a string, assume it's the template name.
       if (_.isString(options)) options = {name: options};
 
-      // Set model/collection from provided properties.
-      if (options.model) {
-        options.model = this.resolve(options.model);
-      }
-      if (options.collection) {
-        options.collection = this.resolve(options.collection);
-      }
-
-      _.defaults(options, {
-        model: this.model,
-        collection: this.collection
+      _.extend(options, {
+        el: el,
+        model: this.resolve(options.model) || this.model,
+        collection: this.resolve(options.collection) || this.collection
       });
 
-      options.el = el;
       return new Template(options);
     }
 
