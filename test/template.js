@@ -51,7 +51,7 @@
 
   test('Layouts', function() {
     Kinetic.templates = {
-      layout: _.template('<p><%= template(data) %></p>'),
+      layout: _.template('<p><%= content %></p>'),
       test: _.template('<%= model.get("x") %>')
     };
     var model = new Model({x: 1});

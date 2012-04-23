@@ -29,7 +29,13 @@
       }
 
       // Render the template if it exists.
-      if (this.template) this.$el.html(this.template());
+      if (this.template) {
+        this.$el.html(this.template({
+          view: this,
+          model: this.model,
+          collection: this.collection
+        }));
+      }
 
       // Create the selector if it hasn't been created already.
       if (!Kinetic.selector) {
@@ -116,23 +122,16 @@
   // Render a template with the specified model, collection, and layout.
   var Template = Kinetic.View.extend({
 
-    template: function() {
-      var layout = this.options.layout;
-      var templates = Kinetic.templates;
-      var template = templates[this.options.name];
-      var data = {
-        view: this,
-        model: this.model,
-        collection: this.collection
-      };
+    template: function(data) {
+      var out = Kinetic.templates[this.options.name](data);
 
-      // If no layout is specified, just render the template.
-      if (!layout) return template(data);
+      // If layout is specified, render it with content.
+      if (this.options.layout) {
+        data.content = out;
+        out = Kinetic.templates[this.options.layout](data);
+      }
 
-      // Set hooks for the layout to render the template.
-      data.data = data;
-      data.template = template;
-      return templates[layout](data);
+      return out;
     }
 
   });
@@ -152,11 +151,9 @@
       // If `options` is a string, assume it's the template name.
       if (_.isString(options)) options = {name: options};
 
-      _.extend(options, {
-        el: el,
-        model: this.resolve(options.model) || this.model,
-        collection: this.resolve(options.collection) || this.collection
-      });
+      options.el = el;
+      options.model = this.resolve(options.model) || this.model;
+      options.collection = this.resolve(options.collection) || this.collection;
 
       return new Template(options);
     }
