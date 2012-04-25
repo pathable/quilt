@@ -6,7 +6,7 @@
 
   module('Content', {
 
-    setup: function() {
+    teardown: function() {
       $.truncate = truncate;
     }
 

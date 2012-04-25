@@ -3,7 +3,7 @@
   // Detect script tags in an html string.
   var rscript  = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
 
-  // Track model attributes and update content on change.
+  // Track model attributes and update on change.
   var Content = Kinetic.View.extend({
 
     // Render initial content and re-render on changes to the model.
@@ -15,37 +15,53 @@
     change: function() {
       if (!this.model.hasChanged(this.options.attr)) return;
       this.render();
-    },
+    }
+
+  });
+
+  var Html = Content.extend({
 
     render: function() {
       var value = this.model.get(this.options.attr);
 
-      // If $.truncate is available, use it to truncate the value.
+      // Strip script tags if appropriate.
+      if (this.options.noScript) value = (value + '').replace(rscript, '');
+
+      // Truncate if appropriate.
       if ($.truncate && this.options.truncate) {
         value = $.truncate(value, this.options.truncate);
       }
 
-      // Strip script tags if appropriate.
-      if (this.options.noScript) value = (value + '').replace(rscript, '');
-
-      this.$el[this.options.accessor](value);
+      this.$el.html(value);
       return this;
     }
 
   });
 
-  _.each(['html', 'text'], function(accessor) {
+  var Text = Content.extend({
 
-    Kinetic.attributes[accessor] = function(el, options) {
+    render: function() {
+      var value = this.model.get(this.options.attr);
 
+      // Truncate if appropriate.
+      if ($.truncate && this.options.truncate) {
+        value = $.truncate(value, this.options.truncate);
+      }
+
+      this.$el.text(value);
+      return this;
+    }
+
+  });
+
+  _.each({html: Html, text: Text}, function(View, attr) {
+
+    Kinetic.attributes[attr] = function(el, options) {
       // If `options` is a string, assume it's an attribute.
       if (_.isString(options)) options = {attr: options};
-
-      return new Content(_.extend(options, {
-        el: el,
-        model: this.model,
-        accessor: accessor
-      }));
+      options.el = el;
+      options.model = this.model;
+      return new View(options);
     };
 
   });
