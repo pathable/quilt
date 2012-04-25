@@ -36,16 +36,6 @@
     parent.destroy();
   });
 
-  test('data-ref', function() {
-    var view = new View();
-    view.template = function() {
-      return '<p data-ref="1"></p><div><b data-ref="2"></b></div>';
-    };
-    view.render();
-    ok(view.$1[0] === view.$('p')[0]);
-    ok(view.$2[0] === view.$('b')[0]);
-  });
-
   test('Dashes are inserted into data attributes.', 2, function() {
     Kinetic.attributes.testAttr = function(el, options) {
       strictEqual(options, 'test');

@@ -1,5 +1,8 @@
 (function(Kinetic) {
 
+  // Templates should be stored by name in this hash.
+  Kinetic.templates = {};
+
   var Template = Kinetic.View.extend({
 
     template: function(data) {
@@ -21,6 +24,7 @@
     // If `options` is a string, assume it's the template name.
     if (_.isString(options)) options = {name: options};
 
+    // Set options, taking care to resolve the model and collection properties.
     options.el = el;
     options.model = this.resolve(options.model) || this.model;
     options.collection = this.resolve(options.collection) || this.collection;

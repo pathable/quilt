@@ -3,8 +3,15 @@
   var root = this;
   var Kinetic = root.Kinetic = {};
 
-  // Template hash.
-  Kinetic.templates = {};
+  // Attribute handlers should be specified in camel case.  The arguments to
+  // each handler will be a DOM element and the value of the data attribute.
+  // The handler will be called with the parent view as context.
+  //
+  //    Kinetic.attributes.fooBar = function(element, options) {
+  //      // Called for elements with a data-foo-bar attribute.
+  //    };
+  //
+  Kinetic.attributes = {};
 
   // Replace upper case characters for data attributes.
   var dasher = /([A-Z])/g;
@@ -90,17 +97,5 @@
     }
 
   });
-
-  // Extension point for custom attribute functions.  Should be specified in
-  // camel case (exampleAttr -> data-example-attr).  Takes a DOM element and
-  // options as arguments.  Optionally returns a view that will be destroyed
-  // with the parent.
-  Kinetic.attributes = {
-
-    ref: function(el, options) {
-      this['$' + options] = $(el);
-    }
-
-  };
 
 }).call(this, _, jQuery, Backbone);
