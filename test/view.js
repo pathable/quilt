@@ -4,13 +4,13 @@
   var Model = Backbone.Model;
   var Collection = Backbone.Collection;
 
-  var attrs = _.clone(Kinetic.attrs);
+  var attrs = _.clone(Kinetic.attributes);
 
   module('View', {
 
     setup: function() {
       delete Kinetic.selector;
-      Kinetic.attrs = attrs;
+      Kinetic.attributes = attrs;
     }
 
   });
@@ -47,7 +47,7 @@
   });
 
   test('Dashes are inserted into data attributes.', 2, function() {
-    Kinetic.attrs.testAttr = function(el, options) {
+    Kinetic.attributes.testAttr = function(el, options) {
       strictEqual(options, 'test');
       ok($(el).is('p'));
     };
@@ -70,7 +70,7 @@
   });
 
   test('Other data attributes are ignored.', 1, function() {
-    Kinetic.attrs.exists = function() {
+    Kinetic.attributes.exists = function() {
       ok(true);
     };
     var view = new View();

@@ -21,7 +21,7 @@
 
     render: function() {
       var i, el, selector, elements, attr, view, data;
-      var attrs = Kinetic.attrs;
+      var attrs = Kinetic.attributes;
 
       // Destroy old views.
       while (view = this.views.pop()) {
@@ -142,7 +142,7 @@
   // camel case (exampleAttr -> data-example-attr).  Takes a DOM element and
   // options as arguments.  Optionally returns a view that will be destroyed
   // with the parent.
-  Kinetic.attrs = {
+  Kinetic.attributes = {
 
     ref: function(el, options) {
       this['$' + options] = $(el);
@@ -165,7 +165,7 @@
   // Html and text content views.
   _.each(['html', 'text'], function(accessor) {
 
-    Kinetic.attrs[accessor] = function(el, options) {
+    Kinetic.attributes[accessor] = function(el, options) {
 
       // If `options` is a string, assume it's an attribute.
       if (_.isString(options)) options = {attr: options};
