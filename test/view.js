@@ -69,4 +69,15 @@
     strictEqual(view.resolve(undefined), null);
   });
 
+  test('Other data attributes are ignored.', 1, function() {
+    Kinetic.attrs.exists = function() {
+      ok(true);
+    };
+    var view = new View();
+    view.template = function() {
+      return '<p data-exists="true" data-doesnt="false"></p>';
+    };
+    view.render();
+  });
+
 })(_, jQuery, Backbone, Kinetic);
