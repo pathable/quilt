@@ -25,7 +25,7 @@
 
       // Destroy old views.
       while (view = this.views.pop()) {
-        view.destroy();
+        if (view.destroy) view.destroy();
       }
 
       // Render the template if it exists.
@@ -66,7 +66,9 @@
     // Destroy child views and ensure that references to this view are
     // eliminated to prevent memory leaks.
     destroy: function() {
-      _.invoke(this.views, 'destroy');
+      for (var i = 0; i < this.views.length; i++) {
+        if (this.views[i].destroy) this.views[i].destroy();
+      }
       if (this.model) this.model.off(null, null, this);
       if (this.collection) this.collection.off(null, null, this);
     },

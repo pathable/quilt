@@ -80,4 +80,23 @@
     view.render();
   });
 
+  test('Non-views in view.views don\'t cause errors.', 0, function() {
+    var view = new View();
+    view.views.push({});
+    view.destroy();
+  });
+
+  test('template gets view, model, and collection.', 3, function() {
+    var model = new Model();
+    var collection = new Collection();
+    var view = new View({model: model, collection: collection});
+    view.template = function(data) {
+      ok(data.view === view);
+      ok(data.model === model);
+      ok(data.collection === collection);
+      return '';
+    };
+    view.render();
+  });
+
 })(_, jQuery, Backbone, Kinetic);
