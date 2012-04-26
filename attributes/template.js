@@ -3,7 +3,7 @@
   // Templates should be stored by name in this hash.
   Kinetic.templates = {};
 
-  var Template = Kinetic.View.extend({
+  Kinetic.Template = Kinetic.View.extend({
 
     template: function(data) {
       var out = Kinetic.templates[this.options.name](data);
@@ -29,7 +29,7 @@
     options.model = this.resolve(options.model) || this.model;
     options.collection = this.resolve(options.collection) || this.collection;
 
-    return new Template(options);
+    return new Kinetic.Template(options);
   };
 
 })(Kinetic);

@@ -1,4 +1,4 @@
-(function(Kinetic) {
+(function($, Kinetic) {
 
   // Detect script tags in an html string.
   var rscript  = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
@@ -94,4 +94,4 @@
 
   });
 
-})(Kinetic);
+})(jQuery, Kinetic);

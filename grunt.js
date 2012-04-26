@@ -4,7 +4,7 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     qunit: ['./test/index.html'],
-    lint: ['kinetic.js', './test/*.js'],
+    lint: ['kinetic.js', './attributes/*.js', './test/*.js'],
     jshint: {
       options: {
         boss: true,

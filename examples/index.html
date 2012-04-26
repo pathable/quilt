@@ -8,6 +8,7 @@
   <script src='../kinetic.js'></script>
   <script src='../attributes/template.js'></script>
   <script src='../attributes/content.js'></script>
+  <script src='../attributes/list.js'></script>
 </head>
 <body>
 
@@ -24,11 +25,19 @@
     <em data-date='{"attr": "created_at", "format": "MM-DD-YYYY"}'></em>
     -
     <span data-template='{"name": "author", "model": "@model.author"}'></span>
+    <br>
+    <span data-list='{"collection": "@model.tags", "template": {"name": "tag"}}'>
+      <span></span>
+    </span>
   </script>
 
   <script id='author' type='text/html'>
     <span data-html='title'></span>
     <em data-html='name'></em>
+  </script>
+
+  <script id='tag' type='text/html'>
+    <span data-html='name'></span>
   </script>
 
   <script>
@@ -50,6 +59,12 @@
         title: 'Mr.',
         name: 'Brad Dunbar'
       });
+
+      post.tags = new Backbone.Collection([
+        {name: 'foo'},
+        {name: 'bar'},
+        {name: 'baz'}
+      ]);
 
       view = new Kinetic.View({
         el: $('body'),
