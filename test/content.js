@@ -58,4 +58,15 @@
     view.render();
   });
 
+  test('data-date', function() {
+    var model = new Model({created_at: moment([2012])});
+    var view = new View({model: model});
+    view.template = function() {
+      return '<em data-date=\'{"attr": "created_at", "format": "MM-DD-YYYY"}\'></em>';
+    };
+    view.render();
+    var em = view.$('em');
+    strictEqual(em.text(), '01-01-2012');
+  });
+
 })(jQuery, Backbone, Kinetic);

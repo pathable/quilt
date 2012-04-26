@@ -1,10 +1,13 @@
 <!doctype html>
 <html>
 <head>
+  <script src='../test/vendor/moment.js'></script>
   <script src='../test/vendor/underscore.js'></script>
   <script src='../test/vendor/jquery.js'></script>
   <script src='../test/vendor/backbone.js'></script>
   <script src='../kinetic.js'></script>
+  <script src='../attributes/template.js'></script>
+  <script src='../attributes/content.js'></script>
 </head>
 <body>
 
@@ -13,14 +16,14 @@
 
   <script id='layout' type='text/html'>
     <h1 data-html='title'></h1>
-    <div>
-      <%= content %>
-    </div>
+    <div><%= content %></div>
   </script>
 
   <script id='content' type='text/html'>
     <p data-html='body'></p>
-    <div data-template='{"name": "author", "model": "@model.author"}'></div>
+    <em data-date='{"attr": "created_at", "format": "MM-DD-YYYY"}'></em>
+    -
+    <span data-template='{"name": "author", "model": "@model.author"}'></span>
   </script>
 
   <script id='author' type='text/html'>
@@ -39,7 +42,8 @@
 
       post = new Backbone.Model({
         title: 'Stuff and Nonsense',
-        body: 'Lorem Ipsum dolor sit amet...'
+        body: 'Lorem Ipsum dolor sit amet...',
+        created_at: new Date()
       });
 
       post.author = new Backbone.Model({

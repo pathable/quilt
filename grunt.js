@@ -22,6 +22,7 @@ module.exports = function(grunt) {
 
         // Dependencies
         _: true,
+        moment: true,
         jQuery: true,
         Backbone: true,
         Kinetic: true

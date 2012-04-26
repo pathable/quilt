@@ -19,7 +19,7 @@
 
   });
 
-  var Html = Content.extend({
+  Kinetic.Html = Content.extend({
 
     render: function() {
       var value = this.model.get(this.options.attr);
@@ -38,7 +38,7 @@
 
   });
 
-  var Text = Content.extend({
+  Kinetic.Text = Content.extend({
 
     render: function() {
       var value = this.model.get(this.options.attr);
@@ -54,7 +54,35 @@
 
   });
 
-  _.each({html: Html, text: Text}, function(View, attr) {
+  Kinetic.Date = Content.extend({
+
+    render: function() {
+      var value = this.model.get(this.options.attr);
+
+      if (typeof moment === 'undefined') {
+        this.$el.text(value);
+        return this;
+      }
+
+      if (typeof moment !== 'undefined') {
+        value = /^fromnow$/i.test(this.options.format) ?
+          moment(value).fromNow() :
+          moment(value).format(this.options.format);
+      }
+
+      this.$el.text(value);
+      return this;
+    }
+
+  });
+
+  var attrs = {
+    html: Kinetic.Html,
+    text: Kinetic.Text,
+    date: Kinetic.Date
+  };
+
+  _.each(attrs, function(View, attr) {
 
     Kinetic.attributes[attr] = function(el, options) {
       // If `options` is a string, assume it's an attribute.
