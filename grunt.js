@@ -20,6 +20,9 @@ module.exports = function(grunt) {
         deepEqual: true,
         strictEqual: true,
 
+        // window
+        confirm: true,
+
         // Dependencies
         _: true,
         moment: true,

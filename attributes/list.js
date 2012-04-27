@@ -58,6 +58,7 @@
 
       // Remove from the DOM.
       view.$el.remove();
+      view.destroy();
 
       // Clean up.
       delete this._views[model.cid];
@@ -69,10 +70,11 @@
     reset: function() {
       this.collection.each(this.add, this);
       var models = _.pluck(this.views, 'model');
-      _.each(_.difference(models, this.collection.models), this._remove, this);
+      _.each(_.difference(models, this.collection.models), this.remove, this);
       this.views = this.collection.map(this.findView, this);
-      var el = $(this.el);
-      _.each(this.views, function(view) { el.append(this._el(view)); }, this);
+      _.each(this.views, function(view) {
+        this.$el.append(view.el);
+      }, this);
       this.trigger('reset', this);
     }
 
