@@ -60,7 +60,7 @@
         for (attr in data) {
           if (!attrs[attr]) continue;
           view = attrs[attr].call(this, el, data[attr]);
-          if (view) this.views.push(view.render());
+          if (view instanceof View) this.views.push(view.render());
         }
       }
 

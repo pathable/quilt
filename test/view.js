@@ -89,4 +89,12 @@
     view.render();
   });
 
+
+  test('Tolerate non-view return from attribute function.', 0, function() {
+    Kinetic.attributes.test = function() { return {}; };
+    var view = new View({model: new Model()});
+    view.template = function() { return '<p data-test="true"></p>'; };
+    view.render();
+  });
+
 })(_, jQuery, Backbone, Kinetic);
