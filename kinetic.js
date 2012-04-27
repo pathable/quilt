@@ -83,7 +83,7 @@
     },
 
     // Look up a property.  A leading @ means the property is relative to the
-    // model.  Otherwise it's relative to the root (window).
+    // view.  Otherwise it's relative to the root (window).
     resolve: function(path) {
       if (path == null) return null;
 
