@@ -50,10 +50,11 @@
 
   test('Resolve properties.', function() {
     var view = new View();
-    view.x = {y: {z: {}}};
+    var y = {z: {}};
+    view.x = {y: function(){ return y; }};
     strictEqual(view.resolve('@x'), view.x);
-    strictEqual(view.resolve('@x.y'), view.x.y);
-    strictEqual(view.resolve('@x.y.z'), view.x.y.z);
+    strictEqual(view.resolve('@x.y'), y);
+    strictEqual(view.resolve('@x.y.z'), y.z);
     strictEqual(view.resolve('Kinetic'), Kinetic);
     strictEqual(view.resolve(null), null);
     strictEqual(view.resolve(undefined), null);

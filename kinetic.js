@@ -92,7 +92,7 @@
 
       // Split the rest of the string and walk the property path.
       path = path.replace(/^@/, '').split('.');
-      while (path.length) o = o[path.shift()];
+      while (path.length) o = _.result(o, path.shift());
       return o;
     }
 
