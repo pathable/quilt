@@ -94,6 +94,31 @@
 
   });
 
+  // # Content
+  //
+  // Render an attribute value as content, updating on change.
+  var Content = Kinetic.Content = View.extend({
+
+    initialize: function(options) {
+      this.attr = options.attr;
+      this.render();
+      if (this.model) this.model.on('change', this.change, this);
+    },
+
+    // Update content if `attr` has changed.
+    change: function() {
+      if (this.model && this.model.hasChanged(this.attr)) this.render();
+    },
+
+    render: function() {
+      if (!this.model) return this;
+      var value = (this.model.get(this.attr) || '').toString();
+      this.$el.html(value).toggleClass('hide', !value);
+      return this;
+    }
+
+  });
+
   // # Template
   //
   // Render a template by name, with optional layout.
@@ -219,6 +244,21 @@
   //    };
   //
   Kinetic.attributes = {
+
+    // Render the value of an attribute inside `el`, using the specified model
+    // and updating the value on change.
+    content: function(el, options) {
+      if (!options) options = {};
+
+      // If `options` is a string, assume it's an attribute name.
+      if (_.isString(options)) options = {attr: options};
+
+      // Resolve model reference.
+      options.model = this.resolve(options.model) || this.model;
+
+      options.el = el;
+      return new Content(options);
+    },
 
     // Render a template inside `el`, using the specified model, collection,
     // and layout.

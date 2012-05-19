@@ -1,72 +1,88 @@
-(function($, Backbone, Kinetic) {
+(function($) {
 
   var View = Kinetic.View;
+  var Content = Kinetic.Content;
   var Model = Backbone.Model;
-  var truncate = $.truncate;
 
-  module('Content', {
+  var content = Kinetic.attributes.content;
 
-    teardown: function() {
-      $.truncate = truncate;
-    }
+  module('Content');
 
+  test('Attribute', function() {
+    var parent = new View({model: new Model()});
+    parent._model = new Model();
+    var el = $('<p></p>')[0];
+
+    var view = content.call(parent, el, 'attr');
+    ok(view instanceof Content);
+    ok(view.el === el);
+    strictEqual(view.attr, 'attr');
+    ok(view.model === parent.model);
+
+    view = content.call(parent, el, {attr: 'attr', model: '@_model'});
+    ok(view instanceof Content);
+    ok(view.el === el);
+    strictEqual(view.attr, 'attr');
+    ok(view.model === parent._model);
   });
 
-  test('data-html sets html.', function() {
-    var model = new Model({test: '<b>test</b>'});
-    var view = new View({model: model});
-    view.template = function() {
-      return '<p data-html="test"></p>';
-    };
-    view.render();
-
-    var p = view.$('p');
-    strictEqual(p.html(), '<b>test</b>');
-    model.set({test: '<i>test</i>'});
-    strictEqual(p.html(), '<i>test</i>');
-
-    view.render();
-    p = view.$('p');
-    strictEqual(p.html(), '<i>test</i>');
-    model.set({test: '<b>test</b>'});
-    strictEqual(p.html(), '<b>test</b>');
+  test('Null attribute does not throw.', function() {
+    var view = new Content({
+      attr: 'attr',
+      el: $('<p></p>'),
+      model: new Model()
+    });
+    strictEqual(view.$el.html(), '');
   });
 
-  test('data-text sets text.', function() {
-    var model = new Model({test: '<b>test</b>'});
-    var view = new View({model: model});
-    view.template = function() {
-      return '<p data-text="test"></p>';
-    };
-    view.render();
-    var p = view.$('p');
-    strictEqual(p.text(), '<b>test</b>');
-    model.set({test: '<i>test</i>'});
-    strictEqual(p.text(), '<i>test</i>');
+  test('Render content.', function() {
+    var view = new Content({
+      attr: 'attr',
+      el: $('<p></p>'),
+      model: new Model({attr: '<i>x</i>'})
+    });
+    strictEqual(view.$el.html(), '<i>x</i>');
   });
 
-  test('Use truncate if available.', 2, function() {
-    var model = new Model({test: 'test'});
-    var view = new View({model: model});
-    view.template = function() {
-      return '<p data-html=\'{"attr": "test", "truncate": 25}\'></p>';
-    };
-    $.truncate = function(html, options) {
-      strictEqual(html, 'test');
-      strictEqual(options, 25);
-    };
-    view.render();
+  test('Render content on change.', function() {
+    var view = new Content({
+      attr: 'attr',
+      el: $('<p></p>'),
+      model: new Model({attr: '<i>x</i>'})
+    });
+    strictEqual(view.$el.html(), '<i>x</i>');
+    view.model.set({attr: '<i>y</i>'});
+    strictEqual(view.$el.html(), '<i>y</i>');
   });
 
-  test('data-date', function() {
-    var model = new Model({created_at: moment([2012])});
-    var view = new View({model: model});
-    view.template = function() {
-      return '<em data-date=\'{"attr": "created_at", "format": "MM-DD-YYYY"}\'></em>';
-    };
-    view.render();
-    var em = view.$('em');
-    strictEqual(em.text(), '01-01-2012');
+  test('Hide when empty', function() {
+    var view = new Content({
+      attr: 'attr',
+      el: $('<p></p>'),
+      model: new Model()
+    });
+    ok(view.$el.hasClass('hide'));
+    view.model.set({attr: 'x'});
+    ok(!view.$el.hasClass('hide'));
+    view.model.unset('attr');
+    ok(view.$el.hasClass('hide'));
   });
 
-})(jQuery, Backbone, Kinetic);
+  test('Call toString on values', function() {
+    var view = new Content({
+      attr: 'attr',
+      el: $('<p></p>'),
+      model: new Model({
+        attr: {
+          toString: function(){ return 'value'; }
+        }
+      })
+    });
+    strictEqual(view.$el.html(), 'value');
+  });
+
+  test('Null model does not throw.', 0, function() {
+    new Content({attr: 'attr', el: $('<p></p>')}).render();
+  });
+
+})(jQuery);
