@@ -3,12 +3,14 @@
   var root = this;
   var Kinetic = root.Kinetic = {};
 
+  Kinetic.VERSION = '0.0.1';
+
   // Attribute handlers should be specified in camel case.  The arguments to
   // each handler will be a DOM element and the value of the data attribute.
   // The handler will be called with the parent view as context.
   //
-  //    Kinetic.attributes.fooBar = function(element, options) {
-  //      // Called for elements with a data-foo-bar attribute.
+  //    Kinetic.attributes.exampleAttr = function(element, options) {
+  //      // Called for elements with a "data-example-attr" attribute.
   //    };
   //
   Kinetic.attributes = {};
@@ -16,13 +18,19 @@
   // Replace upper case characters for data attributes.
   var dasher = /([A-Z])/g;
 
+  // # Kinetic.View
+  //
+  // Provide a structure for declaring functionality through data attributes.
   var View = Kinetic.View = Backbone.View.extend({
 
     constructor: function() {
       this.views = [];
-      View.__super__.constructor.apply(this, arguments);
+      Backbone.View.apply(this, arguments);
     },
 
+    // After executing the template function, search the view for relevant
+    // attributes, match them with handlers and execute them.  If a handler
+    // returns a view, store it for clean up.
     render: function() {
       var i, el, selector, elements, attr, view, data;
       var attrs = Kinetic.attributes;
@@ -54,7 +62,7 @@
       // Find all elements with appropriate attributes.
       elements = this.$(Kinetic.selector).get();
 
-      // Create a view for each element/attr pair.
+      // Execute the handler for each element/attr pair.
       while (el = elements.pop()) {
         data = $(el).data();
         for (attr in data) {
@@ -73,17 +81,15 @@
       var view;
 
       // Destroy child views.
-      while (view = this.views.pop()) {
-        if (view.destroy) view.destroy();
-      }
+      while (view = this.views.pop()) if (view.destroy) view.destroy();
 
       // Clean up event handlers.
       if (this.model) this.model.off(null, null, this);
       if (this.collection) this.collection.off(null, null, this);
     },
 
-    // Look up a property.  A leading @ means the property is relative to the
-    // view.  Otherwise it's relative to the root (window).
+    // Look up a property.  A leading @ indicates that the property is relative
+    // to the view.  Otherwise it's relative to the root (window).
     resolve: function(path) {
       if (path == null) return null;
 
