@@ -1,19 +1,9 @@
-(function(_, $, Backbone) {
+(function() {
 
   var root = this;
   var Kinetic = root.Kinetic = {};
 
   Kinetic.VERSION = '0.0.1';
-
-  // Attribute handlers should be specified in camel case.  The arguments to
-  // each handler will be a DOM element and the value of the data attribute.
-  // The handler will be called with the parent view as context.
-  //
-  //    Kinetic.attributes.exampleAttr = function(element, options) {
-  //      // Called for elements with a "data-example-attr" attribute.
-  //    };
-  //
-  Kinetic.attributes = {};
 
   // Replace upper case characters for data attributes.
   var dasher = /([A-Z])/g;
@@ -64,7 +54,7 @@
 
       // Execute the handler for each element/attr pair.
       while (el = elements.pop()) {
-        data = $(el).data();
+        data = Backbone.$(el).data();
         for (attr in data) {
           if (!attrs[attr]) continue;
           view = attrs[attr].call(this, el, data[attr]);
@@ -104,4 +94,56 @@
 
   });
 
-}).call(this, _, jQuery, Backbone);
+  // # Template
+  //
+  // Render a template by name, with optional layout.
+  var Template = Kinetic.Template = View.extend({
+
+    initialize: function(options) {
+      this.name = options.name;
+      this.layout = options.layout;
+    },
+
+    // Render the template by name.
+    template: function(data) {
+      var html = Kinetic.templates[this.name](data);
+
+      // Use layout if appropriate.
+      if (this.layout) {
+        data.content = html;
+        html = Kinetic.templates[this.layout](data);
+      }
+
+      return html;
+    }
+
+  });
+
+  // Attribute handlers should be specified in camel case.  The arguments to
+  // each handler will be a DOM element and the value of the data attribute.
+  // The handler will be called with the parent view as context.
+  //
+  //    Kinetic.attributes.exampleAttr = function(element, options) {
+  //      // Called for elements with a "data-example-attr" attribute.
+  //    };
+  //
+  Kinetic.attributes = {
+
+    // Render a template inside `el`, using the specified model, collection,
+    // and layout.
+    template: function(el, options) {
+
+      // If `options` is a string, assume it's a template name.
+      if (_.isString(options)) options = {name: options};
+
+      // Resolve collection and model references.
+      options.model = this.resolve(options.model) || this.model;
+      options.collection = this.resolve(options.collection) || this.collection;
+
+      options.el = el;
+      return new Template(options);
+    }
+
+  };
+
+})();

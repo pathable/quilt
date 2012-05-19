@@ -1,66 +1,77 @@
-(function($, Backbone, Kinetic) {
+(function($) {
 
   var View = Kinetic.View;
   var Model = Backbone.Model;
+  var Template = Kinetic.Template;
   var Collection = Backbone.Collection;
+
+  var template = Kinetic.attributes.template;
+  var templates = Kinetic.templates;
 
   module('Templates', {
 
     setup: function() {
-      Kinetic.templates = {};
+      Kinetic.templates = templates;
     }
 
   });
 
-  test('Render template.', function() {
-    Kinetic.templates.test = _.template('<p><%= model.get("content") %></p>');
-    var model = new Model({content: 'test'});
-    var view = new View({model: model});
-    view.template = function() {
-      return '<div data-template="test"></div>';
-    };
-    view.render();
-    strictEqual(view.$('div').html(), '<p>test</p>');
+  test('Attribute', function() {
+    var parent = new View({model: new Model(), collection: new Collection()});
+    parent._model = new Model();
+    parent._collection = new Collection();
+    var el = $('<p></p>')[0];
+
+    var view = template.call(parent, el, 'name');
+    ok(view instanceof Template);
+    ok(view.el === el);
+    strictEqual(view.name, 'name');
+    ok(view.model === parent.model);
+    ok(view.collection === parent.collection);
+
+    view = template.call(parent, el, {
+      name: 'name',
+      model: '@_model',
+      collection: '@_collection'
+    });
+    ok(view instanceof Template);
+    ok(view.el === el);
+    strictEqual(view.name, 'name');
+    ok(view.model === parent._model);
+    ok(view.collection === parent._collection);
   });
 
-  test('Render recursively.', function() {
-    Kinetic.templates = {
-      outer: _.template('<p data-template="inner"></p>'),
-      inner: _.template('<%= model.get("content") %>')
-    };
-    var model = new Model({content: 'test'});
-    var view = new View({model: model});
-    view.template = function() {
-      return '<div data-template="outer"></div>';
-    };
-    view.render();
-    strictEqual(view.$('div').html(), '<p data-template="inner">test</p>');
-  });
-
-  test('Render a different model.', function() {
-    Kinetic.templates.test = _.template('<%= model.get("x") %>');
+  test('Render a template.', 7, function() {
     var model = new Model();
-    model.test = new Model({x: 1});
-    var view = new View({model: model});
-    view.template = function() {
-      return '<p data-template=\'{"name": "test", "model": "@model.test"}\'></p>';
-    };
-    view.render();
-    strictEqual(view.$('p').html(), '1');
-  });
+    var collection = new Collection([model]);
 
-  test('Layouts', function() {
     Kinetic.templates = {
-      layout: _.template('<p><%= content %></p>'),
-      test: _.template('<%= model.get("x") %>')
+
+      layout: function(data) {
+        ok(data.view === view);
+        ok(data.model === model);
+        ok(data.collection === collection);
+        return '[' + data.content + ']';
+      },
+
+      test: function(data) {
+        ok(data.view === view);
+        ok(data.model === model);
+        ok(data.collection === collection);
+        return 'html';
+      }
+
     };
-    var model = new Model({x: 1});
-    var view = new View({model: model});
-    view.template = function() {
-      return '<div data-template=\'{"name": "test", "layout": "layout"}\'></div>';
-    };
+
+    var view = new Template({
+      name: 'test',
+      layout: 'layout',
+      model: model,
+      collection: collection
+    });
+
     view.render();
-    strictEqual(view.$('div').html(), '<p>1</p>');
+    strictEqual(view.$el.html(), '[html]');
   });
 
-})(jQuery, Backbone, Kinetic);
+})(jQuery);
