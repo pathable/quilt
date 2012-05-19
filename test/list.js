@@ -1,8 +1,11 @@
 (function($) {
 
   var List = Kinetic.List;
+  var View = Kinetic.View;
   var Model = Backbone.Model;
   var Collection = Backbone.Collection;
+
+  var templates = Kinetic.templates;
 
   var c = null;
   var m = null;
@@ -14,16 +17,47 @@
   module('List', {
 
     setup: function() {
-      Kinetic.templates.empty = _.template('');
+      Kinetic.templates = {
+        id: function(data){
+          return '' + data.model.id;
+        }
+      };
+
       m = new Model({id: 4});
       c = new Collection([m1, m2]);
+
       list = new List({
-        el: '<div><div></div></div>',
-        collection: c,
-        template: {name: 'empty'}
+        el: $('<ul><li data-item="id"></li></ul>'),
+        collection: c
       }).render();
+    },
+
+    teardown: function() {
+      Kinetic.templates = templates;
     }
 
+  });
+
+  test('Attribute', function() {
+    var parent = new View({model: new Model(), collection: new Collection()});
+    parent._model = new Model();
+    parent._collection = new Collection();
+    var el = $('<p></p>')[0];
+
+    var view = Kinetic.attributes.list.call(parent, el);
+    ok(view instanceof List);
+    ok(view.el === el);
+    ok(view.model === parent.model);
+    ok(view.collection === parent.collection);
+
+    view = Kinetic.attributes.list.call(parent, el, {
+      model: '@_model',
+      collection: '@_collection'
+    });
+    ok(view instanceof List);
+    ok(view.el === el);
+    ok(view.model === parent._model);
+    ok(view.collection === parent._collection);
   });
 
   test('Create views from collection.', function() {
@@ -33,6 +67,8 @@
     ok(list.views[1].model === m2);
     ok(list.findView(m1) === list.views[0]);
     ok(list.findView(m2) === list.views[1]);
+    strictEqual(list.findView(m1).$el.html(), '1');
+    strictEqual(list.findView(m2).$el.html(), '2');
   });
 
   test('Add a model.', function() {
@@ -95,4 +131,4 @@
     ok(list.views[1].model === m1);
   });
 
-})();
+})(jQuery);
