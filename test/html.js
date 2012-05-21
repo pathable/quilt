@@ -5,22 +5,45 @@
   var Model = Backbone.Model;
 
   var html = Kinetic.attributes.html;
+  var text = Kinetic.attributes.text;
 
   module('Html');
 
-  test('Attribute', function() {
+  test('Html attribute.', function() {
     var parent = new View({model: new Model()});
     parent._model = new Model();
     var el = $('<p></p>')[0];
 
     var view = html.call(parent, el, 'attr');
     ok(view instanceof Html);
+    ok(!view.escape);
     ok(view.el === el);
     strictEqual(view.attr, 'attr');
     ok(view.model === parent.model);
 
     view = html.call(parent, el, {attr: 'attr', model: '@_model'});
     ok(view instanceof Html);
+    ok(!view.escape);
+    ok(view.el === el);
+    strictEqual(view.attr, 'attr');
+    ok(view.model === parent._model);
+  });
+
+  test('Text attribute.', function() {
+    var parent = new View({model: new Model()});
+    parent._model = new Model();
+    var el = $('<p></p>')[0];
+
+    var view = text.call(parent, el, 'attr');
+    ok(view instanceof Html);
+    ok(view.escape);
+    ok(view.el === el);
+    strictEqual(view.attr, 'attr');
+    ok(view.model === parent.model);
+
+    view = text.call(parent, el, {attr: 'attr', model: '@_model'});
+    ok(view instanceof Html);
+    ok(view.escape);
     ok(view.el === el);
     strictEqual(view.attr, 'attr');
     ok(view.model === parent._model);
@@ -66,6 +89,16 @@
     ok(!view.$el.hasClass('hide'));
     view.model.unset('attr');
     ok(view.$el.hasClass('hide'));
+  });
+
+  test('Escape values.', function() {
+    var view = new Html({
+      escape: true,
+      attr: 'attr',
+      el: $('<p></p>'),
+      model: new Model({attr: '<b>&</b>'})
+    });
+    strictEqual(view.$el.html(), '&lt;b&gt;&amp;&lt;/b&gt;');
   });
 
   test('Call toString on values', function() {

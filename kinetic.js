@@ -101,6 +101,7 @@
 
     initialize: function(options) {
       this.attr = options.attr;
+      this.escape = options.escape;
       this.render();
       if (this.model) this.model.on('change', this.change, this);
     },
@@ -113,6 +114,7 @@
     render: function() {
       if (!this.model) return this;
       var value = (this.model.get(this.attr) || '').toString();
+      if (this.escape) value = _.escape(value);
       this.$el.html(value).toggleClass('hide', !value);
       return this;
     }
@@ -281,6 +283,22 @@
       options.model = this.resolve(options.model) || this.model;
 
       options.el = el;
+      return new Html(options);
+    },
+
+    // Render the escaped value of an attribute inside `el`, using the
+    // specified model and updating the value on change.
+    text: function(el, options) {
+      if (!options) options = {};
+
+      // If `options` is a string, assume it's an attribute name.
+      if (_.isString(options)) options = {attr: options};
+
+      // Resolve model reference.
+      options.model = this.resolve(options.model) || this.model;
+
+      options.el = el;
+      options.escape = true;
       return new Html(options);
     },
 
