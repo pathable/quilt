@@ -7,7 +7,15 @@
   var html = Kinetic.attributes.html;
   var text = Kinetic.attributes.text;
 
-  module('Html');
+  var truncate = $.truncate;
+
+  module('Html', {
+
+    teardown: function() {
+      $.truncate = truncate;
+    }
+
+  });
 
   test('Html attribute.', function() {
     var parent = new View({model: new Model()});
@@ -116,6 +124,20 @@
 
   test('Null model does not throw.', 0, function() {
     new Html({attr: 'attr', el: $('<p></p>')}).render();
+  });
+
+  test('$.truncate', function() {
+    $.truncate = function(value, options) {
+      ok(options === true);
+      return value + '~';
+    };
+    var view = new Html({
+      attr: 'attr',
+      el: $('<p></p>'),
+      model: new Model({attr: 'attr'}),
+      truncate: true
+    });
+    strictEqual(view.$el.html(), 'attr~');
   });
 
 })(jQuery);

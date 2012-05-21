@@ -102,6 +102,7 @@
     initialize: function(options) {
       this.attr = options.attr;
       this.escape = options.escape;
+      this.truncate = options.truncate;
       this.render();
       if (this.model) this.model.on('change', this.change, this);
     },
@@ -114,7 +115,16 @@
     render: function() {
       if (!this.model) return this;
       var value = (this.model.get(this.attr) || '').toString();
+
+      // Escape the value if appropriate.
       if (this.escape) value = _.escape(value);
+
+      // Truncate if specified and available.
+      if (this.truncate && Backbone.$.truncate) {
+        value = Backbone.$.truncate(value, this.truncate);
+      }
+
+      // Hide when empty.
       this.$el.html(value).toggleClass('hide', !value);
       return this;
     }
