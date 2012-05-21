@@ -94,10 +94,10 @@
 
   });
 
-  // # Content
+  // # Html
   //
-  // Render an attribute value as content, updating on change.
-  var Content = Kinetic.Content = View.extend({
+  // Render an attribute value as html, updating on change.
+  var Html = Kinetic.Html = View.extend({
 
     initialize: function(options) {
       this.attr = options.attr;
@@ -105,7 +105,7 @@
       if (this.model) this.model.on('change', this.change, this);
     },
 
-    // Update content if `attr` has changed.
+    // Update html if `attr` has changed.
     change: function() {
       if (this.model && this.model.hasChanged(this.attr)) this.render();
     },
@@ -247,7 +247,7 @@
 
     // Render the value of an attribute inside `el`, using the specified model
     // and updating the value on change.
-    content: function(el, options) {
+    html: function(el, options) {
       if (!options) options = {};
 
       // If `options` is a string, assume it's an attribute name.
@@ -257,7 +257,7 @@
       options.model = this.resolve(options.model) || this.model;
 
       options.el = el;
-      return new Content(options);
+      return new Html(options);
     },
 
     // Render a template inside `el`, using the specified model, collection,

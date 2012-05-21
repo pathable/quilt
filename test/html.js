@@ -1,33 +1,33 @@
 (function($) {
 
   var View = Kinetic.View;
-  var Content = Kinetic.Content;
+  var Html = Kinetic.Html;
   var Model = Backbone.Model;
 
-  var content = Kinetic.attributes.content;
+  var html = Kinetic.attributes.html;
 
-  module('Content');
+  module('Html');
 
   test('Attribute', function() {
     var parent = new View({model: new Model()});
     parent._model = new Model();
     var el = $('<p></p>')[0];
 
-    var view = content.call(parent, el, 'attr');
-    ok(view instanceof Content);
+    var view = html.call(parent, el, 'attr');
+    ok(view instanceof Html);
     ok(view.el === el);
     strictEqual(view.attr, 'attr');
     ok(view.model === parent.model);
 
-    view = content.call(parent, el, {attr: 'attr', model: '@_model'});
-    ok(view instanceof Content);
+    view = html.call(parent, el, {attr: 'attr', model: '@_model'});
+    ok(view instanceof Html);
     ok(view.el === el);
     strictEqual(view.attr, 'attr');
     ok(view.model === parent._model);
   });
 
   test('Null attribute does not throw.', function() {
-    var view = new Content({
+    var view = new Html({
       attr: 'attr',
       el: $('<p></p>'),
       model: new Model()
@@ -35,8 +35,8 @@
     strictEqual(view.$el.html(), '');
   });
 
-  test('Render content.', function() {
-    var view = new Content({
+  test('Render html.', function() {
+    var view = new Html({
       attr: 'attr',
       el: $('<p></p>'),
       model: new Model({attr: '<i>x</i>'})
@@ -44,8 +44,8 @@
     strictEqual(view.$el.html(), '<i>x</i>');
   });
 
-  test('Render content on change.', function() {
-    var view = new Content({
+  test('Render html on change.', function() {
+    var view = new Html({
       attr: 'attr',
       el: $('<p></p>'),
       model: new Model({attr: '<i>x</i>'})
@@ -56,7 +56,7 @@
   });
 
   test('Hide when empty', function() {
-    var view = new Content({
+    var view = new Html({
       attr: 'attr',
       el: $('<p></p>'),
       model: new Model()
@@ -69,7 +69,7 @@
   });
 
   test('Call toString on values', function() {
-    var view = new Content({
+    var view = new Html({
       attr: 'attr',
       el: $('<p></p>'),
       model: new Model({
@@ -82,7 +82,7 @@
   });
 
   test('Null model does not throw.', 0, function() {
-    new Content({attr: 'attr', el: $('<p></p>')}).render();
+    new Html({attr: 'attr', el: $('<p></p>')}).render();
   });
 
 })(jQuery);
