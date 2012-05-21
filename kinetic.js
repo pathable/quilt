@@ -235,6 +235,30 @@
 
   });
 
+  // # Toggle
+  //
+  // Toggle content based on the value of a specific attribute.
+  var Toggle = Kinetic.Toggle = View.extend({
+
+    initialize: function(options) {
+      this.attr = options.attr;
+      this.invert = options.invert;
+      this.toggle();
+      if (this.model) this.model.on('change', this.change, this);
+    },
+
+    change: function() {
+      if (this.model && this.model.hasChanged(this.attr)) this.toggle();
+    },
+
+    toggle: function() {
+      if (!this.model) return;
+      var value = this.model.get(this.attr);
+      this.$el.toggleClass('hide', this.invert ? value : !value);
+    }
+
+  });
+
   // Attribute handlers should be specified in camel case.  The arguments to
   // each handler will be a DOM element and the value of the data attribute.
   // The handler will be called with the parent view as context.
@@ -294,6 +318,35 @@
 
       options.el = el;
       return new List(options);
+    },
+
+    // Show content if `attr` is true, hide it otherwise.
+    show: function(el, options) {
+      if (!options) options = {};
+
+      // If `options` is a string assume it to be an attribute.
+      if (_.isString(options)) options = {attr: options};
+
+      // Resolve model references.
+      options.model = this.resolve(options.model) || this.model;
+
+      options.el = el;
+      return new Toggle(options);
+    },
+
+    // Hide content if `attr` is true, show it otherwise.
+    hide: function(el, options) {
+      if (!options) options = {};
+
+      // If `options` is a string assume it to be an attribute.
+      if (_.isString(options)) options = {attr: options};
+
+      // Resolve model references.
+      options.model = this.resolve(options.model) || this.model;
+
+      options.el = el;
+      options.invert = true;
+      return new Toggle(options);
     }
 
   };
