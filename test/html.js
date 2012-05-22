@@ -62,7 +62,7 @@
       attr: 'attr',
       el: $('<p></p>'),
       model: new Model()
-    });
+    }).render();
     strictEqual(view.$el.html(), '');
   });
 
@@ -71,7 +71,7 @@
       attr: 'attr',
       el: $('<p></p>'),
       model: new Model({attr: '<i>x</i>'})
-    });
+    }).render();
     strictEqual(view.$el.html(), '<i>x</i>');
   });
 
@@ -80,7 +80,7 @@
       attr: 'attr',
       el: $('<p></p>'),
       model: new Model({attr: '<i>x</i>'})
-    });
+    }).render();
     strictEqual(view.$el.html(), '<i>x</i>');
     view.model.set({attr: '<i>y</i>'});
     strictEqual(view.$el.html(), '<i>y</i>');
@@ -91,7 +91,7 @@
       attr: 'attr',
       el: $('<p></p>'),
       model: new Model()
-    });
+    }).render();
     ok(view.$el.hasClass('hide'));
     view.model.set({attr: 'x'});
     ok(!view.$el.hasClass('hide'));
@@ -105,7 +105,7 @@
       attr: 'attr',
       el: $('<p></p>'),
       model: new Model({attr: '<b>&</b>'})
-    });
+    }).render();
     strictEqual(view.$el.html(), '&lt;b&gt;&amp;&lt;/b&gt;');
   });
 
@@ -118,7 +118,7 @@
           toString: function(){ return 'value'; }
         }
       })
-    });
+    }).render();
     strictEqual(view.$el.html(), 'value');
   });
 
@@ -136,7 +136,7 @@
       el: $('<p></p>'),
       model: new Model({attr: 'attr'}),
       truncate: true
-    });
+    }).render();
     strictEqual(view.$el.html(), 'attr~');
   });
 

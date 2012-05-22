@@ -9,7 +9,6 @@
   var dasher = /([A-Z])/g;
 
   // # Kinetic.View
-  //
   // Provide a structure for declaring functionality through data attributes.
   var View = Kinetic.View = Backbone.View.extend({
 
@@ -95,7 +94,6 @@
   });
 
   // # Html
-  //
   // Render an attribute value as html, updating on change.
   var Html = Kinetic.Html = View.extend({
 
@@ -103,7 +101,6 @@
       this.attr = options.attr;
       this.escape = options.escape;
       this.truncate = options.truncate;
-      this.render();
       if (this.model) this.model.on('change', this.change, this);
     },
 
@@ -132,7 +129,6 @@
   });
 
   // # Template
-  //
   // Render a template by name, with optional layout.
   var Template = Kinetic.Template = View.extend({
 
@@ -157,7 +153,6 @@
   });
 
   // # List
-  //
   // Render a list of models with the specified template.
   var List = Kinetic.List = View.extend({
 
@@ -248,25 +243,24 @@
   });
 
   // # Toggle
-  //
   // Toggle content based on the value of a specific attribute.
   var Toggle = Kinetic.Toggle = View.extend({
 
     initialize: function(options) {
       this.attr = options.attr;
       this.invert = options.invert;
-      this.toggle();
       if (this.model) this.model.on('change', this.change, this);
     },
 
     change: function() {
-      if (this.model && this.model.hasChanged(this.attr)) this.toggle();
+      if (this.model && this.model.hasChanged(this.attr)) this.render();
     },
 
-    toggle: function() {
+    render: function() {
       if (!this.model) return;
       var value = this.model.get(this.attr);
       this.$el.toggleClass('hide', this.invert ? value : !value);
+      return this;
     }
 
   });

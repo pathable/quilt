@@ -55,7 +55,7 @@
       invert: false,
       el: $('<p></p>'),
       model: new Model({attr: false})
-    });
+    }).render();
     ok(view.$el.hasClass('hide'));
     view.model.set({attr: true});
     ok(!view.$el.hasClass('hide'));
@@ -69,7 +69,7 @@
       invert: true,
       el: $('<p></p>'),
       model: new Model({attr: true})
-    });
+    }).render();
     ok(view.$el.hasClass('hide'));
     view.model.set({attr: false});
     ok(!view.$el.hasClass('hide'));
