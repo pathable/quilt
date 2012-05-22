@@ -101,12 +101,7 @@
       this.attr = options.attr;
       this.escape = options.escape;
       this.truncate = options.truncate;
-      if (this.model) this.model.on('change', this.change, this);
-    },
-
-    // Update html if `attr` has changed.
-    change: function() {
-      if (this.model && this.model.hasChanged(this.attr)) this.render();
+      if (this.model) this.model.on('change:' + this.attr, this.render, this);
     },
 
     render: function() {
@@ -249,11 +244,7 @@
     initialize: function(options) {
       this.attr = options.attr;
       this.invert = options.invert;
-      if (this.model) this.model.on('change', this.change, this);
-    },
-
-    change: function() {
-      if (this.model && this.model.hasChanged(this.attr)) this.render();
+      if (this.model) this.model.on('change:' + this.attr, this.render, this);
     },
 
     render: function() {
