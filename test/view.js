@@ -71,12 +71,6 @@
     view.render();
   });
 
-  test('Non-views in view.views don\'t cause errors.', 0, function() {
-    var view = new View();
-    view.views.push({});
-    view.destroy();
-  });
-
   test('template gets view, model, and collection.', 3, function() {
     var model = new Model();
     var collection = new Collection();
@@ -89,7 +83,6 @@
     };
     view.render();
   });
-
 
   test('Tolerate non-view return from attribute function.', 0, function() {
     Kinetic.attributes.test = function() { return {}; };

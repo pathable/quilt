@@ -67,10 +67,9 @@
     // Destroy child views and ensure that references to this view are
     // eliminated to prevent memory leaks.
     destroy: function() {
-      var view;
 
       // Destroy child views.
-      while (view = this.views.pop()) if (view.destroy) view.destroy();
+      _.invoke(this.views, 'destroy');
 
       // Clean up event handlers.
       if (this.model) this.model.off(null, null, this);
