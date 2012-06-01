@@ -58,6 +58,8 @@
     strictEqual(view.resolve('Kinetic'), Kinetic);
     strictEqual(view.resolve(null), null);
     strictEqual(view.resolve(undefined), null);
+    strictEqual(view.resolve(3), null);
+    strictEqual(view.resolve({}), null);
   });
 
   test('Other data attributes are ignored.', 1, function() {

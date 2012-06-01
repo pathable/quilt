@@ -79,7 +79,7 @@
     // Look up a property.  A leading @ indicates that the property is relative
     // to the view.  Otherwise it's relative to the root (window).
     resolve: function(path) {
-      if (path == null) return null;
+      if (!_.isString(path)) return null;
 
       // Use the view when there is a leading @.
       var o = /^@/.test(path) ? this : root;
