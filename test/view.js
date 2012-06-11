@@ -1,16 +1,16 @@
-(function(_, $, Backbone, Kinetic) {
+(function() {
 
-  var View = Kinetic.View;
+  var View = Quilt.View;
   var Model = Backbone.Model;
   var Collection = Backbone.Collection;
 
-  var attrs = _.clone(Kinetic.attributes);
+  var attrs = _.clone(Quilt.attributes);
 
   module('View', {
 
     setup: function() {
-      delete Kinetic.selector;
-      Kinetic.attributes = attrs;
+      delete Quilt.selector;
+      Quilt.attributes = attrs;
     }
 
   });
@@ -37,7 +37,7 @@
   });
 
   test('Dashes are inserted into data attributes.', 2, function() {
-    Kinetic.attributes.testAttr = function(el, options) {
+    Quilt.attributes.testAttr = function(el, options) {
       strictEqual(options, 'test');
       ok($(el).is('p'));
     };
@@ -48,22 +48,8 @@
     view.render();
   });
 
-  test('Resolve properties.', function() {
-    var view = new View();
-    var y = {z: {}};
-    view.x = {y: function(){ return y; }};
-    strictEqual(view.resolve('@x'), view.x);
-    strictEqual(view.resolve('@x.y'), y);
-    strictEqual(view.resolve('@x.y.z'), y.z);
-    strictEqual(view.resolve('Kinetic'), Kinetic);
-    strictEqual(view.resolve(null), null);
-    strictEqual(view.resolve(undefined), null);
-    strictEqual(view.resolve(3), null);
-    strictEqual(view.resolve({}), null);
-  });
-
   test('Other data attributes are ignored.', 1, function() {
-    Kinetic.attributes.exists = function() {
+    Quilt.attributes.exists = function() {
       ok(true);
     };
     var view = new View();
@@ -87,10 +73,10 @@
   });
 
   test('Tolerate non-view return from attribute function.', 0, function() {
-    Kinetic.attributes.test = function() { return {}; };
+    Quilt.attributes.test = function() { return {}; };
     var view = new View({model: new Model()});
     view.template = function() { return '<p data-test="true"></p>'; };
     view.render();
   });
 
-})(_, jQuery, Backbone, Kinetic);
+})();

@@ -3,12 +3,16 @@ module.exports = function(grunt) {
   grunt.registerTask('default', 'lint qunit');
 
   grunt.initConfig({
-    qunit: ['./test/index.html'],
-    lint: ['kinetic.js', './attributes/*.js', './test/*.js'],
+    qunit: {
+      quilt: 'test/index.html'
+    },
+    lint: {
+      quilt: 'quilt.js',
+      test: 'test/*.js'
+    },
     jshint: {
       options: {
         boss: true,
-        eqnull: true,
         undef: true
       },
       globals: {
@@ -20,18 +24,14 @@ module.exports = function(grunt) {
         deepEqual: true,
         strictEqual: true,
 
-        // window
-        confirm: true,
-
         // Dependencies
         _: true,
-        moment: true,
+        $: true,
         jQuery: true,
         Backbone: true,
-        Kinetic: true
+        Quilt: true
       }
     }
   });
 
 };
-
