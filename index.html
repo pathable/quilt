@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset='utf8'>
+  <title>Quilt</title>
+</head>
+<body>
+  <h1>Quiltjs</h1>
+  <p>Modular Plugins with <a href='http://backbonejs.org'>Backbone</a></p>
+
+  <h2>Loose Coupling and Modularity</h2>
+  <p>In order to promote reusability, Quilt plugins are instantiated through html data attributes.  This allows developers to create entirely new functionality without writing any javascript.</p>
+
+  <pre>
+&lt;p data-html='body'&gt;&lt;/p&gt;
+  </pre>
+
+  <pre>
+var Html = Quilt.View.extend({
+
+  initialize: function(options) {
+    this.attr = options.attr;
+    this.model.on('change:' + this.attr, this.render, this);
+  },
+
+  render: function() {
+    this.$el.html(this.model.get(this.attr));
+    return this;
+  }
+
+});
+
+Quilt.attributes.html = function(el, options) {
+  return new Html({el: el, attr: options});
+};
+  </pre>
+
+  <h2>API</h2>
+
+  <h3>Quilt.attributes</h3>
+
+  <p><code>Quilt.attributes</code> is the main extension point.  All plugin handlers should be attached as functions here.  Each handler is provided with the element to extend (where the data attribute was found), the value of the attribute (parsed as JSON via <code>jQuery.fn.data</code>), and is called with the parent view as context.</p>
+
+  <pre>
+// Set a reference to a specific element on the parent view.
+//
+//    &lt;p data-ref='body'&gt;&lt;/p&gt;
+//
+Quilt.attributes.ref = function(el, options) {
+  this['$' + options] = $(el);
+};
+  </pre>
+
+  <p><em>Note: Dashed data attributes will be changed into their camel-cased counterpart before use.  For instance, <code>data-foo-bar</code> will use <code>Quilt.attributes.fooBar</code> as a handler.</em></p>
+
+  <h3>Quilt.View</h3>
+
+  <h4>model and collection</h4>
+
+  <p>Quilt views follow the convention that models and collections will be passed in via the <code>model</code> and <code>collection</code> properties.  Any other models or collections created by the view are its own responsibility and should be cleaned up during <code>destroy</code>.</p>
+
+  <h4>template</h4>
+
+  <p>It is assumed that a view's <code>template</code> property will contain a function that takes a data object as an argument (if it exists at all).</p>
+
+  <h4>views</h4>
+
+  <p>Each view is intitialized with a <code>views</code> array to track its child views.</p>
+
+  <h4>render</h4>
+  <p>After cleaning up old views, <code>render</code> will use <code>template</code> to generate html and then replace the element's contents with it.  Then, the resultant html is searched for appropriate data attributes and calls their respective handlers.  If a handler returns an instance of <code>Quilt.View</code>, it will be rendered and stored in <code>views</code>.</p>
+
+  <h4>destroy</h4>
+  <p>When you no longer have any use for a view, you should call <code>destroy</code>.  It will clean up any event handlers on <code>model</code> and <code>collection</code> and destroy each of its child views.  It is assumed that all handlers will be attached with the view as context.</p>
+
+</body>
+</html>
