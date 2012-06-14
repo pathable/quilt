@@ -80,6 +80,8 @@
       // Clean up event handlers.
       if (this.model) this.model.off(null, null, this);
       if (this.collection) this.collection.off(null, null, this);
+
+      return this;
     }
 
   });

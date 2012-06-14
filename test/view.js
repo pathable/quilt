@@ -79,4 +79,9 @@
     view.render();
   });
 
+  test('Destroy is chainable.', function() {
+    var view = new View();
+    ok(view.destroy() === view);
+  });
+
 })();
