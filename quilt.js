@@ -74,6 +74,9 @@
     // eliminated to prevent memory leaks.
     destroy: function() {
 
+      // Remove DOM listeners.
+      this.undelegateEvents();
+
       // Destroy child views.
       _.invoke(this.views, 'destroy');
 

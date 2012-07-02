@@ -79,9 +79,17 @@
     view.render();
   });
 
-  test('Destroy is chainable.', function() {
+  test('Destroy is chainable.', 1, function() {
     var view = new View();
     ok(view.destroy() === view);
+  });
+
+  test('Destroy removes DOM listeners', 0, function() {
+    var View = Quilt.View.extend({
+      events: {click: 'click'},
+      click: function(){ ok(false); }
+    });
+    new View().destroy().$el.click();
   });
 
 })();
