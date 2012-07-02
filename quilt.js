@@ -41,7 +41,7 @@
 
       // Create the selector if it hasn't been created already.
       if (!Quilt.selector) {
-        Quilt.selector = _.keys(Quilt.attributes).map(function(attr) {
+        Quilt.selector = _.map(_.keys(Quilt.attributes), function(attr) {
           return '[data-' + attr.replace(dasher, '-$1').toLowerCase() + ']';
         }).join(',');
       }
