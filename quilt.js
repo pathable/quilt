@@ -9,8 +9,13 @@
   // Current library version.
   Quilt.VERSION = '0.0.1';
 
-  // Replace upper case characters for data attributes.
-  var dasher = /([A-Z])/g;
+  // Find dashes in attribute names.
+  var undasher = /-([a-z]|[0-9])/ig;
+
+  // Camel case data attributes.
+  var camel = function(match, letter) {
+    return (letter + '').toUpperCase();
+  };
 
   // # Quilt.View
   // Provide a structure for declaring functionality through data attributes.
@@ -25,7 +30,7 @@
     // attributes, match them with handlers and execute them.  If a handler
     // returns a view, store it for clean up.
     render: function() {
-      var el, view;
+      var el, view, name, attr;
 
       // Destroy old views.
       while (view = this.views.pop()) if (view.destroy) view.destroy();
@@ -39,28 +44,25 @@
         }));
       }
 
-      // Create the selector if it hasn't been created already.
-      if (!Quilt.selector) {
-        Quilt.selector = _.map(_.keys(Quilt.attributes), function(attr) {
-          return '[data-' + attr.replace(dasher, '-$1').toLowerCase() + ']';
-        }).join(',');
-      }
-
-      // Find all elements with appropriate attributes.
-      var elements = this.$(Quilt.selector).get();
+      var elements = this.$('*').get();
 
       // Execute the handler for each element/attr pair.
       while (el = elements.pop()) {
 
-        // Retrieve all data attributes.
-        var data = $(el).data();
+        var attrs = el.attributes;
+        for (var i = 0; i < attrs.length; i++) {
 
-        for (var attr in data) {
-          // Bail for non-quilt attributes.
-          if (!Quilt.attributes[attr]) continue;
+          // Bail unless we have a data attribute.
+          if ((name = attrs[i].name).indexOf('data-') !== 0) continue;
+
+          // Camel case and strip "data-".
+          name = name.replace(/^data-/, '').replace(undasher, camel);
+
+          // Bail on non-quilt attributes.
+          if (!(attr = Quilt.attributes[name])) continue;
 
           // Execute the handler.
-          view = Quilt.attributes[attr].call(this, el, data[attr]);
+          view = attr.call(this, el, $(el).data(name));
 
           // Render the view if appropriate.
           if (view instanceof View) this.views.push(view.render());
