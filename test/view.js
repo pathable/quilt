@@ -92,4 +92,23 @@
     new View().destroy().$el.click();
   });
 
+  test('Accept template function in options.', 1, function() {
+    var view = new Quilt.View({
+      template: function(){ return 'x'; }
+    }).render();
+    strictEqual(view.$el.html(), 'x');
+  });
+
+  test('Null template option is discarded.', 1, function() {
+    var View = Quilt.View.extend({
+      template: function(){ return 'x'; }
+    });
+    var view = new View({template: null}).render();
+    strictEqual(view.$el.html(), 'x');
+  });
+
+  test('Undefined options does not throw.', 0, function() {
+    var view = new Quilt.View();
+  });
+
 })();

@@ -21,8 +21,9 @@
   // Provide a structure for declaring functionality through data attributes.
   var View = Quilt.View = Backbone.View.extend({
 
-    constructor: function() {
+    constructor: function(options) {
       this.views = [];
+      if (options && options.template) this.template = options.template;
       Backbone.View.apply(this, arguments);
     },
 
