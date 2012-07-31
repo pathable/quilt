@@ -17,6 +17,18 @@
     return (letter + '').toUpperCase();
   };
 
+  // # Quilt.attributes
+  //
+  // Attribute handlers should be specified in camel case.  The arguments to
+  // each handler will be a DOM element and the value of the data attribute.
+  // The handler will be called with the parent view as context.
+  //
+  //     Quilt.attributes.exampleAttr = function(element, options) {
+  //       // Called for elements with a "data-example-attr" attribute.
+  //     };
+  //
+  Quilt.attributes = {};
+
   // # Quilt.View
   // Provide a structure for declaring functionality through data attributes.
   var View = Quilt.View = Backbone.View.extend({
@@ -91,16 +103,5 @@
     }
 
   });
-
-
-  // Attribute handlers should be specified in camel case.  The arguments to
-  // each handler will be a DOM element and the value of the data attribute.
-  // The handler will be called with the parent view as context.
-  //
-  //    Quilt.attributes.exampleAttr = function(element, options) {
-  //      // Called for elements with a "data-example-attr" attribute.
-  //    };
-  //
-  Quilt.attributes = {};
 
 })();
