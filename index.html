@@ -2,20 +2,132 @@
 <html>
 <head>
   <meta charset='utf8'>
-  <title>Quilt</title>
+  <link href='css/monokai.css' media='screen' rel='stylesheet'>
+  <link href='css/styles.css' media='screen' rel='stylesheet'>
+  <title>Quilt.js | Declarative Backbone Views</title>
 </head>
 <body>
-  <h1>Quiltjs</h1>
-  <p>Modular Plugins with <a href='http://backbonejs.org'>Backbone</a></p>
+  <div class="fixed-top">
+    <div class="page-container">
+      <a class="small btn pull-left icon-github-sign mrs" href="//github.com/pathable/quilt" target="_blank">Github</a>
+      <a class="small btn pull-left icon-download-alt mrs" href="//github.com/pathable/quilt/zipball/master">Zip</a>
+      <a class="small btn pull-left icon-download-alt mrs" href="//github.com/pathable/quilt/tarball/master">Tar</a>
+      <div class="h3 light text-right prl">Quilt is sponsored by <a href="//github.com/pathable" target="_blank"><img class="height-2" src="./img/pathable.png" alt="Pathable, Inc."></a></div>
+    </div>
+  </div>
 
-  <h2>Loose Coupling and Modularity</h2>
-  <p>In order to promote reusability, Quilt plugins are instantiated through html data attributes.  This allows developers to create entirely new functionality without writing any javascript.</p>
+  <div class='page-container main-content pbl'>
+    <div class='fluid-grid-2 secondary-bg pal shadow-outer'>
+      <div class='fluid-1 text-center'>
+        <div class="mrm">
+          <img class='block' src='logo.png'>
+        </div>
+        <div class='h2 ptm pbm mrl'>Declarative Views for <a href="http://backbonejs.org">Backbone</a>.</div>
+        <div class='small quiet mrl'>Note: The development of this software is ongoing. A similar version has been used in production at <a href="http://pathable.com">Pathable</a> for quite some time but your mileage may vary.</div>
+        <div class="ptl">
+          <a class="btn" href="http://github.com/pathable/quilt" target="_blank">
+            <div class="light small quiet">Fork on</div>
+            <span class="h3"><i class="icon-github-sign"></i>Github</span>
+          </a>
+          <a class="btn" href="http://github.com/pathable/quilt/zipball/master">
+            <div class="light small quiet">Download</div>
+            <span class="h3"><i class="icon-download-alt"></i>Zip File</span>
+          </a>
+          <a class="btn" href="http://github.com/pathable/quilt/tarball/master">
+            <div class="light small quiet">Download</div>
+            <span class="h3"><i class="icon-download-alt"></i>Tar File</span>
+          </a>
+        </div>
+        <div class="ptl text-center">
+          <a class="btn" href="./quilt.js">
+            <div class="light small quiet">Development - 0.0.1</div>
+            <span class="h3"><i class="icon-download-alt"></i>quilt.js</span>
+          </a>
+          <a class="btn" href="./quilt.min.js">
+            <div class="light small quiet">Production - 0.0.1</div>
+            <span class="h3"><i class="icon-download-alt"></i>quilt.min.js</span>
+          </a>
+        </div>
+      </div><div class="fluid-1">
+        <pre class="mll hero colorize language-javascript"><code>Quilt.attributes.ref = function(el, options) {
+  this['$' + options] = $(el);
+};
 
-  <pre>
-&lt;p data-html='body'&gt;&lt;/p&gt;
-  </pre>
+var View = Backbone.View.extend({
+  template: function() {
+    return '&lt;p data-ref="container"&gt;&lt;/p&gt;';
+  },
 
-  <pre>
+  render: function() {
+    this.$container.html(this.model.get('content'));
+    return this;
+  }
+});
+        </code></pre>
+      </div>
+    </div>
+
+    <div class="mixed-row pal primary-bg shadow-outer bbl bbr">
+
+      <div class="fixed prl">
+        <div class='width-20'>
+          <ul class='nav-list no-list width-20 pts pbs'>
+            <li class="nav-list-item mbm">
+              <a class='strong nav-list-link' href='#source'>Source</a>
+            </li>
+            <li class="nav-list-item mbm">
+              <a class='strong nav-list-link' href='#change-log'>Change Log</a>
+            </li>
+            <li class="nav-list-item mbm">
+              <a class='strong nav-list-link' href='#loose-coupling'>Loose Coupling</a>
+            </li>
+            <li class="nav-list-item mbm">
+              <a class='strong nav-list-link' href='#quilt.attributes'>Quilt.attributes</a>
+            </li>
+            <li class="nav-list-item">
+              <a class='strong nav-list-link' href='#quilt.view'>Quilt.View</a>
+            </li>
+            <li class="nav-list-item">
+              <a class='nav-list-link' href='#view.model-view.collection'>model/collection</a>
+            </li>
+            <li class="nav-list-item">
+              <a class='nav-list-link' href='#view.template'>template</a>
+            </li>
+            <li class="nav-list-item">
+              <a class='nav-list-link' href='#view.views'>views</a>
+            </li>
+            <li class="nav-list-item">
+              <a class='nav-list-link' href='#view.render'>render</a>
+            </li>
+            <li class="nav-list-item">
+              <a class='nav-list-link' href='#view.destroy'>destroy</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class='fluid'>
+
+        <section>
+          <a class='h1' name='source'>Source</a>
+          <p>The source for Quilt is <a href="http://github.com/pathable/quilt">hosted on github</a>.  Please give it a read before trying anything serious as it will greatly improve the utility you gain from the library.  <a href="./docs/quilt.html">The annotated source</a> is also provided for easier reading. Supermodel is available for use under the <a href="https://github.com/pathable/quilt/blob/master/LICENSE">MIT software license</a>.</p>
+        </section>
+
+        <section>
+          <a class='h1' name='change-log'>Change Log</a>
+          <h3>0.0.1</h3>
+          <ul>
+            <li><p><b>Released</b> - First release.</p></li>
+          </ul>
+        </section>
+
+        <section>
+
+          <a class='h1' name='loose-coupling'>Loose Coupling and Modularity</a>
+
+          <p>In order to promote reusability, Quilt plugins are instantiated through html data attributes.  This allows developers to create entirely new functionality without writing any javascript.  For example, the following snippet renders an attribute from the model as html and updates it on change.</p>
+
+          <pre class="colorize language-javascript"><code>
 var Html = Quilt.View.extend({
 
   initialize: function(options) {
@@ -29,19 +141,35 @@ var Html = Quilt.View.extend({
   }
 
 });
+          </code></pre>
 
+          <p>To expose this functionality to templates in Quilt views, a property is attached to <a href='#quilt-attributes'><code>Quilt.attributes</code></a>.</p>
+
+          <pre class="colorize language-javascript"><code>
 Quilt.attributes.html = function(el, options) {
   return new Html({el: el, attr: options});
 };
-  </pre>
+          </code></pre>
 
-  <h2>API</h2>
+          <p>The attribute can now be used in a view, provided that it inherits from <code>Quilt.View</code>.</p>
 
-  <h3>Quilt.attributes</h3>
+          <pre class='colorize language-javascript'><code>
+var View = Quilt.View.extend({
+  template: function() {
+    return '&lt;p data-html="body"&gt;&lt;/p&gt;';
+  }
+});
+          </code></pre>
 
-  <p><code>Quilt.attributes</code> is the main extension point.  All plugin handlers should be attached as functions here.  Each handler is provided with the element to extend (where the data attribute was found), the value of the attribute (parsed as JSON via <code>jQuery.fn.data</code>), and is called with the parent view as context.</p>
+        </section>
 
-  <pre>
+        <section>
+
+          <a class='h1' name='quilt.attributes'>Quilt.attributes</a>
+
+          <p>The extension point for declarative attributes.  All handlers should be attached as functions here.  Each handler is provided with the element to extend (where the data attribute was found), the value of the attribute (parsed as JSON via <code>jQuery.fn.data</code>), and is called with the parent view as context.</p>
+
+          <pre class='colorize language-javascript'><code>
 // Set a reference to a specific element on the parent view.
 //
 //    &lt;p data-ref='body'&gt;&lt;/p&gt;
@@ -49,29 +177,96 @@ Quilt.attributes.html = function(el, options) {
 Quilt.attributes.ref = function(el, options) {
   this['$' + options] = $(el);
 };
-  </pre>
+          </code></pre>
 
-  <p><em>Note: Dashed data attributes will be changed into their camel-cased counterpart before use.  For instance, <code>data-foo-bar</code> will use <code>Quilt.attributes.fooBar</code> as a handler.</em></p>
+          <p><em>Note: Dashed data attributes will be changed into their camel-cased counterpart before use.  For instance, <code>data-foo-bar</code> will use <code>Quilt.attributes.fooBar</code> as a handler.</em></p>
 
-  <h3>Quilt.View</h3>
+        </section>
 
-  <h4>model and collection</h4>
+        <section>
 
-  <p>Quilt views follow the convention that models and collections will be passed in via the <code>model</code> and <code>collection</code> properties.  Any other models or collections created by the view are its own responsibility and should be cleaned up during <code>destroy</code>.</p>
+          <a class='h1' name='quilt.view'>Quilt.View</a>
 
-  <h4>template</h4>
+          <p>Custom view class that handles extension by data attributes.</p>
 
-  <p>It is assumed that a view's <code>template</code> property will contain a function that takes a data object as an argument (if it exists at all).</p>
+          <a class='h3' name='view.model-view.collection'>model/collection</a>
 
-  <h4>views</h4>
+          <p>Quilt views follow the convention that models and collections will be passed in via the <code>model</code> and <code>collection</code> properties.  Any other models or collections created by the view are its own responsibility and should be cleaned up manually during <a href='#view.destroy'>destroy</a>.</p>
 
-  <p>Each view is intitialized with a <code>views</code> array to track its child views.</p>
+          <a class='h3' name='view.template'>template</a>
 
-  <h4>render</h4>
-  <p>After cleaning up old views, <code>render</code> will use <code>template</code> to generate html and then replace the element's contents with it.  Then, the resultant html is searched for appropriate data attributes and calls their respective handlers.  If a handler returns an instance of <code>Quilt.View</code>, it will be rendered and stored in <code>views</code>.</p>
+          <p>A function that takes a data object as an argument and returns rendered html.  Defaults to <code>null</code>.</p>
 
-  <h4>destroy</h4>
-  <p>When you no longer have any use for a view, you should call <code>destroy</code>.  It will clean up any event handlers on <code>model</code> and <code>collection</code> and destroy each of its child views.  It is assumed that all handlers will be attached with the view as context.</p>
+          <pre class='colorize language-javascript'><code>
+var View = Quilt.View.extend({
+  template: _.template(text)
+});
+          </code></pre>
 
+          <a class='h3' name='view.views'>views</a>
+
+          <p>An array of child views, to be cleaned up on <a href='#view.destroy'>destroy</a>.</p>
+
+          <pre class='colorize language-javascript'><code>
+var View = Quilt.View.extend({
+  render: function() {
+    Quilt.View.prototype.render.apply(this, arguments);
+
+    this.views.push(new Child().render());
+
+    return this;
+  }
+});
+          </code></pre>
+
+          <a class='h3' name='view.render'>render</a>
+          <p>After cleaning up old <a href='#view.views'>views</a>, use <a href='#view.template'>template</a> to generate html and then replace the element's contents with it.  Then, search for appropriate data attributes and call their respective handlers.  If a handler returns an instance of <a href='#quilt.view'>Quilt.View</a>, it will be rendered and stored in <a href='#view.views'>views</a>.</p>
+
+          <a class='h3' name='view.destroy'>destroy</a>
+          <p>When you no longer have any use for a view, you should call <code>destroy</code>.  It will clean up any event handlers on <code>model</code> and <code>collection</code> and destroy each of its child views (stored in <a href='#view.views'>views</a>).  It is assumed that all handlers will be attached with the view as context.</p>
+
+          <pre class='colorize language-javascript'><code>
+// Will be cleaned up by quilt.
+this.model.on('event', this.handler, this);
+this.collection.on('event', this.handler, this);
+
+// Will *not* be cleaned up by quilt.
+this.model.on('event', this.handler);
+this.collection.on('event', this.handler);
+this.customProperty.on('event', this.handler, this);
+          </code></pre>
+
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="./test/vendor/jquery.js"></script>
+  <script src="./test/vendor/underscore.js"></script>
+  <script src="./test/vendor/backbone.js"></script>
+  <script src="./quilt.js"></script>
+  <script src="./js/highlight.pack.js"></script>
+  <script>
+
+    jQuery(function($) {
+
+      var $navList = $('.nav-list').css({top: '46px'});
+      var $window = $(window);
+      var $buttons = $('.fixed-top .btn');
+
+      $('.colorize').each(function() {
+        hljs.highlightBlock(this);
+      });
+
+      $window.on('scroll', function() {
+        var scrolled = $window.scrollTop() - $navList.parent().offset().top >= -46;
+        $navList.css({position: scrolled ? 'fixed' : 'static'});
+        $buttons.css({opacity: scrolled ? '1' : '0'});
+      });
+
+    });
+
+  </script>
 </body>
 </html>
