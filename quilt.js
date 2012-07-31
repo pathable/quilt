@@ -31,7 +31,7 @@
     // attributes, match them with handlers and execute them.  If a handler
     // returns a view, store it for clean up.
     render: function() {
-      var el, view, name, attr;
+      var elements, el, view, name, attrs, attr;
 
       // Destroy old views.
       while (view = this.views.pop()) if (view.destroy) view.destroy();
@@ -45,12 +45,12 @@
         }));
       }
 
-      var elements = this.$('*').get();
+      elements = this.$('*').get();
 
       // Execute the handler for each element/attr pair.
       while (el = elements.pop()) {
 
-        var attrs = el.attributes;
+        attrs = el.attributes;
         for (var i = 0; i < attrs.length; i++) {
 
           // Bail unless we have a data attribute.
