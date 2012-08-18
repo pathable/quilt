@@ -15,25 +15,25 @@
 
   });
 
-  test('Collection and Model events are cleaned up on destroy.', 0, function() {
+  test('Collection and Model events are cleaned up on dispose.', 0, function() {
     var model = new Model();
     var collection = new Collection();
     var view = new View({model: model, collection: collection});
     model.on('event', function() { ok(false); }, view);
     collection.on('event', function() { ok(false); }, view);
-    view.destroy();
+    view.dispose();
     model.trigger('event');
     collection.trigger('event');
   });
 
-  test('Child views are destroyed on destroy.', 1, function() {
+  test('Child views are disposed on dispose.', 1, function() {
     var parent = new View();
     var child = new View();
-    child.destroy = function() {
+    child.dispose= function() {
       ok(this === child);
     };
     parent.views.push(child);
-    parent.destroy();
+    parent.dispose();
   });
 
   test('Dashes are inserted into data attributes.', 2, function() {
@@ -79,17 +79,17 @@
     view.render();
   });
 
-  test('Destroy is chainable.', 1, function() {
+  test('Dispose is chainable.', 1, function() {
     var view = new View();
-    ok(view.destroy() === view);
+    ok(view.dispose() === view);
   });
 
-  test('Destroy removes DOM listeners', 0, function() {
+  test('Dispose removes DOM listeners', 0, function() {
     var View = Quilt.View.extend({
       events: {click: 'click'},
       click: function(){ ok(false); }
     });
-    new View().destroy().$el.click();
+    new View().dispose().$el.click();
   });
 
   test('Accept template function in options.', 1, function() {
@@ -109,6 +109,14 @@
 
   test('Undefined options does not throw.', 0, function() {
     var view = new Quilt.View();
+  });
+
+  test('Render disposes old child views.', 1, function() {
+    var view = new Quilt.View();
+    var child = new Quilt.View();
+    child.dispose = function() { ok(true); };
+    view.views.push(child);
+    view.render();
   });
 
 })();

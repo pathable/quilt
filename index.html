@@ -97,7 +97,7 @@ var View = Backbone.View.extend({
               <a class='nav-list-link' href='#view.render'>render</a>
             </li>
             <li class="nav-list-item">
-              <a class='nav-list-link' href='#view.destroy'>destroy</a>
+              <a class='nav-list-link' href='#view.dispose'>dispose</a>
             </li>
           </ul>
         </div>
@@ -180,7 +180,7 @@ Quilt.attributes.ref = function(el, options) {
 
           <a class='h3' name='view.model-view.collection'>model/collection</a>
 
-          <p>Quilt views follow the convention that models and collections will be passed in via the <code>model</code> and <code>collection</code> properties.  Any other models or collections created by the view are its own responsibility and should be cleaned up manually during <a href='#view.destroy'>destroy</a>.</p>
+          <p>Quilt views follow the convention that models and collections will be passed in via the <code>model</code> and <code>collection</code> properties.  Any other models or collections created by the view are its own responsibility and should be cleaned up manually during <a href='#view.dispose'>dispose</a>.</p>
 
           <a class='h3' name='view.template'>template</a>
 
@@ -194,7 +194,7 @@ var View = Quilt.View.extend({
 
           <a class='h3' name='view.views'>views</a>
 
-          <p>An array of child views, to be cleaned up on <a href='#view.destroy'>destroy</a>.</p>
+          <p>An array of child views, to be cleaned up on <a href='#view.dispose'>dispose</a>.</p>
 
           <pre class='colorize language-javascript'><code>
 var View = Quilt.View.extend({
@@ -211,8 +211,8 @@ var View = Quilt.View.extend({
           <a class='h3' name='view.render'>render</a>
           <p>After cleaning up old <a href='#view.views'>views</a>, use <a href='#view.template'>template</a> to generate html and then replace the element's contents with it.  Then, search for appropriate data attributes and call their respective handlers.  If a handler returns an instance of <a href='#quilt.view'>Quilt.View</a>, it will be rendered and stored in <a href='#view.views'>views</a>.</p>
 
-          <a class='h3' name='view.destroy'>destroy</a>
-          <p>When you no longer have any use for a view, you should call <code>destroy</code>.  It will clean up any event handlers on <code>model</code> and <code>collection</code> and destroy each of its child views (stored in <a href='#view.views'>views</a>).  It is assumed that all handlers will be attached with the view as context.</p>
+          <a class='h3' name='view.dispose'>dispose</a>
+          <p>When you no longer have any use for a view, you should call <code>dispose</code>.  It will clean up any event handlers on <code>model</code> and <code>collection</code> and dispose of each of its child views (stored in <a href='#view.views'>views</a>).  It is assumed that all handlers will be attached with the view as context.</p>
 
           <pre class='colorize language-javascript'><code>
 // Will be cleaned up by quilt.

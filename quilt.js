@@ -45,8 +45,8 @@
     render: function() {
       var elements, el, view, name, attrs, attr;
 
-      // Destroy old views.
-      while (view = this.views.pop()) if (view.destroy) view.destroy();
+      // Dispose of old views.
+      while (view = this.views.pop()) if (view.dispose) view.dispose();
 
       // Render the template if it exists.
       if (this.template) {
@@ -85,20 +85,10 @@
       return this;
     },
 
-    // Destroy child views and ensure that references to this view are
-    // eliminated to prevent memory leaks.
-    destroy: function() {
-
-      // Remove DOM listeners.
-      this.undelegateEvents();
-
-      // Destroy child views.
-      _.invoke(this.views, 'destroy');
-
-      // Clean up event handlers.
-      if (this.model) this.model.off(null, null, this);
-      if (this.collection) this.collection.off(null, null, this);
-
+    // Dispose of child views.
+    dispose: function() {
+      Backbone.View.prototype.dispose.apply(this, arguments);
+      _.invoke(this.views, 'dispose');
       return this;
     }
 
