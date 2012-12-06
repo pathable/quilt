@@ -63,7 +63,7 @@
       elements = this.$('*').get();
 
       // Execute the handler for each element/attr pair.
-      while (el = elements.pop()) {
+      while (el = elements.shift()) {
 
         attrs = el.attributes;
         for (var i = 0; i < attrs.length; i++) {
