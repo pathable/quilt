@@ -27,7 +27,7 @@
           Declarative Views for <a href="http://backbonejs.org">Backbone</a>.
         </div>
         <p>
-          Quilt is an approach to building views and behavior in Backbone applications.
+          Quilt offers a simple approach to building views and behavior in Backbone applications.
           It leaves HTML pure, attaching complex behavior in distinct modules behind the scenes.
           As much a pattern as a library, quilt will clean up your view templates and business logic,
           making your application more maintanable and better composed.
@@ -40,8 +40,8 @@
 &lt;/div&gt;
 &lt;% if (model.get('visible')) { %&gt;
 &lt;div&gt;
-  &lt;img src=&quot;&lt;%=photo_url%&gt;&quot;/&gt;
-  &lt;a href=&quot;&lt;%=model.get('url')%&gt;&quot;&gt;
+  &lt;img src=&quot;&lt;%= model.photo_url %&gt;&quot;/&gt;
+  &lt;a href=&quot;&lt;%= model.get('url') %&gt;&quot;&gt;
     &lt;span&gt;&lt;%= escape(model.get('first_name')) %&gt;&lt;/span&gt;
     &lt;span&gt;&lt;%= escape(model.get('last_name')) %&gt;&lt;/span&gt;
   &lt;/a&gt;
@@ -49,6 +49,7 @@
 &lt;/div&gt;
 &lt;% }; %&gt;
         </code></pre>
+        <h4>Go from this...</h4>
       </div><div class='fluid-1 height-15' style="width: 2%;">
         <div class="height-7"></div><span class="plm h1 icon-arrow-right"></span>
       </div><div class="fluid-1" style="width: 49%;">
@@ -61,7 +62,7 @@
   &lt;/a&gt;
   &lt;p data-truncate=&quot;bio&quot;/&gt;
 &lt;/div&gt;
-          </code></pre>
+          </code></pre><h4 class="pll">To this.</h4>
         </div>
       </div>
         <div class="ptl text-center">
