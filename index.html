@@ -133,24 +133,27 @@
         <section>
           <a class='h1' name='overview'>Overview</a>
           <p>
-            At only <strong>949 bytes</strong> (minified), Quilt is a very lightweight library that espouses a pattern of composing and attaching behavior to HTML views.
-            With Quilt, you build small patches of behavior that get attached to DOM elements. The patches are always associated with a model or
-            colleciton, and manage making updates to the DOM when data is fetched or saved.
+            At only <strong>949 bytes</strong> (minified), Quilt is a lightweight library that espouses a pattern of composing behavior and attaching it to HTML.
+            With Quilt, you build small peices of funcionality that get attached to DOM elements declaratively within your HTML.
+            The patches are usually associated with a model or colleciton, and sync change to the DOM when data is fetched or saved.
           </p>
 
           <p>
-            Quilt doesn't replace backbone views. In fact, you can use quilt and change nothing. Quilt supports your existing application by showing
-            a way to separate common bits of functionality into descrete re-usable components. Quilt helps you to stop repeating code over and over
-            in views and attaching to dom elements by class or ID.
+            Quilt doesn't replace backbone views. Quilt supports your existing application by showing
+            a way to separate common bits of functionality into descrete re-usable components. Quilt helps you to stop repeating common bits code over and over
+            in views and JSTs. And it provides a better way to issolate complex UI and business logic. In doing so Quilt makes it much easier to
+            write tests for UI behavior since only the essentail sections of your HTML are necesary for testing.
           </p>
 
           <p>
-            Quilt is a simple pattern along with a growing library of patches. The most basic patch applies to any element with data-ref="". It's common to
-            attach to DOM elements using class selectors. This is brittle and conflates the concerns of UI style and application structure. The data-ref patch
-            provides a distinct way to reference DOM elements scoped to the current view.
+            Quilt is a simple pattern along with a library of core components for comon problems. These components are lovingly called Quilt "patches."
+            Included are patches for showing and hiding elements in various situations and updating DOM text and attributes safely. A great way to quickly
+            see how quilt works is to review the core patches:
           </p>
 
-
+          <p>
+            <a class="small btn icon-qrcode" href="//github.com/pathable/quilt/tree/master/patches" target="_blank">Visit the Quilt Patch Library</a>
+          </p>
         </section>
 
         <section>
