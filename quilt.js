@@ -63,9 +63,10 @@
       elements = this.$('*').get();
 
       // Execute the handler for each element/attr pair.
-      while (el = elements.shift()) {
-
+      for (var i = 0; i < elements.length; i++) {
+        el = elements[i];
         attrs = el.attributes;
+
         for (var i = 0; i < attrs.length; i++) {
 
           // Bail unless we have a data attribute.
@@ -90,7 +91,8 @@
 
     // Dispose of child views.
     dispose: function() {
-      Backbone.View.prototype.dispose.apply(this, arguments);
+      this.stopListening();
+      this.undelegateEvents();
       _.invoke(this.views, 'dispose');
       return this;
     }
