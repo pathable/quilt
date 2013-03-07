@@ -19,8 +19,8 @@
     var model = new Model();
     var collection = new Collection();
     var view = new View({model: model, collection: collection});
-    model.on('event', function() { ok(false); }, view);
-    collection.on('event', function() { ok(false); }, view);
+    view.listenTo(model, 'event', function(){ ok(false); });
+    view.listenTo(collection, 'event', function() { ok(false); });
     view.dispose();
     model.trigger('event');
     collection.trigger('event');
