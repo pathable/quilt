@@ -18,13 +18,54 @@
 
   <div class='page-container main-content pbl'>
     <div class='fluid-grid-2 secondary-bg pal shadow-outer'>
-      <div class='fluid-1 text-center'>
-        <div class="mrm">
-          <img class='block' src='img/quilt_logo.png'>
+      <div class='fluid-1 pbl'>
+        <div class="mrm text-center">
+          <img class="width-40" src='img/quilt_logo.png'>
         </div>
-        <div class='h2 ptm pbm mrl'>Declarative Views for <a href="http://backbonejs.org">Backbone</a>.</div>
-        <div class='small quiet mrl'>Note: The development of this software is ongoing. A similar version has been used in production at <a href="http://pathable.com">Pathable</a> for quite some time but your mileage may vary.</div>
-        <div class="ptl">
+      </div><div class='fluid-1 pbl'>
+        <div class='h2 mrl'>
+          Declarative Views for <a href="http://backbonejs.org">Backbone</a>.
+        </div>
+        <p>
+          Quilt offers a simple approach to building views and behavior in Backbone applications.
+          It leaves HTML pure, attaching complex behavior in distinct modules behind the scenes.
+          As much a pattern as a library, quilt will clean up your view templates and business logic,
+          making your application more maintanable and better composed.
+        </p>
+      </div>
+      <div class='fluid-grid-3'>
+        <div class='fluid-1' style="width: 49%;">
+          <pre class=" hero colorize language-html"><code class="height-15">&lt;div&gt;
+  &lt;%= locales.translate('welcome') %&gt;
+&lt;/div&gt;
+&lt;% if (model.get('visible')) { %&gt;
+&lt;div&gt;
+  &lt;img src=&quot;&lt;%= model.photo_url %&gt;&quot;/&gt;
+  &lt;a href=&quot;&lt;%= model.get('url') %&gt;&quot;&gt;
+    &lt;span&gt;&lt;%= escape(model.get('first_name')) %&gt;&lt;/span&gt;
+    &lt;span&gt;&lt;%= escape(model.get('last_name')) %&gt;&lt;/span&gt;
+  &lt;/a&gt;
+  &lt;p&gt;&lt;%= truncate('bio') %&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;% }; %&gt;
+        </code></pre>
+        <h4>Go from this...</h4>
+      </div><div class='fluid-1 height-15' style="width: 2%;">
+        <div class="height-7"></div><span class="plm h1 icon-arrow-right"></span>
+      </div><div class="fluid-1" style="width: 49%;">
+        <pre class="mll hero colorize language-html"><code class="height-15">&lt;div data-translate=&quot;your_profile&quot;/&gt;
+&lt;div data-show=&quot;visible&quot;&gt;
+  &lt;img data-src=&quot;photo_url&quot;/&gt;
+  &lt;a data-href=&quot;url&quot;&gt;
+    &lt;span data-text=&quot;last_name&quot;/&gt;
+    &lt;span data-text=&quot;first_name&quot;/&gt;
+  &lt;/a&gt;
+  &lt;p data-truncate=&quot;bio&quot;/&gt;
+&lt;/div&gt;
+          </code></pre><h4 class="pll">To this.</h4>
+        </div>
+      </div>
+        <div class="ptl text-center">
           <a class="btn" href="http://github.com/pathable/quilt" target="_blank">
             <div class="light small quiet">Fork on</div>
             <span class="h3"><i class="icon-github-sign"></i>Github</span>
@@ -37,8 +78,6 @@
             <div class="light small quiet">Download</div>
             <span class="h3"><i class="icon-download-alt"></i>Tar File</span>
           </a>
-        </div>
-        <div class="ptl text-center">
           <a class="btn" href="./quilt.js">
             <div class="light small quiet">Development - 0.0.1</div>
             <span class="h3"><i class="icon-download-alt"></i>quilt.js</span>
@@ -48,23 +87,7 @@
             <span class="h3"><i class="icon-download-alt"></i>quilt.min.js</span>
           </a>
         </div>
-      </div><div class="fluid-1">
-        <pre class="mll hero colorize language-javascript"><code>Quilt.attributes.ref = function(el, options) {
-  this['$' + options] = $(el);
-};
 
-var View = Backbone.View.extend({
-  template: function() {
-    return '&lt;p data-ref="container"&gt;&lt;/p&gt;';
-  },
-
-  render: function() {
-    this.$container.html(this.model.get('content'));
-    return this;
-  }
-});
-        </code></pre>
-      </div>
     </div>
 
     <div class="mixed-row pal primary-bg shadow-outer bbl bbr">
@@ -72,6 +95,9 @@ var View = Backbone.View.extend({
       <div class="fixed prl">
         <div class='width-20'>
           <ul class='nav-list no-list width-20 pts pbs'>
+            <li class="nav-list-item mbm">
+              <a class='strong nav-list-link' href='#overview'>Overview</a>
+            </li>
             <li class="nav-list-item mbm">
               <a class='strong nav-list-link' href='#source'>Source</a>
             </li>
@@ -104,6 +130,31 @@ var View = Backbone.View.extend({
       </div>
 
       <div class='fluid'>
+        <section>
+          <a class='h1' name='overview'>Overview</a>
+          <p>
+            At only <strong>949 bytes</strong> (minified), Quilt is a lightweight library that espouses a pattern of composing behavior and attaching it to HTML.
+            With Quilt, you build small peices of funcionality that get attached to DOM elements declaratively within your HTML.
+            The patches are usually associated with a model or colleciton, and sync change to the DOM when data is fetched or saved.
+          </p>
+
+          <p>
+            Quilt doesn't replace backbone views. Quilt supports your existing application by showing
+            a way to separate common bits of functionality into descrete re-usable components. Quilt helps you to stop repeating common bits code over and over
+            in views and JSTs. And it provides a better way to issolate complex UI and business logic. In doing so Quilt makes it much easier to
+            write tests for UI behavior since only the essentail sections of your HTML are necesary for testing.
+          </p>
+
+          <p>
+            Quilt is a simple pattern along with a library of core components for comon problems. These components are lovingly called Quilt "patches."
+            Included are patches for showing and hiding elements in various situations and updating DOM text and attributes safely. A great way to quickly
+            see how quilt works is to review the core patches:
+          </p>
+
+          <p>
+            <a class="small btn icon-qrcode" href="//github.com/pathable/quilt/tree/master/patches" target="_blank">Visit the Quilt Patch Library</a>
+          </p>
+        </section>
 
         <section>
           <a class='h1' name='source'>Source</a>
@@ -111,11 +162,8 @@ var View = Backbone.View.extend({
         </section>
 
         <section>
-
           <a class='h1' name='loose-coupling'>Loose Coupling and Modularity</a>
-
           <p>In order to promote reusability, Quilt plugins are instantiated through html data attributes.  This allows developers to create entirely new functionality without writing any javascript.  For example, the following snippet renders an attribute from the model as html and updates it on change.</p>
-
           <pre class="colorize language-javascript"><code>
 var Html = Quilt.View.extend({
 
