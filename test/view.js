@@ -4,13 +4,13 @@
   var Model = Backbone.Model;
   var Collection = Backbone.Collection;
 
-  var attrs = _.clone(Quilt.attributes);
+  var attrs = _.clone(Quilt.patches);
 
   module('View', {
 
     setup: function() {
       delete Quilt.selector;
-      Quilt.attributes = attrs;
+      Quilt.patches = attrs;
     }
 
   });
@@ -37,7 +37,7 @@
   });
 
   test('Dashes are inserted into data attributes.', 2, function() {
-    Quilt.attributes.testAttr = function(el, options) {
+    Quilt.patches.testAttr = function(el, options) {
       strictEqual(options, 'test');
       ok($(el).is('p'));
     };
@@ -49,7 +49,7 @@
   });
 
   test('Other data attributes are ignored.', 1, function() {
-    Quilt.attributes.exists = function() {
+    Quilt.patches.exists = function() {
       ok(true);
     };
     var view = new View();
@@ -73,7 +73,7 @@
   });
 
   test('Tolerate non-view return from attribute function.', 0, function() {
-    Quilt.attributes.test = function() { return {}; };
+    Quilt.patches.test = function() { return {}; };
     var view = new View({model: new Model()});
     view.template = function() { return '<p data-test="true"></p>'; };
     view.render();

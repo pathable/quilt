@@ -11,13 +11,13 @@ define [
       model: new Model()
     el = $('<p></p>')[0]
 
-    view = Quilt.attributes.src.call(parent, el, 'attr')
+    view = Quilt.patches.src.call(parent, el, 'attr')
     ok(view instanceof Src)
     ok(view.el is el)
     strictEqual(view.attr, 'attr')
     ok(view.model is parent.model)
 
-    view = Quilt.attributes.src.call parent, el,
+    view = Quilt.patches.src.call parent, el,
       attr: 'attr'
     ok(view instanceof Src)
     ok(view.el is el)
