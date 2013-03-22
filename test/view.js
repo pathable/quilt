@@ -122,7 +122,7 @@
   test('Support locally-defined patches.', 2, function() {
     Quilt.patches.test = function() { ok(true); };
     var View = Quilt.View.extend({
-      patches: { other: function(el, options) { ok(true); } },
+      patches: { other: function(el, options) { ok(true); } }
     });
     var view = new View();
     view.template = function() { return '<div data-test data-other></div>'; }
@@ -137,6 +137,31 @@
     var view = new Quilt.View();
     view.template = function() { return '<div data-test data-other></div>'; }
     view.render();
+  });
+
+  test('Local patches can be inherited and extended.', 5, function() {
+    var View = Quilt.View.extend({
+      patches: function() {
+        return {
+          all: function(el, options) { ok(true); },
+          test: function(el, options) { strictEqual(el.id, 'base'); }
+        }
+      }
+    });
+    var view = new View();
+    view.template = function() { return '<div id="base" data-all data-test></div>'; }
+    view.render();
+    var RelatedView = View.extend({
+      patches: function() {
+        return _.extend({}, View.prototype.patches.apply(this), {
+          test: function(el, options) { strictEqual(el.id, 'related'); },
+          other: function(el, options) { strictEqual(el.id, 'related'); }
+        });
+      }
+    });
+    var related = new RelatedView();
+    related.template = function() { return '<div id="related" data-all data-test data-other></div>'; }
+    related.render();
   });
 
 })();

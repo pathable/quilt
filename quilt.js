@@ -42,7 +42,7 @@
       Backbone.View.apply(this, arguments);
     },
 
-    patches: {},
+    patches: function() { return {} },
 
     // After executing the template function, search the view for relevant
     // patches, match them with handlers and execute them.  If a handler
@@ -51,7 +51,7 @@
       var patches, elements, el, view, name, attrs, attr;
 
       // Merge local patches with the globals.
-      patches = _.extend({}, Quilt.patches, this.patches);
+      patches = _.extend({}, Quilt.patches, _.result(this, 'patches'));
 
       // Dispose of old views.
       while (view = this.views.pop()) if (view.dispose) view.dispose();
