@@ -6,12 +6,12 @@ define [
 
   test 'toggle attribute', ->
     el = $('<div></div>')[0]
-    view = Quilt.attributes.toggle(el)
+    view = Quilt.patches.toggle(el)
     ok(view instanceof Toggle)
     ok(view.el is el)
 
   test 'toggle correctly parses content and options', ->
-    view = Quilt.attributes.toggle($("""
+    view = Quilt.patches.toggle($("""
       <div data-toggle>
         <div data-toggle-hide></div>
         <div data-toggle-show></div>
@@ -22,7 +22,7 @@ define [
     ok(!view.$show.hasClass('hide'), 'when content is hidden the show control should be visible')
     ok(view.$hide.hasClass('hide'), 'when content is hidden the hide control should not be visible')
 
-    view = Quilt.attributes.toggle($("""
+    view = Quilt.patches.toggle($("""
       <div data-toggle>
         <div data-toggle-hide></div>
         <div data-toggle-show></div>
@@ -34,7 +34,7 @@ define [
     ok(!view.$content.hasClass('hide'), 'when content is visible the content should be visible')
 
   test 'toggle control shows and hides content', ->
-    view = Quilt.attributes.toggle($("""
+    view = Quilt.patches.toggle($("""
       <div data-toggle>
         <div data-toggle-hide></div>
         <div data-toggle-show></div>

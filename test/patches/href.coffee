@@ -12,13 +12,13 @@ define [
       model: new Model()
     el = $('<p></p>')[0]
 
-    view = Quilt.attributes.href.call(parent, el, 'prop')
+    view = Quilt.patches.href.call(parent, el, 'prop')
     ok(view instanceof Href)
     ok(view.el is el)
     strictEqual(view.prop, 'prop')
     ok(view.model is parent.model)
 
-    view = Quilt.attributes.href.call parent, el,
+    view = Quilt.patches.href.call parent, el,
       prop: 'prop'
     ok(view instanceof Href)
     ok(view.el is el)
