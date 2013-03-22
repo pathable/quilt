@@ -119,4 +119,24 @@
     view.render();
   });
 
+  test('Support locally-defined patches.', 2, function() {
+    Quilt.patches.test = function() { ok(true); };
+    var View = Quilt.View.extend({
+      patches: { other: function(el, options) { ok(true); } },
+    });
+    var view = new View();
+    view.template = function() { return '<div data-test data-other></div>'; }
+    view.render();
+  });
+
+  test('Ignore local patches from other views.', 1, function() {
+    Quilt.patches.test = function() { ok(true); };
+    var Other = Quilt.View.extend({
+      patches: { other: function(el, options) { ok(true); } }
+    });
+    var view = new Quilt.View();
+    view.template = function() { return '<div data-test data-other></div>'; }
+    view.render();
+  });
+
 })();
