@@ -105,7 +105,7 @@
               <a class='strong nav-list-link' href='#loose-coupling'>Loose Coupling</a>
             </li>
             <li class="nav-list-item mbm">
-              <a class='strong nav-list-link' href='#quilt.attributes'>Quilt.attributes</a>
+              <a class='strong nav-list-link' href='#quilt.patches'>Quilt.patches</a>
             </li>
             <li class="nav-list-item">
               <a class='strong nav-list-link' href='#quilt.view'>Quilt.View</a>
@@ -180,10 +180,10 @@ var Html = Quilt.View.extend({
 });
           </code></pre>
 
-          <p>To expose this functionality to templates in Quilt views, a property is attached to <a href='#quilt-attributes'><code>Quilt.attributes</code></a>.</p>
+          <p>To expose this functionality to templates in Quilt views, a property is attached to <a href='#quilt-patches'><code>Quilt.patches</code></a>.</p>
 
           <pre class="colorize language-javascript"><code>
-Quilt.attributes.html = function(el, options) {
+Quilt.patches.html = function(el, options) {
   return new Html({el: el, attr: options});
 };
           </code></pre>
@@ -202,7 +202,7 @@ var View = Quilt.View.extend({
 
         <section>
 
-          <a class='h1' name='quilt.attributes'>Quilt.attributes</a>
+          <a class='h1' name='quilt.patches'>Quilt.patches</a>
 
           <p>The extension point for declarative attributes.  All handlers should be attached as functions here.  Each handler is provided with the element to extend (where the data attribute was found), the value of the attribute (parsed as JSON via <code>jQuery.fn.data</code>), and is called with the parent view as context.</p>
 
@@ -211,12 +211,12 @@ var View = Quilt.View.extend({
 //
 //    &lt;p data-ref='body'&gt;&lt;/p&gt;
 //
-Quilt.attributes.ref = function(el, options) {
+Quilt.patches.ref = function(el, options) {
   this['$' + options] = $(el);
 };
           </code></pre>
 
-          <p><em>Note: Dashed data attributes will be changed into their camel-cased counterpart before use.  For instance, <code>data-foo-bar</code> will use <code>Quilt.attributes.fooBar</code> as a handler.</em></p>
+          <p><em>Note: Dashed data attributes will be changed into their camel-cased counterpart before use.  For instance, <code>data-foo-bar</code> will use <code>Quilt.patches.fooBar</code> as a handler.</em></p>
 
         </section>
 

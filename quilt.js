@@ -20,17 +20,17 @@
     return (letter + '').toUpperCase();
   };
 
-  // # Quilt.attributes
+  // # Quilt.patches
   //
-  // Attribute handlers should be specified in camel case.  The arguments to
+  // Patch handlers should be specified in camel case.  The arguments to
   // each handler will be a DOM element and the value of the data attribute.
   // The handler will be called with the parent view as context.
   //
-  //     Quilt.attributes.exampleAttr = function(element, options) {
+  //     Quilt.patches.exampleAttr = function(element, options) {
   //       // Called for elements with a "data-example-attr" attribute.
   //     };
   //
-  Quilt.attributes = {};
+  Quilt.patches = {};
 
   // # Quilt.View
   // Provide a structure for declaring functionality through data attributes.
@@ -43,7 +43,7 @@
     },
 
     // After executing the template function, search the view for relevant
-    // attributes, match them with handlers and execute them.  If a handler
+    // patches, match them with handlers and execute them.  If a handler
     // returns a view, store it for clean up.
     render: function() {
       var elements, el, view, name, attrs, attr;
@@ -75,8 +75,8 @@
           // Camel case and strip "data-".
           name = name.replace(dataAttr, '').replace(undasher, camel);
 
-          // Bail on non-quilt attributes.
-          if (!(attr = Quilt.attributes[name])) continue;
+          // Bail on attributes with no corresponding patch.
+          if (!(attr = Quilt.patches[name])) continue;
 
           // Execute the handler.
           view = attr.call(this, el, $(el).data(name));
