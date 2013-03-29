@@ -46,10 +46,9 @@
     // patches, match them with handlers and execute them.  If a handler
     // returns a view, store it for clean up.
     render: function() {
-      var elements, el, view, name, attrs, attr;
 
       // Dispose of old views.
-      while (view = this.views.pop()) if (view.dispose) view.dispose();
+      _.invoke(this.views, 'dispose');
 
       // Render the template if it exists.
       if (this.template) {
@@ -60,26 +59,28 @@
         }));
       }
 
-      elements = this.$('*').get();
+      var elements = this.$('*').get();
 
       // Execute the handler for each element/attr pair.
       for (var i = 0; i < elements.length; i++) {
-        el = elements[i];
-        attrs = el.attributes;
+        var el = elements[i];
+        var attrs = el.attributes;
 
         for (var j = 0; j < attrs.length; j++) {
 
           // Bail unless we have a data attribute.
-          if (!dataAttr.test(name = attrs[j].name)) continue;
+          var name = attrs[j].name;
+          if (!dataAttr.test(name)) continue;
 
           // Camel case and strip "data-".
           name = name.replace(dataAttr, '').replace(undasher, camel);
 
           // Bail on attributes with no corresponding patch.
-          if (!(attr = Quilt.patches[name])) continue;
+          var attr = Quilt.patches[name];
+          if (!attr) continue;
 
           // Execute the handler.
-          view = attr.call(this, el, $(el).data(name));
+          var view = attr.call(this, el, $(el).data(name));
 
           // Render the view if appropriate.
           if (view instanceof View) this.views.push(view.render());
