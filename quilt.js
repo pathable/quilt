@@ -116,11 +116,32 @@
       return new Hide({
         el: el,
         attr: attr,
-        model: this.model,
+        model: this.model
+      });
+    },
+
+    html: function(el, attr) {
+      return new Html({
+        el: el,
+        attr: attr,
+        model: this.model
+      });
+    },
+
+    escape: function(el, attr) {
+      return new Escape({
+        el: el,
+        attr: attr,
+        model: this.model
       });
     }
 
   };
+
+  // # Show
+  //
+  // Listen for changes to an attribute and show the element if the value is
+  // truthy, hiding it otherwise.
 
   var Show = Quilt.View.extend({
 
@@ -137,6 +158,38 @@
 
   });
 
+  // # Hide
+  //
+  // Listen for changes to an attribute and hide the element if the value is
+  // truthy, showing it otherwise.
+
   var Hide = Show.extend({invert: true});
+
+  // # Html
+  //
+  // Listen for changes to an attribute, updating the element's content with
+  // it's value.
+
+  var Html = Quilt.View.extend({
+
+    initialize: function(options) {
+      this.attr = options.attr;
+      this.listenTo(this.model, 'change:' + this.attr, this.render);
+    },
+
+    render: function() {
+      var value = this.model[this.escape ? 'escape' : 'get'](this.attr);
+      this.$el.html(this.model.get(this.attr));
+      return this;
+    }
+
+  });
+
+  // # Escape
+  //
+  // Listen for changes to an attribute, updating the element's content with
+  // it's escaped value.
+
+  var Escape = Html.extend({escape: true});
 
 })();
