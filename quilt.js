@@ -134,6 +134,22 @@
         attr: attr,
         model: this.model
       });
+    },
+
+    attrs: function(el, attrs) {
+      return new Attrs({
+        el: el,
+        attrs: attrs,
+        model: this.model
+      });
+    },
+
+    props: function(el, props) {
+      return new Props({
+        el: el,
+        attrs: props,
+        model: this.model
+      });
     }
 
   };
@@ -191,5 +207,37 @@
   // it's escaped value.
 
   var Escape = Html.extend({escape: true});
+
+  // # Attrs
+  //
+  // Listen for changes to attributes and update the element accordingly.
+
+  var Attrs = Quilt.View.extend({
+
+    accessor: 'attr',
+
+    initialize: function(options) {
+      this.attrs = options.attrs;
+
+      for (var attr in this.attrs) {
+        var name = this.attrs[attr];
+
+        // Set initial value.
+        this.$el[this.accessor](attr, this.model.get(name));
+
+        // Listen for changes on each.
+        this.listenTo(this.model, 'change:' + name, function(model, value) {
+          this.$el[this.accessor](attr, value);
+        });
+      }
+    },
+
+    render: function() {
+      return this;
+    }
+
+  });
+
+  var Props = Attrs.extend({accessor: 'prop'});
 
 })();
