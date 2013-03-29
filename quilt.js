@@ -98,60 +98,15 @@
   //       // Called for elements with a "data-example-attr" attribute.
   //     };
   //
-  Quilt.patches = {
+  var patches = Quilt.patches = {};
 
-    ref: function(el, name) {
-      this['$' + name] = $(el);
-    },
+  // # ref
+  //
+  // Create a reference to a specific DOM element, accessible from the view
+  // as '$' + name.
 
-    show: function(el, attr) {
-      return new Show({
-        el: el,
-        attr: attr,
-        model: this.model
-      });
-    },
-
-    hide: function(el, attr) {
-      return new Hide({
-        el: el,
-        attr: attr,
-        model: this.model
-      });
-    },
-
-    html: function(el, attr) {
-      return new Html({
-        el: el,
-        attr: attr,
-        model: this.model
-      });
-    },
-
-    escape: function(el, attr) {
-      return new Escape({
-        el: el,
-        attr: attr,
-        model: this.model
-      });
-    },
-
-    attrs: function(el, attrs) {
-      return new Attrs({
-        el: el,
-        attrs: attrs,
-        model: this.model
-      });
-    },
-
-    props: function(el, props) {
-      return new Props({
-        el: el,
-        attrs: props,
-        model: this.model
-      });
-    }
-
+  patches.ref = function(el, name) {
+    this['$' + name] = $(el);
   };
 
   // # Show
@@ -174,12 +129,28 @@
 
   });
 
+  patches.show = function(el, attr) {
+    return new Show({
+      el: el,
+      attr: attr,
+      model: this.model
+    });
+  };
+
   // # Hide
   //
   // Listen for changes to an attribute and hide the element if the value is
   // truthy, showing it otherwise.
 
   var Hide = Show.extend({invert: true});
+
+  patches.hide = function(el, attr) {
+    return new Hide({
+      el: el,
+      attr: attr,
+      model: this.model
+    });
+  };
 
   // # Html
   //
@@ -201,6 +172,14 @@
 
   });
 
+  patches.html = function(el, attr) {
+    return new Html({
+      el: el,
+      attr: attr,
+      model: this.model
+    });
+  };
+
   // # Escape
   //
   // Listen for changes to an attribute, updating the element's content with
@@ -208,9 +187,18 @@
 
   var Escape = Html.extend({escape: true});
 
+  patches.escape = function(el, attr) {
+    return new Escape({
+      el: el,
+      attr: attr,
+      model: this.model
+    });
+  };
+
   // # Attrs
   //
-  // Listen for changes to attributes and update the element accordingly.
+  // Listen for changes to attributes and update the element's attributes
+  // accordingly.
 
   var Attrs = Quilt.View.extend({
 
@@ -238,6 +226,27 @@
 
   });
 
+  patches.attrs = function(el, attrs) {
+    return new Attrs({
+      el: el,
+      attrs: attrs,
+      model: this.model
+    });
+  };
+
+  // # Props
+  //
+  // Listen for changes to attributes and update the element's properties
+  // accordingly.
+
   var Props = Attrs.extend({accessor: 'prop'});
+
+  patches.props = function(el, props) {
+    return new Props({
+      el: el,
+      attrs: props,
+      model: this.model
+    });
+  };
 
 })();
