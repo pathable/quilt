@@ -67,10 +67,10 @@
         el = elements[i];
         attrs = el.attributes;
 
-        for (var i = 0; i < attrs.length; i++) {
+        for (var j = 0; j < attrs.length; j++) {
 
           // Bail unless we have a data attribute.
-          if (!dataAttr.test(name = attrs[i].name)) continue;
+          if (!dataAttr.test(name = attrs[j].name)) continue;
 
           // Camel case and strip "data-".
           name = name.replace(dataAttr, '').replace(undasher, camel);
