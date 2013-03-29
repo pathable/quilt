@@ -20,18 +20,6 @@
     return (letter + '').toUpperCase();
   };
 
-  // # Quilt.patches
-  //
-  // Patch handlers should be specified in camel case.  The arguments to
-  // each handler will be a DOM element and the value of the data attribute.
-  // The handler will be called with the parent view as context.
-  //
-  //     Quilt.patches.exampleAttr = function(element, options) {
-  //       // Called for elements with a "data-example-attr" attribute.
-  //     };
-  //
-  Quilt.patches = {};
-
   // # Quilt.View
   // Provide a structure for declaring functionality through data attributes.
   var View = Quilt.View = Backbone.View.extend({
@@ -99,5 +87,56 @@
     }
 
   });
+
+  // # Quilt.patches
+  //
+  // Patch handlers should be specified in camel case.  The arguments to
+  // each handler will be a DOM element and the value of the data attribute.
+  // The handler will be called with the parent view as context.
+  //
+  //     Quilt.patches.exampleAttr = function(element, options) {
+  //       // Called for elements with a "data-example-attr" attribute.
+  //     };
+  //
+  Quilt.patches = {
+
+    ref: function(el, name) {
+      this['$' + name] = $(el);
+    },
+
+    show: function(el, attr) {
+      return new Show({
+        el: el,
+        attr: attr,
+        model: this.model
+      });
+    },
+
+    hide: function(el, attr) {
+      return new Hide({
+        el: el,
+        attr: attr,
+        model: this.model,
+      });
+    }
+
+  };
+
+  var Show = Quilt.View.extend({
+
+    initialize: function(options) {
+      this.attr = options.attr;
+      this.listenTo(this.model, 'change:' + this.attr, this.render);
+    },
+
+    render: function() {
+      var value = this.model.get(this.attr);
+      this.$el.toggleClass('hide', this.invert ? !!value : !value);
+      return this;
+    }
+
+  });
+
+  var Hide = Show.extend({invert: true});
 
 })();
