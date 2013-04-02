@@ -1,24 +1,19 @@
 (function() {
 
-  var View = Quilt.View;
-  var Model = Backbone.Model;
-  var Collection = Backbone.Collection;
-
-  var attrs = _.clone(Quilt.patches);
+  var patches = _.clone(Quilt.patches);
 
   module('View', {
 
     setup: function() {
-      delete Quilt.selector;
-      Quilt.patches = attrs;
+      Quilt.patches = patches;
     }
 
   });
 
   test('Collection and Model events are cleaned up on dispose.', 0, function() {
-    var model = new Model();
-    var collection = new Collection();
-    var view = new View({model: model, collection: collection});
+    var model = new Backbone.Model;
+    var collection = new Backbone.Collection;
+    var view = new Quilt.View({model: model, collection: collection});
     view.listenTo(model, 'event', function(){ ok(false); });
     view.listenTo(collection, 'event', function() { ok(false); });
     view.dispose();
@@ -27,8 +22,8 @@
   });
 
   test('Child views are disposed on dispose.', 1, function() {
-    var parent = new View();
-    var child = new View();
+    var parent = new Quilt.View;
+    var child = new Quilt.View;
     child.dispose= function() {
       ok(this === child);
     };
@@ -41,7 +36,7 @@
       strictEqual(options, 'test');
       ok($(el).is('p'));
     };
-    var view = new View();
+    var view = new Quilt.View;
     view.template = function() {
       return '<p data-test-attr="test"></p>';
     };
@@ -52,7 +47,7 @@
     Quilt.patches.exists = function() {
       ok(true);
     };
-    var view = new View();
+    var view = new Quilt.View;
     view.template = function() {
       return '<p data-exists="true" data-doesnt="false"></p>';
     };
@@ -60,9 +55,9 @@
   });
 
   test('template gets view, model, and collection.', 3, function() {
-    var model = new Model();
-    var collection = new Collection();
-    var view = new View({model: model, collection: collection});
+    var model = new Backbone.Model;
+    var collection = new Backbone.Collection;
+    var view = new Quilt.View({model: model, collection: collection});
     view.template = function(data) {
       ok(data.view === view);
       ok(data.model === model);
@@ -74,13 +69,13 @@
 
   test('Tolerate non-view return from attribute function.', 0, function() {
     Quilt.patches.test = function() { return {}; };
-    var view = new View({model: new Model()});
+    var view = new Quilt.View({model: new Backbone.Model});
     view.template = function() { return '<p data-test="true"></p>'; };
     view.render();
   });
 
   test('Dispose is chainable.', 1, function() {
-    var view = new View();
+    var view = new Quilt.View;
     ok(view.dispose() === view);
   });
 
@@ -108,12 +103,12 @@
   });
 
   test('Undefined options does not throw.', 0, function() {
-    var view = new Quilt.View();
+    var view = new Quilt.View;
   });
 
   test('Render disposes old child views.', 1, function() {
-    var view = new Quilt.View();
-    var child = new Quilt.View();
+    var view = new Quilt.View;
+    var child = new Quilt.View;
     child.dispose = function() { ok(true); };
     view.views.push(child);
     view.render();
