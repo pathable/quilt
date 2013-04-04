@@ -18,23 +18,17 @@
 
   <div class='page-container main-content pbl'>
     <div class='fluid-grid-2 secondary-bg pal shadow-outer'>
-      <div class='fluid-1 pbl'>
+      <div class='pbl'>
         <div class="mrm text-center">
           <img class="width-40" src='img/quilt_logo.png'>
+          <div class='h2 mrl'>
+            Declarative Views for <a href="http://backbonejs.org">Backbone</a>.
+          </div>
         </div>
-      </div><div class='fluid-1 pbl'>
-        <div class='h2 mrl'>
-          Declarative Views for <a href="http://backbonejs.org">Backbone</a>.
-        </div>
-        <p>
-          Quilt offers a simple approach to building views and behavior in Backbone applications.
-          It leaves HTML pure, attaching complex behavior in distinct modules behind the scenes.
-          As much a pattern as a library, quilt will clean up your view templates and business logic,
-          making your application more maintanable and better composed.
-        </p>
       </div>
-      <div class='fluid-grid-3'>
+      <div class='ptl fluid-grid-3'>
         <div class='fluid-1' style="width: 49%;">
+          <h4 class="text-center">Go from this:</h4>
           <pre class=" hero colorize language-html"><code class="height-15">&lt;div&gt;
   &lt;%= locales.translate('welcome') %&gt;
 &lt;/div&gt;
@@ -49,10 +43,10 @@
 &lt;/div&gt;
 &lt;% }; %&gt;
         </code></pre>
-        <h4>Go from this...</h4>
       </div><div class='fluid-1 height-15' style="width: 2%;">
         <div class="height-7"></div><span class="plm h1 icon-arrow-right"></span>
       </div><div class="fluid-1" style="width: 49%;">
+        <h4 class="text-center">To this:</h4>
         <pre class="mll hero colorize language-html"><code class="height-15">&lt;div data-translate=&quot;your_profile&quot;/&gt;
 &lt;div data-show=&quot;visible&quot;&gt;
   &lt;img data-src=&quot;photo_url&quot;/&gt;
@@ -62,7 +56,7 @@
   &lt;/a&gt;
   &lt;p data-truncate=&quot;bio&quot;/&gt;
 &lt;/div&gt;
-          </code></pre><h4 class="pll">To this.</h4>
+          </code></pre>
         </div>
       </div>
         <div class="ptl text-center">
@@ -101,6 +95,16 @@
             <li class="nav-list-item mbm">
               <a class='strong nav-list-link' href='#source'>Source</a>
             </li>
+<!--             <li class="nav-list-item">
+              <a class='strong nav-list-link' href='#quilt.view'>Core Patches</a>
+            </li>
+            <li class="nav-list-item">
+              <a class='nav-list-link' href='#core.show'>data-show</a>
+            </li>
+            <li class="nav-list-item">
+              <a class='nav-list-link' href='#core.'>template</a>
+            </li>
+ -->
             <li class="nav-list-item mbm">
               <a class='strong nav-list-link' href='#loose-coupling'>Loose Coupling</a>
             </li>
@@ -133,29 +137,23 @@
         <section>
           <a class='h1' name='overview'>Overview</a>
           <p>
-            At only <strong>949 bytes</strong> (minified), Quilt is a lightweight library that espouses a pattern of composing behavior and attaching it to HTML.
-            With Quilt, you build small peices of funcionality that get attached to DOM elements declaratively within your HTML.
-            The patches are usually associated with a model or colleciton, and sync change to the DOM when data is fetched or saved.
+            At only <strong>949 bytes</strong> (minified), Quilt is a lightweight library offering a simple approach to building views and behavior in Backbone applications. It leaves HTML pure, attaching complex behavior in distinct modules behind the scenes. As much a pattern as a library, Quilt will clean up your view templates and business logic, making your application more maintainable and better composed.
           </p>
-
           <p>
-            Quilt doesn't replace backbone views. Quilt supports your existing application by showing
-            a way to separate common bits of functionality into descrete re-usable components. Quilt helps you to stop repeating common bits code over and over
-            in views and JSTs. And it provides a better way to issolate complex UI and business logic. In doing so Quilt makes it much easier to
-            write tests for UI behavior since only the essentail sections of your HTML are necesary for testing.
+            Using Quilt, you build small pieces of functionality that get attached to DOM elements declaratively within your HTML. These Quilt "patches" are usually associated with a model or collection, and changes are synced automatically to the DOM as data changes. Because Quilt isolates UI behavior and view logic, writing and maintaining tests is easy.
           </p>
-
           <p>
-            Quilt is a simple pattern along with a library of core components for comon problems. These components are lovingly called Quilt "patches."
-            Included are patches for showing and hiding elements in various situations and updating DOM text and attributes safely. A great way to quickly
-            see how quilt works is to review the core patches:
-          </p>
-
-          <p>
-            <a class="small btn icon-qrcode" href="//github.com/pathable/quilt/tree/master/patches" target="_blank">Visit the Quilt Patch Library</a>
+            Out of the box Quilt comes with a small library of core components for common problems. These components are lovingly called Quilt "patches." Included are patches for showing and hiding elements in various situations, updating DOM text and attributes safely, and a few others. More will be added with time. You are encouraged to share your own patches.
           </p>
         </section>
 
+<!--         <section>
+          <a class='h1' name='source'>Examples</a>
+          <p>
+
+          </p>
+        </section>
+ -->
         <section>
           <a class='h1' name='source'>Source</a>
           <p>The source for Quilt is <a href="http://github.com/pathable/quilt">hosted on github</a>.  Please give it a read before trying anything serious as it will greatly improve the utility you gain from the library.  <a href="./docs/quilt.html">The annotated source</a> is also provided for easier reading. Supermodel is available for use under the <a href="https://github.com/pathable/quilt/blob/master/LICENSE">MIT software license</a>.</p>
