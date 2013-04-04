@@ -51,10 +51,10 @@
 &lt;div data-show=&quot;visible&quot;&gt;
   &lt;img data-src=&quot;photo_url&quot;/&gt;
   &lt;a data-href=&quot;url&quot;&gt;
-    &lt;span data-text=&quot;last_name&quot;/&gt;
-    &lt;span data-text=&quot;first_name&quot;/&gt;
+    &lt;span data-escape=&quot;last_name&quot;/&gt;
+    &lt;span data-escape=&quot;first_name&quot;/&gt;
   &lt;/a&gt;
-  &lt;p data-truncate=&quot;bio&quot;/&gt;
+  &lt;p data-html=&quot;bio&quot;/&gt;
 &lt;/div&gt;
           </code></pre>
         </div>
@@ -95,17 +95,24 @@
             <li class="nav-list-item mbm">
               <a class='strong nav-list-link' href='#source'>Source</a>
             </li>
-<!--             <li class="nav-list-item">
+
+            <li class="nav-list-item">
               <a class='strong nav-list-link' href='#quilt.view'>Core Patches</a>
             </li>
             <li class="nav-list-item">
               <a class='nav-list-link' href='#core.show'>data-show</a>
             </li>
             <li class="nav-list-item">
-              <a class='nav-list-link' href='#core.'>template</a>
+              <a class='nav-list-link' href='#core.ref'>data-ref</a>
             </li>
- -->
-            <li class="nav-list-item mbm">
+            <li class="nav-list-item">
+              <a class='nav-list-link' href='#core.html'>data-html</a>
+            </li>
+            <li class="nav-list-item">
+              <a class='nav-list-link' href='#core.escape'>data-escape</a>
+            </li>
+
+            <li class="nav-list-item mbm mtm">
               <a class='strong nav-list-link' href='#loose-coupling'>Loose Coupling</a>
             </li>
             <li class="nav-list-item mbm">
@@ -140,20 +147,56 @@
             At only <strong>949 bytes</strong> (minified), Quilt is a lightweight library offering a simple approach to building views and behavior in Backbone applications. It leaves HTML pure, attaching complex behavior in distinct modules behind the scenes. As much a pattern as a library, Quilt will clean up your view templates and business logic, making your application more maintainable and better composed.
           </p>
           <p>
-            Using Quilt, you build small pieces of functionality that get attached to DOM elements declaratively within your HTML. These Quilt "patches" are usually associated with a model or collection, and changes are synced automatically to the DOM as data changes. Because Quilt isolates UI behavior and view logic, writing and maintaining tests is easy.
+            Using Quilt, you build small pieces of functionality that get attached to DOM elements declaratively within your HTML. These Quilt "patches" are usually associated with a model or collection, and changes are synced automatically to the DOM. Because Quilt isolates UI behavior and view logic, writing and maintaining tests becomes a lot easier.
           </p>
           <p>
-            Out of the box Quilt comes with a small library of core components for common problems. These components are lovingly called Quilt "patches." Included are patches for showing and hiding elements in various situations, updating DOM text and attributes safely, and a few others. More will be added with time. You are encouraged to share your own patches.
+            Out of the box Quilt comes with a small library of core patches for common problems. Included are patches for showing and hiding elements in various situations, updating DOM text and attributes safely, and a few others. More will be added with time. You are encouraged to share your own patches.
           </p>
         </section>
 
-<!--         <section>
-          <a class='h1' name='source'>Examples</a>
-          <p>
-
-          </p>
+        <section>
+          <a class='h1' name='core.show'>data-ref</a>
+          <p>The safety and convenience of element IDs, but scoped to the current view. Using class selectors to find view elements conflates style with business logic. IDs have to be globally unique. data-ref provides a convenient way to declare what elements are relavent to your view and UI logic.</p>
+          <pre class="colorize language-html"><code>
+&lt;div data-ref=&quot;handle&quot;&gt;Find me in your view as @$handle.&lt;/div&gt;
+          </code></pre>
         </section>
- -->
+
+        <section>
+          <a class='h1' name='core.show'>data-show</a>
+          <p>Show or hide an element when an attribute is true of false.</p>
+          <pre class="colorize language-html"><code>
+&lt;div data-show=&quot;visible&quot;&gt;Show me when my model's visible attribute is truthy.&lt;/div&gt;
+          </code></pre>
+          <pre class="colorize language-html"><code>
+&lt;div data-hide=&quot;visible&quot;&gt;Hide me when my model's visible attribute is truthy.&lt;/div&gt;
+          </code></pre>
+        </section>
+
+        <section>
+          <a class='h1' name='core.html'>data-html</a>
+          <p>Render an attribute as HTML. If <strong>@model.get("description")</strong> contained HTML:</p>
+          <pre class="colorize language-html"><code>
+&lt;div data-html=&quot;description&quot;&gt;&lt;b&gt;I'm html.&lt;/b&gt;&lt;/div&gt;
+          </code></pre>
+        </section>
+
+        <section>
+          <a class='h1' name='core.escape'>data-escape</a>
+          <p>Escape any HTML and render an attribute as text. If <strong>@model.get("description")</strong> contained HTML it will be stripped:</p>
+          <pre class="colorize language-html"><code>
+&lt;div data-escape=&quot;description&quot;&gt;I'm html.&lt;/div&gt;
+          </code></pre>
+        </section>
+
+        <section>
+          <a class='h1' name='core.attrs'>data-attrs</a>
+          <p>Update an elements attribute when a model attribute changes.</p>
+          <pre class="colorize language-html"><code>
+&lt;img data-attr='{"src": "image_url"}'/&gt;
+          </code></pre>
+        </section>
+
         <section>
           <a class='h1' name='source'>Source</a>
           <p>The source for Quilt is <a href="http://github.com/pathable/quilt">hosted on github</a>.  Please give it a read before trying anything serious as it will greatly improve the utility you gain from the library.  <a href="./docs/quilt.html">The annotated source</a> is also provided for easier reading. Supermodel is available for use under the <a href="https://github.com/pathable/quilt/blob/master/LICENSE">MIT software license</a>.</p>
