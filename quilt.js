@@ -249,4 +249,19 @@
     });
   };
 
+  // # Css
+  //
+  // Listen for changes to attributes and update the element's style
+  // accordingly.
+
+  var Css = Attrs.extend({accessor: 'css'});
+
+  patches.css = function(el, css) {
+    return new Css({
+      el: el,
+      attrs: css,
+      model: this.model
+    });
+  };
+
 })();
