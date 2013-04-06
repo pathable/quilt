@@ -22,4 +22,14 @@
     ok(!view.$('input').prop('checked'));
   });
 
+  test('data-css', function() {
+    var view = new Quilt.View({
+      el: '<p><i data-css=\'{"color": "color"}\'></i></p>',
+      model: new Backbone.Model({color: 'blue'})
+    }).render();
+    ok(view.$('i').css('color'), 'blue');
+    view.model.set({color: 'green'});
+    ok(view.$('i').css('color'), 'green');
+  });
+
 })();
