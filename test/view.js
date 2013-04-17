@@ -114,4 +114,13 @@
     view.render();
   });
 
+  test('Patches are executed only once.', 1, function() {
+    var callCount = 0;
+    Quilt.patches.test = function() { callCount++; return {}; };
+    var view = new Quilt.View({model: new Backbone.Model});
+    view.template = function() { return '<p data-test="true" data-test="true" data-test="true"></p>'; };
+    view.render();
+    strictEqual(callCount, 1);
+  });
+
 })();

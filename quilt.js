@@ -53,6 +53,7 @@
       for (var i = 0; i < elements.length; i++) {
         var el = elements[i];
         var attrs = el.attributes;
+        var visited = {};
 
         for (var j = 0; j < attrs.length; j++) {
 
@@ -66,6 +67,10 @@
           // Bail on attributes with no corresponding patch.
           var attr = Quilt.patches[name];
           if (!attr) continue;
+
+          // Invoke patches only once
+          if (visited[name]) continue;
+          visited[name] = true;
 
           // Execute the handler.
           var view = attr.call(this, el, $(el).data(name));
