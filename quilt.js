@@ -50,25 +50,29 @@
       var elements = this.$('*').get();
 
       // Execute the handler for each element/attr pair.
-      for (var i = 0; i < elements.length; i++) {
+      for (var i = 0, il = elements.length; i < il; i++) {
         var el = elements[i];
         var attrs = el.attributes;
 
-        for (var j = 0; j < attrs.length; j++) {
+        for (var j = 0, jl = attrs.length; j < jl; j++) {
+          var attr = attrs[j];
+
+          // IE8 will enumerate unspecified attributes.
+          if (!attr.specified) continue;
 
           // Bail unless we have a data attribute.
-          var name = attrs[j].name;
+          var name = attr.name;
           if (!dataAttr.test(name)) continue;
 
           // Camel case and strip "data-".
           name = name.replace(dataAttr, '').replace(undasher, camel);
 
           // Bail on attributes with no corresponding patch.
-          var attr = Quilt.patches[name];
-          if (!attr) continue;
+          var patch = Quilt.patches[name];
+          if (!patch) continue;
 
           // Execute the handler.
-          var view = attr.call(this, el, $(el).data(name));
+          var view = patch.call(this, el, $(el).data(name));
 
           // Render the view if appropriate.
           if (view instanceof View) this.views.push(view.render());
