@@ -27,9 +27,19 @@
       el: '<p><i data-css=\'{"color": "color"}\'></i></p>',
       model: new Backbone.Model({color: 'blue'})
     }).render();
-    ok(view.$('i').css('color'), 'blue');
+    strictEqual(view.$('i').css('color'), 'blue');
     view.model.set({color: 'green'});
-    ok(view.$('i').css('color'), 'green');
+    strictEqual(view.$('i').css('color'), 'green');
+  });
+
+  test('multiple attrs', function() {
+    var view = new Quilt.View({
+      el: '<p><i data-css=\'{"color": "color", "background": "background"}\'></i></p>',
+      model: new Backbone.Model({color: 'blue', background: 'white'})
+    }).render();
+    view.model.set({color: 'red', background: 'black'});
+    strictEqual(view.$('i').css('color'), 'red');
+    strictEqual(view.$('i').css('background'), 'black');
   });
 
 })();

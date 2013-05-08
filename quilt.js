@@ -209,18 +209,21 @@
     accessor: 'attr',
 
     initialize: function(options) {
-      this.attrs = options.attrs;
+      var map = options.map;
 
-      for (var attr in this.attrs) {
-        var name = this.attrs[attr];
+      for (var target in map) {
+        (function(target, source) {
 
-        // Set initial value.
-        this.$el[this.accessor](attr, this.model.get(name));
+          // Set initial value.
+          this.$el[this.accessor](target, this.model.get(source));
 
-        // Listen for changes on each.
-        this.listenTo(this.model, 'change:' + name, function(model, value) {
-          this.$el[this.accessor](attr, value);
-        });
+          // Listen for changes.
+          this.listenTo(this.model, 'change:' + source,
+            function(model, value) {
+              this.$el[this.accessor](target, value);
+            });
+
+        }).call(this, target, map[target]);
       }
     },
 
@@ -233,7 +236,7 @@
   patches.attrs = function(el, attrs) {
     return new Attrs({
       el: el,
-      attrs: attrs,
+      map: attrs,
       model: this.model
     });
   };
@@ -248,7 +251,7 @@
   patches.props = function(el, props) {
     return new Props({
       el: el,
-      attrs: props,
+      map: props,
       model: this.model
     });
   };
@@ -263,7 +266,7 @@
   patches.css = function(el, css) {
     return new Css({
       el: el,
-      attrs: css,
+      map: css,
       model: this.model
     });
   };
