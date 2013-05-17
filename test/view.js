@@ -54,19 +54,6 @@
     view.render();
   });
 
-  test('template gets view, model, and collection.', 3, function() {
-    var model = new Backbone.Model;
-    var collection = new Backbone.Collection;
-    var view = new Quilt.View({model: model, collection: collection});
-    view.template = function(data) {
-      ok(data.view === view);
-      ok(data.model === model);
-      ok(data.collection === collection);
-      return '';
-    };
-    view.render();
-  });
-
   test('Tolerate non-view return from attribute function.', 0, function() {
     Quilt.patches.test = function() { return {}; };
     var view = new Quilt.View({model: new Backbone.Model});

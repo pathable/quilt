@@ -38,15 +38,13 @@
       // Dispose of old views.
       _.invoke(this.views, 'dispose');
 
-      // Render the template if it exists.
-      if (this.template) {
-        this.$el.html(this.template({
-          view: this,
-          model: this.model,
-          collection: this.collection
-        }));
-      }
+      // Views without a template don't need to render patches.
+      if (!this.template) return this;
 
+      // Render the template.
+      this.$el.html(this.template());
+
+      // Get all the elements.
       var elements = this.$('*').get();
 
       // Execute the handler for each element/attr pair.

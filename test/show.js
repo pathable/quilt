@@ -4,7 +4,9 @@
 
   test('data-show', function() {
     var view = new Quilt.View({
-      el: '<p><i data-show="x"></i></p>',
+      template: function(){
+        return '<p><i data-show="x"></i></p>';
+      },
       model: new Backbone.Model({x: true})
     }).render();
     ok(!view.$('i').is('.hide'));
@@ -14,7 +16,9 @@
 
   test('data-hide', function() {
     var view = new Quilt.View({
-      el: '<p><i data-hide="x"></i></p>',
+      template: function() {
+        return '<p><i data-hide="x"></i></p>';
+      },
       model: new Backbone.Model({x: true})
     }).render();
     ok(view.$('i').is('.hide'));

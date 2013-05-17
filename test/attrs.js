@@ -4,7 +4,9 @@
 
   test('data-attrs', function() {
     var view = new Quilt.View({
-      el: '<p><i data-attrs=\'{"title": "title"}\'></i></p>',
+      template: function() {
+        return '<p><i data-attrs=\'{"title": "title"}\'></i></p>';
+      },
       model: new Backbone.Model({title: 'x'})
     }).render();
     strictEqual(view.$('i').attr('title'), 'x');
@@ -14,7 +16,9 @@
 
   test('data-props', function() {
     var view = new Quilt.View({
-      el: '<p><input type="checkbox" data-props=\'{"checked": "checked"}\'></p>',
+      template: function() {
+        return '<p><input type="checkbox" data-props=\'{"checked": "checked"}\'></p>';
+      },
       model: new Backbone.Model({checked: true})
     }).render();
     ok(view.$('input').prop('checked'));
@@ -24,7 +28,9 @@
 
   test('data-css', function() {
     var view = new Quilt.View({
-      el: '<p><i data-css=\'{"color": "color"}\'></i></p>',
+      template: function() {
+        return '<p><i data-css=\'{"color": "color"}\'></i></p>';
+      },
       model: new Backbone.Model({color: 'blue'})
     }).render();
     strictEqual(view.$('i').css('color'), 'blue');
@@ -34,7 +40,9 @@
 
   test('multiple attrs', function() {
     var view = new Quilt.View({
-      el: '<p><i data-css=\'{"color": "color", "background": "background"}\'></i></p>',
+      template: function() {
+        return '<p><i data-css=\'{"color": "color", "background": "background"}\'></i></p>';
+      },
       model: new Backbone.Model({color: 'blue', background: 'white'})
     }).render();
     view.model.set({color: 'red', background: 'black'});
