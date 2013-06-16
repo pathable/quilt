@@ -182,15 +182,15 @@
     });
   };
 
-  // # Escape
+  // # Text
   //
   // Listen for changes to an attribute, updating the element's content with
   // it's escaped value.
 
-  var Escape = Html.extend({escape: true});
+  var Text = Html.extend({escape: true});
 
-  patches.escape = function(el, attr) {
-    return new Escape({
+  patches.text = function(el, attr) {
+    return new Text({
       el: el,
       attr: attr,
       model: this.model
