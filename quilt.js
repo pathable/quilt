@@ -209,20 +209,20 @@
     initialize: function(options) {
       var map = options.map;
 
-      for (var target in map) {
-        (function(target, source) {
+      _.each(_.keys(map), function(target) {
+        var source = map[target];
+        var event = 'change:' + source;
 
-          // Set initial value.
-          this.$el[this.accessor](target, this.model.get(source));
+        // Set initial value.
+        this.$el[this.accessor](target, this.model.get(source));
 
-          // Listen for changes.
-          this.listenTo(this.model, 'change:' + source,
-            function(model, value) {
-              this.$el[this.accessor](target, value);
-            });
+        // Listen for changes.
+        this.listenTo(this.model, event, function(model, value) {
+          this.$el[this.accessor](target, value);
+        });
 
-        }).call(this, target, map[target]);
-      }
+      }, this);
+
     },
 
     render: function() {

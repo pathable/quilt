@@ -14,10 +14,10 @@
     strictEqual(view.$('i').html(), 'y');
   });
 
-  test('data-escape', function() {
+  test('data-text', function() {
     var view = new Quilt.View({
       template: function() {
-        return '<p><i data-escape="x"></i></p>';
+        return '<p><i data-text="x"></i></p>';
       },
       model: new Backbone.Model({x: '1 < 2'})
     }).render();
