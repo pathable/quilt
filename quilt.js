@@ -212,7 +212,7 @@
 
     initialize: function(options) {
       if (!this.model) return;
-      _.each(_.keys(this.map = options.map), this.setAndListen, this)
+      _.each(_.keys(this.map = options.map), this.setAndListen, this);
     },
 
     setAndListen: function(target) {
