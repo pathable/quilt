@@ -50,4 +50,12 @@
     strictEqual(view.$('i').css('background'), 'black');
   });
 
+  test('missing model', 0, function() {
+    new Quilt.View({
+      template: function() {
+        return '<p><i data-attrs=\'{"title": "title"}\'></i></p>';
+      }
+    }).render();
+  });
+
 })();

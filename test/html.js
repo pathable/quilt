@@ -26,4 +26,12 @@
     strictEqual(view.$('i').html(), 'stuff &amp; nonsense');
   });
 
+  test('missing model', 0, function() {
+    new Quilt.View({
+      template: function() {
+        return '<p><i data-text="x"></i></p>'
+      }
+    }).render();
+  });
+
 })();

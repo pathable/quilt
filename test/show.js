@@ -26,4 +26,12 @@
     ok(!view.$('i').is('.hide'));
   });
 
+  test('missing model', 0, function() {
+    new Quilt.View({
+      template: function() {
+        return '<p><i data-hide="x"></i></p>';
+      }
+    }).render();
+  });
+
 })();

@@ -119,11 +119,13 @@
   var Show = Quilt.View.extend({
 
     initialize: function(options) {
+      if (!this.model) return;
       this.attr = options.attr;
       this.listenTo(this.model, 'change:' + this.attr, this.render);
     },
 
     render: function() {
+      if (!this.model) return this;
       var value = this.model.get(this.attr);
       this.$el.toggleClass('hide', this.invert ? !!value : !value);
       return this;
@@ -163,10 +165,12 @@
 
     initialize: function(options) {
       this.attr = options.attr;
+      if (!this.model) return;
       this.listenTo(this.model, 'change:' + this.attr, this.render);
     },
 
     render: function() {
+      if (!this.model) return this;
       var value = this.model[this.escape ? 'escape' : 'get'](this.attr);
       this.$el.html(this.model.get(this.attr));
       return this;
@@ -207,26 +211,21 @@
     accessor: 'attr',
 
     initialize: function(options) {
-      var map = options.map;
-
-      _.each(_.keys(map), function(target) {
-        var source = map[target];
-        var event = 'change:' + source;
-
-        // Set initial value.
-        this.$el[this.accessor](target, this.model.get(source));
-
-        // Listen for changes.
-        this.listenTo(this.model, event, function(model, value) {
-          this.$el[this.accessor](target, value);
-        });
-
-      }, this);
-
+      if (!this.model) return;
+      _.each(_.keys(this.map = options.map), this.setAndListen, this)
     },
 
-    render: function() {
-      return this;
+    setAndListen: function(target) {
+      var source = this.map[target];
+      var event = 'change:' + source;
+
+      // Set initial value.
+      this.$el[this.accessor](target, this.model.get(source));
+
+      // Listen for changes.
+      this.listenTo(this.model, event, function(model, value) {
+        this.$el[this.accessor](target, value);
+      });
     }
 
   });
