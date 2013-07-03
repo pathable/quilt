@@ -116,7 +116,7 @@
   // Listen for changes to an attribute and show the element if the value is
   // truthy, hiding it otherwise.
 
-  var Show = Quilt.View.extend({
+  var Show = Quilt.Show = Quilt.View.extend({
 
     initialize: function(options) {
       if (!this.model) return;
@@ -146,7 +146,7 @@
   // Listen for changes to an attribute and hide the element if the value is
   // truthy, showing it otherwise.
 
-  var Hide = Show.extend({invert: true});
+  var Hide = Quilt.Hide = Show.extend({invert: true});
 
   patches.hide = function(el, attr) {
     return new Hide({
@@ -161,7 +161,7 @@
   // Listen for changes to an attribute, updating the element's content with
   // it's value.
 
-  var Html = Quilt.View.extend({
+  var Html = Quilt.Html = Quilt.View.extend({
 
     initialize: function(options) {
       this.attr = options.attr;
@@ -191,7 +191,7 @@
   // Listen for changes to an attribute, updating the element's content with
   // it's escaped value.
 
-  var Text = Html.extend({escape: true});
+  var Text = Quilt.Text = Html.extend({escape: true});
 
   patches.text = function(el, attr) {
     return new Text({
@@ -206,7 +206,7 @@
   // Listen for changes to attributes and update the element's attributes
   // accordingly.
 
-  var Attrs = Quilt.View.extend({
+  var Attrs = Quilt.Attrs = Quilt.View.extend({
 
     accessor: 'attr',
 
@@ -243,7 +243,7 @@
   // Listen for changes to attributes and update the element's properties
   // accordingly.
 
-  var Props = Attrs.extend({accessor: 'prop'});
+  var Props = Quilt.Props = Attrs.extend({accessor: 'prop'});
 
   patches.props = function(el, props) {
     return new Props({
@@ -258,7 +258,7 @@
   // Listen for changes to attributes and update the element's style
   // accordingly.
 
-  var Css = Attrs.extend({accessor: 'css'});
+  var Css = Quilt.Css = Attrs.extend({accessor: 'css'});
 
   patches.css = function(el, css) {
     return new Css({
