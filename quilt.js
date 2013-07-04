@@ -163,6 +163,10 @@
 
   var Html = Quilt.Html = Quilt.View.extend({
 
+    value: function() {
+      return this.model.get(this.attr);
+    },
+
     initialize: function(options) {
       this.attr = options.attr;
       if (!this.model) return;
@@ -171,8 +175,7 @@
 
     render: function() {
       if (!this.model) return this;
-      var value = this.model[this.escape ? 'escape' : 'get'](this.attr);
-      this.$el.html(this.model.get(this.attr));
+      this.$el.html(this.value());
       return this;
     }
 
@@ -191,7 +194,13 @@
   // Listen for changes to an attribute, updating the element's content with
   // it's escaped value.
 
-  var Text = Quilt.Text = Html.extend({escape: true});
+  var Text = Quilt.Text = Html.extend({
+
+    value: function() {
+      return this.model.escape(this.attr);
+    }
+
+  });
 
   patches.text = function(el, attr) {
     return new Text({

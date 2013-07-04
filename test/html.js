@@ -14,7 +14,7 @@
     strictEqual(view.$('i').html(), 'y');
   });
 
-  test('data-text', function() {
+  test('data-text', 1, function() {
     var view = new Quilt.View({
       template: function() {
         return '<p><i data-text="x"></i></p>';
@@ -22,8 +22,6 @@
       model: new Backbone.Model({x: '1 < 2'})
     }).render();
     strictEqual(view.$('i').html(), '1 &lt; 2');
-    view.model.set({x: 'stuff & nonsense'});
-    strictEqual(view.$('i').html(), 'stuff &amp; nonsense');
   });
 
   test('missing model', 0, function() {
