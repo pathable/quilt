@@ -176,7 +176,7 @@
       if (!this.model) return;
       var value = this.model.get(this.attr)
 
-      if (typeof value != 'undefined') {
+      if (typeof value != 'undefined' && value != false) {
         if (this.cache) 
           $(this.parent).find('*').eq(this.index).before(this.$el)
       }else{
