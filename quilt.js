@@ -156,6 +156,46 @@
     });
   };
 
+  // # If
+  // 
+  // Listen for changes to an attribute and remove the element if the value is undefined, adding it otherwise
+
+  var If = Quilt.If = Quilt.View.extend({
+    initialize:function(options) {
+
+      if (!this.model) return;
+
+      this.cache  = null
+      this.parent = this.$el.parent()
+      this.index  = this.$el[0].childNodes.length-1
+
+      this.attr = options.attr;
+      this.listenTo(this.model, 'change:' + this.attr, this.render)
+    },
+    render:function() {
+      if (!this.model) return;
+      var value = this.model.get(this.attr)
+
+      if (typeof value != 'undefined' && value != false) {
+        if (this.cache) 
+          $(this.parent).find('*').eq(this.index).before(this.$el)
+      }else{
+        this.$el.remove()
+        this.cache = this.$el
+      }
+
+    }
+  })
+
+  patches.if = function(el, attr) {
+    return new If({
+      el:el,
+      attr:attr,
+      model:this.model
+    })
+  }
+
+
   // # Html
   //
   // Listen for changes to an attribute, updating the element's content with
