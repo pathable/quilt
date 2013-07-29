@@ -29,25 +29,25 @@
   test('data-css', function() {
     var view = new Quilt.View({
       template: function() {
-        return '<p><i data-css=\'{"color": "color"}\'></i></p>';
+        return '<p><i data-css=\'{"display": "display"}\'></i></p>';
       },
-      model: new Backbone.Model({color: 'blue'})
+      model: new Backbone.Model({display: 'block'})
     }).render();
-    strictEqual(view.$('i').css('color'), 'blue');
-    view.model.set({color: 'green'});
-    strictEqual(view.$('i').css('color'), 'green');
+    strictEqual(view.$('i').css('display'), 'block');
+    view.model.set({display: 'inline'});
+    strictEqual(view.$('i').css('display'), 'inline');
   });
 
   test('multiple attrs', function() {
     var view = new Quilt.View({
       template: function() {
-        return '<p><i data-css=\'{"color": "color", "background": "background"}\'></i></p>';
+        return '<p><i data-css=\'{"display": "display", "position": "position"}\'></i></p>';
       },
-      model: new Backbone.Model({color: 'blue', background: 'white'})
+      model: new Backbone.Model({display: 'block', position: 'absolute'})
     }).render();
-    view.model.set({color: 'red', background: 'black'});
-    strictEqual(view.$('i').css('color'), 'red');
-    strictEqual(view.$('i').css('background'), 'black');
+    view.model.set({display: 'inline', position: 'relative'});
+    strictEqual(view.$('i').css('display'), 'inline');
+    strictEqual(view.$('i').css('position'), 'relative');
   });
 
   test('missing model', 0, function() {
