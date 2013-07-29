@@ -43,38 +43,8 @@
       // Render the template.
       this.$el.html(this.template());
 
-      // Get all the elements.
-      var elements = this.$('*').get();
-
-      // Execute the handler for each element/attr pair.
-      for (var i = 0, il = elements.length; i < il; i++) {
-        var el = elements[i];
-        var attrs = el.attributes;
-
-        for (var j = 0, jl = attrs.length; j < jl; j++) {
-          var attr = attrs[j];
-
-          // IE8 will enumerate unspecified attributes.
-          if (!attr.specified) continue;
-
-          // Bail unless we have a data attribute.
-          var name = attr.name;
-          if (!dataAttr.test(name)) continue;
-
-          // Camel case and strip "data-".
-          name = name.replace(dataAttr, '').replace(undasher, camel);
-
-          // Bail on attributes with no corresponding patch.
-          var patch = Quilt.patches[name];
-          if (!patch) continue;
-
-          // Execute the handler.
-          var view = patch.call(this, el, $(el).data(name));
-
-          // Render the view if appropriate.
-          if (view instanceof View) this.renderView(view);
-        }
-      }
+      // Render patches.
+      _.each(this.$('*'), this._renderPatches, this);
 
       return this;
     },
@@ -94,6 +64,43 @@
       this.undelegateEvents();
       if (this.views) _.invoke(this.views, 'dispose');
       return this;
+    },
+
+    _renderPatches: document.createElement('a').dataset ?
+
+    function(el) {
+      for (var name in el.dataset) this._renderPatch(el, name);
+    } :
+
+    function(el) {
+      var attrs = el.attributes;
+      for (var i = 0, length = attrs.length; i < length; i++) {
+        var attr = attrs[i];
+
+        // IE8- will enumerate unspecified attributes.
+        if (!attr.specified) continue;
+
+        // Bail unless we have a data attribute.
+        var name = attr.name;
+        if (!dataAttr.test(name)) continue;
+
+        // Camel case and strip "data-".
+        name = name.replace(dataAttr, '').replace(undasher, camel);
+
+        this._renderPatch(el, name);
+      }
+    },
+
+    _renderPatch: function(el, name) {
+      // Bail on attributes with no corresponding patch.
+      var patch = Quilt.patches[name];
+      if (!patch) return;
+
+      // Execute the handler.
+      var view = patch.call(this, el, $(el).data(name));
+
+      // Render the view if appropriate.
+      if (view instanceof View) this.renderView(view);
     }
 
   });
