@@ -21,13 +21,13 @@
     collection.trigger('event');
   });
 
-  test('Child views are disposed on dispose.', 1, function() {
+  test('Child views are disposed of.', 1, function() {
     var parent = new Quilt.View;
     var child = new Quilt.View;
     child.dispose= function() {
       ok(this === child);
     };
-    parent.views.push(child);
+    parent.addView(child);
     parent.dispose();
   });
 
@@ -97,8 +97,28 @@
     var view = new Quilt.View;
     var child = new Quilt.View;
     child.dispose = function() { ok(true); };
-    view.views.push(child);
+    view.addView(child);
     view.render();
+  });
+
+  test('addView', 1, function() {
+    var view = new Quilt.View;
+    var child = new Quilt.View;
+    view.addView(child);
+    ok(view.views[0] === child);
+  });
+
+  test('renderView', 2, function() {
+    var view = new Quilt.View;
+    var View = Quilt.View.extend({
+      render: function() {
+        ok(true);
+        return this;
+      }
+    });
+    var child = new View;
+    view.renderView(child);
+    ok(view.views[0] === child);
   });
 
 })();

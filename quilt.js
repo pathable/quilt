@@ -25,7 +25,6 @@
   var View = Quilt.View = Backbone.View.extend({
 
     constructor: function(options) {
-      this.views = [];
       if (options && options.template) this.template = options.template;
       Backbone.View.apply(this, arguments);
     },
@@ -36,7 +35,7 @@
     render: function() {
 
       // Dispose of old views.
-      _.invoke(this.views, 'dispose');
+      if (this.views) _.invoke(this.views, 'dispose');
 
       // Views without a template don't need to render patches.
       if (!this.template) return this;
@@ -73,18 +72,27 @@
           var view = patch.call(this, el, $(el).data(name));
 
           // Render the view if appropriate.
-          if (view instanceof View) this.views.push(view.render());
+          if (view instanceof View) this.renderView(view);
         }
       }
 
       return this;
     },
 
+    addView: function(view) {
+      if (!this.views) this.views = [];
+      this.views.push(view);
+    },
+
+    renderView: function(view) {
+      this.addView(view.render());
+    },
+
     // Dispose of child views.
     dispose: function() {
       this.stopListening();
       this.undelegateEvents();
-      _.invoke(this.views, 'dispose');
+      if (this.views) _.invoke(this.views, 'dispose');
       return this;
     }
 
