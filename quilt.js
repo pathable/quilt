@@ -12,9 +12,6 @@
   // Find dashes in attribute names.
   var undasher = /-([a-z]|[0-9])/ig;
 
-  // Identify data attributes.
-  var dataAttr = /^data-/;
-
   // Camel case data attributes.
   var camel = function(match, letter) {
     return (letter + '').toUpperCase();
@@ -82,12 +79,9 @@
 
         // Bail unless we have a data attribute.
         var name = attr.name;
-        if (!dataAttr.test(name)) continue;
+        if (name.indexOf('data-') !== 0) continue;
 
-        // Camel case and strip "data-".
-        name = name.replace(dataAttr, '').replace(undasher, camel);
-
-        this._renderPatch(el, name);
+        this._renderPatch(el, name.slice(5).replace(undasher, camel));
       }
     },
 
