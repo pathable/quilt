@@ -1,10 +1,14 @@
 (function() {
 
-  var patches = _.clone(Quilt.patches);
+  var patches = Quilt.patches;
 
   module('View', {
 
     setup: function() {
+      Quilt.patches = _.clone(patches);
+    },
+
+    teardown: function() {
       Quilt.patches = patches;
     }
 
@@ -119,6 +123,16 @@
     var child = new View;
     view.renderView(child);
     ok(view.views[0] === child);
+  });
+
+  test('Alter attributes during iteration.', 1, function() {
+    Quilt.patches.foo = function(el) { el.removeAttribute('href'); };
+    Quilt.patches.bar = function(el) { ok(true); };
+    var view = new Quilt.View;
+    view.template = function() {
+      return '<a href="/" data-foo data-bar></a>';
+    };
+    view.render();
   });
 
 })();
