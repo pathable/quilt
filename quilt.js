@@ -70,7 +70,11 @@
     } :
 
     function(el) {
+      var names;
       var attrs = el.attributes;
+
+      // The attributes array may be altered while we iterate so isolate the
+      // data attribute names.
       for (var i = 0, length = attrs.length; i < length; i++) {
         var attr = attrs[i];
 
@@ -79,9 +83,17 @@
 
         // Bail unless we have a data attribute.
         var name = attr.name;
-        if (name.indexOf('data-') !== 0) continue;
+        if (name.lastIndexOf('data-', 0) !== 0) continue;
 
-        this._renderPatch(el, name.slice(5).replace(undasher, camel));
+        if (!names) names = [];
+        names.push(name.slice(5).replace(undasher, camel));
+      }
+
+      // Bail out if no data attributes were found.
+      if (!names) return;
+
+      for (var i = 0, length = names.length; i < length; i++) {
+        this._renderPatch(el, names[i]);
       }
     },
 
