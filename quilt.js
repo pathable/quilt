@@ -86,14 +86,14 @@
         if (name.lastIndexOf('data-', 0) !== 0) continue;
 
         if (!names) names = [];
-        names.push(name);
+        names.push(name.slice(5).replace(undasher, camel));
       }
 
       // Bail out if no data attributes were found.
       if (!names) return;
 
       for (var i = 0, length = names.length; i < length; i++) {
-        this._renderPatch(el, names[i].slice(5).replace(undasher, camel));
+        this._renderPatch(el, names[i]);
       }
     },
 
