@@ -83,7 +83,7 @@
 
         // Bail unless we have a data attribute.
         var name = attr.name;
-        if (name.indexOf('data-') !== 0) continue;
+        if (name.lastIndexOf('data-', 0) !== 0) continue;
 
         if (!names) names = [];
         names.push(name);
