@@ -1,1 +1,1 @@
-Please see http://pathable.github.com/quilt for documentation.
+Please see http://pathable.github.io/quilt for documentation.
