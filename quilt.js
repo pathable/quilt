@@ -3,8 +3,25 @@
   // Global object reference.
   var root = this;
 
-  // Global export.
-  var Quilt = root.Quilt = {};
+  // Exports
+  var Quilt = typeof exports !== 'undefined'
+    ? exports
+    : root.Quilt = {};
+
+  // Backbone
+  var Backbone = typeof exports !== 'undefined'
+    ? require('backbone')
+    : root.Backbone;
+
+  // jQuery
+  var $ = Backbone.$ = typeof exports !== 'undefined'
+    ? require('jquery/dist/jquery')(window)
+    : root.jQuery;
+
+  // Underscore
+  var _ = typeof exports !== 'undefined'
+    ? require('underscore')
+    : root._;
 
   // Current library version.
   Quilt.VERSION = '0.0.1';
@@ -298,4 +315,4 @@
     });
   };
 
-})();
+}).call(this);

@@ -2,9 +2,28 @@
   "name": "quilt",
   "version": "0.0.1",
   "scripts": {
-    "test": "phantomjs ./test/vendor/runner.js ./test/index.html?noglobals=true"
+    "bundle": "browserify test/*.js -o test.js"
   },
   "dependencies": {
-    "phantomjs": "1.9.0-1"
+    "jquery": "2.1.0-beta3",
+    "backbone": "1.1.0",
+    "underscore": "1.5.2"
+  },
+  "devDependencies": {
+    "tap": "0.4.6",
+    "tape": "2.3.2",
+    "browserify": "~3.14.1"
+  },
+  "testling": {
+    "files": "test/*.js",
+    "browsers": [
+      "ie/8..latest",
+      "chrome/20..latest",
+      "firefox/10..latest",
+      "safari/latest",
+      "opera/latest",
+      "iphone/6..latest",
+      "ipad/6..latest"
+    ]
   }
 }
