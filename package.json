@@ -17,8 +17,8 @@
     "files": "test/*.js",
     "browsers": [
       "ie/9..latest",
-      "chrome/20..latest",
-      "firefox/10..latest",
+      "chrome/30..latest",
+      "firefox/23..latest",
       "safari/latest",
       "opera/latest",
       "iphone/6..latest",
