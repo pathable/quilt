@@ -10,9 +10,9 @@ test('data-html', function(t) {
     },
     model: new Backbone.Model({x: 'x'})
   }).render();
-  t.strictEqual(view.$('i').html(), 'x');
+  t.is(view.$('i').html(), 'x');
   view.model.set({x: 'y'});
-  t.strictEqual(view.$('i').html(), 'y');
+  t.is(view.$('i').html(), 'y');
   t.end();
 });
 
@@ -23,7 +23,7 @@ test('data-text', 1, function(t) {
     },
     model: new Backbone.Model({x: '1 < 2'})
   }).render();
-  t.strictEqual(view.$('i').html(), '1 &lt; 2');
+  t.is(view.$('i').html(), '1 &lt; 2');
   t.end();
 });
 

@@ -41,7 +41,7 @@ test('Child views are disposed of.', 1, function(t) {
 
 test('Dashes are inserted into data attributes.', 2, function(t) {
   Quilt.patches.testAttr = function(el, options) {
-    t.strictEqual(options, 'test');
+    t.is(options, 'test');
     t.ok($(el).is('p'));
   };
   var view = new Quilt.View;
@@ -91,7 +91,7 @@ test('Accept template function in options.', 1, function(t) {
   var view = new Quilt.View({
     template: function(){ return 'x'; }
   }).render();
-  t.strictEqual(view.$el.html(), 'x');
+  t.is(view.$el.html(), 'x');
   t.end();
 });
 
@@ -100,7 +100,7 @@ test('Null template option is discarded.', 1, function(t) {
     template: function(){ return 'x'; }
   });
   var view = new View({template: null}).render();
-  t.strictEqual(view.$el.html(), 'x');
+  t.is(view.$el.html(), 'x');
   t.end();
 });
 

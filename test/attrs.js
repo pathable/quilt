@@ -10,9 +10,9 @@ test('data-attrs', function(t) {
     },
     model: new Backbone.Model({title: 'x'})
   }).render();
-  t.strictEqual(view.$('i').attr('title'), 'x');
+  t.is(view.$('i').attr('title'), 'x');
   view.model.set({title: 'y'});
-  t.strictEqual(view.$('i').attr('title'), 'y');
+  t.is(view.$('i').attr('title'), 'y');
   t.end();
 });
 
@@ -36,9 +36,9 @@ test('data-css', function(t) {
     },
     model: new Backbone.Model({display: 'block'})
   }).render();
-  t.strictEqual(view.$('i').css('display'), 'block');
+  t.is(view.$('i').css('display'), 'block');
   view.model.set({display: 'inline'});
-  t.strictEqual(view.$('i').css('display'), 'inline');
+  t.is(view.$('i').css('display'), 'inline');
   t.end();
 });
 
@@ -50,8 +50,8 @@ test('multiple attrs', function(t) {
     model: new Backbone.Model({display: 'block', position: 'absolute'})
   }).render();
   view.model.set({display: 'inline', position: 'relative'});
-  t.strictEqual(view.$('i').css('display'), 'inline');
-  t.strictEqual(view.$('i').css('position'), 'relative');
+  t.is(view.$('i').css('display'), 'inline');
+  t.is(view.$('i').css('position'), 'relative');
   t.end();
 });
 
