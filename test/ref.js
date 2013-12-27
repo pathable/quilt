@@ -4,9 +4,11 @@ var Backbone = require('backbone');
 Backbone.$ = require('jquery/dist/jquery')(window);
 
 test('data-ref creates a reference.', function(t) {
-  var view = new Quilt.View;
-  var p = $('<p></p>')[0];
-  Quilt.patches.ref.call(view, p, 'p');
-  t.ok(view.$p[0] === p);
+  var view = new Quilt.View({
+    template: function() {
+      return '<p data-ref="test"></p>';
+    }
+  }).render();
+  t.ok(view.$test[0] === view.$('p')[0]);
   t.end();
 });
