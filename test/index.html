@@ -1,19 +1,13 @@
 <!doctype html>
-<html>
-  <meta charset='utf8'>
-  <title>Quilt Test Suite</title>
-<head>
-</head>
-<body>
-  <pre id='out'></pre>
-  <script>
-    var out = document.getElementById('out');
-    if (!console) console = {};
-    console.log = function(s) {
-      out.appendChild(document.createTextNode(s + '\n'));
-      window.scrollTo(0, document.body.scrollHeight);
-    };
-  </script>
-  <script src='../test.js'></script>
-</body>
-</html>
+<meta charset='utf8'>
+<title>Quilt Test Suite</title>
+<pre id='out'></pre>
+<script>
+  var out = document.getElementById('out');
+  if (!console) console = {};
+  console.log = function(s) {
+    out.appendChild(document.createTextNode(s + '\n'));
+    window.scrollTo(0, document.body.scrollHeight);
+  };
+</script>
+<script src='../test.js'></script>
