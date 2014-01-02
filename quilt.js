@@ -103,20 +103,20 @@
     },
 
     // Get camel cased data attribute names for an element.
-    _names: document.createElement('a').dataset ?
+    _names: document.createElement('a').dataset
 
     // Use dataset in supporting browsers.
-    function(el) {
+    ? function(el) {
       var names = null;
       for (var name in el.dataset) {
         if (!names) names = [];
         names.push(name);
       }
       return names;
-    } :
+    }
 
     // Use attributes otherwise.
-    function(el) {
+    : function(el) {
       var names = null;
       var attrs = el.attributes;
 
