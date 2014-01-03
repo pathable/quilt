@@ -3,8 +3,25 @@
   // Global object reference.
   var root = this;
 
-  // Global export.
-  var Quilt = root.Quilt = {};
+  // Exports
+  var Quilt = typeof exports !== 'undefined'
+    ? exports
+    : root.Quilt = {};
+
+  // Backbone
+  var Backbone = typeof exports !== 'undefined'
+    ? require('backbone')
+    : root.Backbone;
+
+  // jQuery
+  var $ = Backbone.$ = typeof exports !== 'undefined'
+    ? require('jquery/dist/jquery')(window)
+    : root.jQuery;
+
+  // Underscore
+  var _ = typeof exports !== 'undefined'
+    ? require('underscore')
+    : root._;
 
   // Current library version.
   Quilt.VERSION = '0.0.1';
@@ -46,11 +63,13 @@
       return this;
     },
 
+    // Add a child view.
     addView: function(view) {
       if (!this.views) this.views = [];
       this.views.push(view);
     },
 
+    // Add and render a child view.
     renderView: function(view) {
       this.addView(view.render());
     },
@@ -63,14 +82,42 @@
       return this;
     },
 
-    _renderPatches: document.createElement('a').dataset ?
+    // Render all patches for a particular element.
+    _renderPatches: function(el) {
+      var names = this._names(el);
+      if (!names) return;
 
-    function(el) {
-      for (var name in el.dataset) this._renderPatch(el, name);
-    } :
+      for (var i = 0; i < names.length; i++) {
+        var name = names[i];
 
-    function(el) {
-      var names;
+        // Bail on attributes with no corresponding patch.
+        var patch = Quilt.patches[name];
+        if (!patch) return;
+
+        // Execute the handler.
+        var view = patch.call(this, el, $(el).data(name));
+
+        // Render the view if appropriate.
+        if (view instanceof View) this.renderView(view);
+      }
+    },
+
+    // Get camel cased data attribute names for an element.
+    _names: document.createElement('a').dataset
+
+    // Use dataset in supporting browsers.
+    ? function(el) {
+      var names = null;
+      for (var name in el.dataset) {
+        if (!names) names = [];
+        names.push(name);
+      }
+      return names;
+    }
+
+    // Use attributes otherwise.
+    : function(el) {
+      var names = null;
       var attrs = el.attributes;
 
       // The attributes array may be altered while we iterate so isolate the
@@ -85,28 +132,12 @@
         var name = attr.name;
         if (name.lastIndexOf('data-', 0) !== 0) continue;
 
+        // We got one!
         if (!names) names = [];
         names.push(name.slice(5).replace(undasher, camel));
       }
 
-      // Bail out if no data attributes were found.
-      if (!names) return;
-
-      for (var i = 0, length = names.length; i < length; i++) {
-        this._renderPatch(el, names[i]);
-      }
-    },
-
-    _renderPatch: function(el, name) {
-      // Bail on attributes with no corresponding patch.
-      var patch = Quilt.patches[name];
-      if (!patch) return;
-
-      // Execute the handler.
-      var view = patch.call(this, el, $(el).data(name));
-
-      // Render the view if appropriate.
-      if (view instanceof View) this.renderView(view);
+      return names;
     }
 
   });
@@ -298,4 +329,4 @@
     });
   };
 
-})();
+}).call(this);

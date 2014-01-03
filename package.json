@@ -1,10 +1,32 @@
 {
   "name": "quilt",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pathable/quilt.git"
+  },
   "scripts": {
-    "test": "phantomjs ./test/vendor/runner.js ./test/index.html?noglobals=true"
+    "bundle": "browserify test/*.js -o test.js"
   },
   "dependencies": {
-    "phantomjs": "1.9.0-1"
+    "jquery": ">=1.11.0",
+    "backbone": ">=1.0.0",
+    "underscore": ">=1.5.0"
+  },
+  "devDependencies": {
+    "tape": "2.3.2",
+    "browserify": "~3.14.1"
+  },
+  "testling": {
+    "files": "test/*.js",
+    "browsers": [
+      "ie/9..latest",
+      "chrome/latest",
+      "firefox/latest",
+      "safari/latest",
+      "opera/latest",
+      "iphone/6..latest",
+      "ipad/6..latest"
+    ]
   }
 }

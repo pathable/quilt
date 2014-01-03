@@ -1,23 +1,13 @@
 <!doctype html>
-<html>
-  <meta charset='utf8'>
-  <title>Quilt Test Suite</title>
-
-  <link rel='stylesheet' href='./vendor/qunit.css'>
-
-  <script src='./vendor/qunit.js'></script>
-  <script src='./vendor/jquery.js'></script>
-  <script src='./vendor/underscore.js'></script>
-  <script src='./vendor/backbone.js'></script>
-  <script src='../quilt.js'></script>
-  <script src='./view.js'></script>
-  <script src='./ref.js'></script>
-  <script src='./show.js'></script>
-  <script src='./html.js'></script>
-  <script src='./attrs.js'></script>
-<head>
-</head>
-<body>
-  <div id='qunit'></div>
-</body>
-</html>
+<meta charset='utf8'>
+<title>Quilt Test Suite</title>
+<pre id='out'></pre>
+<script>
+  var out = document.getElementById('out');
+  if (!window.console) console = {};
+  console.log = function(s) {
+    out.appendChild(document.createTextNode(s + '\n'));
+    window.scrollTo(0, document.body.scrollHeight);
+  };
+</script>
+<script src='../test.js'></script>
