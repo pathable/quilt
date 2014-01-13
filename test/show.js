@@ -10,9 +10,9 @@ test('data-show', function(t) {
     },
     model: new Backbone.Model({x: true})
   }).render();
-  t.ok(!view.$('i').is('.hide'));
+  t.ok(!view.$('i').is('[class*=hide-view]'));
   view.model.set({x: false});
-  t.ok(view.$('i').is('.hide'));
+  t.ok(view.$('i').is('[class*=hide-view]'));
   t.end();
 });
 
@@ -23,9 +23,9 @@ test('data-hide', function(t) {
     },
     model: new Backbone.Model({x: true})
   }).render();
-  t.ok(view.$('i').is('.hide'));
+  t.ok(view.$('i').is('[class*=hide-view]'));
   view.model.set({x: false});
-  t.ok(!view.$('i').is('.hide'));
+  t.ok(!view.$('i').is('[class*=hide-view]'));
   t.end();
 });
 

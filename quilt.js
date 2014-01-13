@@ -179,7 +179,8 @@
     render: function() {
       if (!this.model) return this;
       var value = this.model.get(this.attr);
-      this.$el.toggleClass('hide', this.invert ? !!value : !value);
+      if (this.invert) value = !value;
+      this.$el.toggleClass('hide-' + this.cid, !value);
       return this;
     }
 
