@@ -176,11 +176,12 @@
       this.listenTo(this.model, 'change:' + this.attr, this.render);
     },
 
+    show: function() {
+      return !!(this.model && this.model.get(this.attr));
+    },
+
     render: function() {
-      if (!this.model) return this;
-      var value = this.model.get(this.attr);
-      if (this.invert) value = !value;
-      this.$el.toggleClass('hide-' + this.cid, !value);
+      this.$el.toggleClass('hide-' + this.cid, !this.show());
       return this;
     }
 
@@ -199,7 +200,13 @@
   // Listen for changes to an attribute and hide the element if the value is
   // truthy, showing it otherwise.
 
-  var Hide = Quilt.Hide = Show.extend({invert: true});
+  var Hide = Quilt.Hide = Show.extend({
+
+    show: function() {
+      return !!(this.model && !this.model.get(this.attr));
+    }
+
+  });
 
   patches.hide = function(el, attr) {
     return new Hide({
@@ -327,6 +334,49 @@
       el: el,
       map: css,
       model: this.model
+    });
+  };
+
+  // # Empty
+  //
+  // Show if the collection is empty, hide otherwise.
+
+  var Empty = Quilt.Empty = Show.extend({
+
+    initialize: function() {
+      if (!this.collection) return;
+      this.listenTo(this.collection, 'add remove reset', this.render);
+    },
+
+    show: function() {
+      return !!(this.collection && this.collection.isEmpty());
+    }
+
+  });
+
+  patches.empty = function(el) {
+    return new Empty({
+      el: el,
+      collection: this.collection
+    });
+  };
+
+  // # Any
+  //
+  // Hide if the collection is empty, show otherwise.
+
+  var Any = Quilt.Any = Empty.extend({
+
+    show: function() {
+      return !!(this.collection && !this.collection.isEmpty());
+    }
+
+  });
+
+  patches.any = function(el) {
+    return new Any({
+      el: el,
+      collection: this.collection
     });
   };
 
