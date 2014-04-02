@@ -1,7 +1,7 @@
 var test = require('tape');
 var Quilt = require('../quilt');
 var Backbone = require('backbone');
-Backbone.$ = require('jquery/dist/jquery')(window);
+Backbone.$ = require('jquery');
 
 test('data-attrs', function(t) {
   var view = new Quilt.View({

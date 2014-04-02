@@ -14,8 +14,8 @@
     : root.Backbone;
 
   // jQuery
-  var $ = Backbone.$ = typeof exports !== 'undefined'
-    ? require('jquery/dist/jquery')(window)
+  var $ = typeof exports !== 'undefined'
+    ? require('jquery')
     : root.jQuery;
 
   // Underscore

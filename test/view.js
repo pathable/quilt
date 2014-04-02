@@ -1,7 +1,7 @@
 var _ = require('underscore');
 var Quilt = require('../quilt');
 var Backbone = require('backbone');
-Backbone.$ = require('jquery/dist/jquery')(window);
+Backbone.$ = require('jquery');
 
 var patches = Quilt.patches;
 
@@ -42,7 +42,7 @@ test('Child views are disposed of.', 1, function(t) {
 test('Dashes are inserted into data attributes.', 2, function(t) {
   Quilt.patches.testAttr = function(el, options) {
     t.is(options, 'test');
-    t.ok($(el).is('p'));
+    t.is(el.tagName.toLowerCase(), 'p');
   };
   var view = new Quilt.View;
   view.template = function() {
