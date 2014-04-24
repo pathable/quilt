@@ -64,6 +64,7 @@ test('Other data attributes are ignored.', function(t) {
     return '<p data-first data-ignore data-second></p>';
   };
   view.render();
+  t.end();
 });
 
 test('Tolerate non-view return from attribute function.', function(t) {
