@@ -52,16 +52,19 @@ test('Dashes are inserted into data attributes.', 2, function(t) {
   t.end();
 });
 
-test('Other data attributes are ignored.', 1, function(t) {
-  Quilt.patches.exists = function() {
+test('Other data attributes are ignored.', function(t) {
+  t.plan(2);
+  Quilt.patches.first = function() {
+    t.ok(true);
+  };
+  Quilt.patches.second = function() {
     t.ok(true);
   };
   var view = new Quilt.View;
   view.template = function() {
-    return '<p data-exists="true" data-doesnt="false"></p>';
+    return '<p data-first data-ignore data-second></p>';
   };
   view.render();
-  t.end();
 });
 
 test('Tolerate non-view return from attribute function.', 0, function(t) {
