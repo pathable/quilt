@@ -14,6 +14,7 @@ test('data-show', function(t) {
   t.ok(!view.$('i').is('[class*=hide-view]'));
   view.model.set({x: false});
   t.ok(view.$('i').is('[class*=hide-view]'));
+  t.end();
 });
 
 test('data-hide', function(t) {
@@ -27,6 +28,7 @@ test('data-hide', function(t) {
   t.ok(view.$('i').is('[class*=hide-view]'));
   view.model.set({x: false});
   t.ok(!view.$('i').is('[class*=hide-view]'));
+  t.end();
 });
 
 test('missing model', function(t) {

@@ -34,6 +34,7 @@ test('Child views are disposed of.', function(t) {
   };
   parent.addView(child);
   parent.dispose();
+  t.end();
 });
 
 test('Dashes are inserted into data attributes.', function(t) {
@@ -47,6 +48,7 @@ test('Dashes are inserted into data attributes.', function(t) {
     return '<p data-test-attr="test"></p>';
   };
   view.render();
+  t.end();
 });
 
 test('Other data attributes are ignored.', function(t) {
@@ -59,6 +61,7 @@ test('Other data attributes are ignored.', function(t) {
     return '<p data-exists="true" data-doesnt="false"></p>';
   };
   view.render();
+  t.end();
 });
 
 test('Tolerate non-view return from attribute function.', function(t) {
@@ -74,6 +77,7 @@ test('Dispose is chainable.', function(t) {
   t.plan(1);
   var view = new Quilt.View;
   t.ok(view.dispose() === view);
+  t.end();
 });
 
 test('Dispose removes DOM listeners', function(t) {
@@ -92,6 +96,7 @@ test('Accept template function in options.', function(t) {
     template: function(){ return 'x'; }
   }).render();
   t.is(view.$el.html(), 'x');
+  t.end();
 });
 
 test('Null template option is discarded.', function(t) {
@@ -101,6 +106,7 @@ test('Null template option is discarded.', function(t) {
   });
   var view = new View({template: null}).render();
   t.is(view.$el.html(), 'x');
+  t.end();
 });
 
 test('Undefined options does not throw.', function(t) {
@@ -108,6 +114,7 @@ test('Undefined options does not throw.', function(t) {
   t.doesNotThrow(function() {
     new Quilt.View;
   });
+  t.end();
 });
 
 test('Render disposes old child views.', function(t) {
@@ -117,6 +124,7 @@ test('Render disposes old child views.', function(t) {
   child.dispose = function() { t.ok(true); };
   view.addView(child);
   view.render();
+  t.end();
 });
 
 test('addView', function(t) {
@@ -125,6 +133,7 @@ test('addView', function(t) {
   var child = new Quilt.View;
   view.addView(child);
   t.ok(view.views[0] === child);
+  t.end();
 });
 
 test('renderView', function(t) {
@@ -139,6 +148,7 @@ test('renderView', function(t) {
   var child = new View;
   view.renderView(child);
   t.ok(view.views[0] === child);
+  t.end();
 });
 
 test('Alter attributes during iteration.', function(t) {
@@ -150,5 +160,6 @@ test('Alter attributes during iteration.', function(t) {
     return '<a href="/" data-foo data-bar></a>';
   };
   view.render();
+  t.end();
 });
 
