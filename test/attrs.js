@@ -4,6 +4,7 @@ var Backbone = require('backbone');
 Backbone.$ = require('jquery');
 
 test('data-attrs', function(t) {
+  t.plan(2);
   var view = new Quilt.View({
     template: function() {
       return '<p><i data-attrs=\'{"title": "title"}\'></i></p>';
@@ -17,6 +18,7 @@ test('data-attrs', function(t) {
 });
 
 test('data-props', function(t) {
+  t.plan(2);
   var view = new Quilt.View({
     template: function() {
       return '<p><input type="checkbox" data-props=\'{"checked": "checked"}\'></p>';
@@ -30,6 +32,7 @@ test('data-props', function(t) {
 });
 
 test('data-css', function(t) {
+  t.plan(2);
   var view = new Quilt.View({
     template: function() {
       return '<p><i data-css=\'{"display": "display"}\'></i></p>';
@@ -43,6 +46,7 @@ test('data-css', function(t) {
 });
 
 test('multiple attrs', function(t) {
+  t.plan(2);
   var view = new Quilt.View({
     template: function() {
       return '<p><i data-css=\'{"display": "display", "position": "position"}\'></i></p>';
@@ -55,7 +59,8 @@ test('multiple attrs', function(t) {
   t.end();
 });
 
-test('missing model', 0, function(t) {
+test('missing model', function(t) {
+  t.plan(0);
   new Quilt.View({
     template: function() {
       return '<p><i data-attrs=\'{"title": "title"}\'></i></p>';
