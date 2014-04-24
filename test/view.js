@@ -5,18 +5,15 @@ Backbone.$ = require('jquery');
 
 var patches = Quilt.patches;
 
-var test = function(name, options, callback) {
-  if (_.isFunction(options)) {
-    callback = options;
-    options = null;
-  }
-  require('tape')(name, options, function(t) {
+var test = function(name, callback) {
+  require('tape')(name, function(t) {
     Quilt.patches = _.clone(patches);
     callback(t);
   });
 };
 
-test('Collection and Model events are cleaned up on dispose.', 0, function(t) {
+test('Collection and Model events are cleaned up on dispose.', function(t) {
+  t.plan(0);
   var model = new Backbone.Model;
   var collection = new Backbone.Collection;
   var view = new Quilt.View({model: model, collection: collection});
@@ -28,7 +25,8 @@ test('Collection and Model events are cleaned up on dispose.', 0, function(t) {
   t.end();
 });
 
-test('Child views are disposed of.', 1, function(t) {
+test('Child views are disposed of.', function(t) {
+  t.plan(1);
   var parent = new Quilt.View;
   var child = new Quilt.View;
   child.dispose= function() {
@@ -39,7 +37,8 @@ test('Child views are disposed of.', 1, function(t) {
   t.end();
 });
 
-test('Dashes are inserted into data attributes.', 2, function(t) {
+test('Dashes are inserted into data attributes.', function(t) {
+  t.plan(2);
   Quilt.patches.testAttr = function(el, options) {
     t.is(options, 'test');
     t.is(el.tagName.toLowerCase(), 'p');
@@ -67,7 +66,8 @@ test('Other data attributes are ignored.', function(t) {
   view.render();
 });
 
-test('Tolerate non-view return from attribute function.', 0, function(t) {
+test('Tolerate non-view return from attribute function.', function(t) {
+  t.plan(0);
   Quilt.patches.test = function() { return {}; };
   var view = new Quilt.View({model: new Backbone.Model});
   view.template = function() { return '<p data-test="true"></p>'; };
@@ -75,13 +75,15 @@ test('Tolerate non-view return from attribute function.', 0, function(t) {
   t.end();
 });
 
-test('Dispose is chainable.', 1, function(t) {
+test('Dispose is chainable.', function(t) {
+  t.plan(1);
   var view = new Quilt.View;
   t.ok(view.dispose() === view);
   t.end();
 });
 
-test('Dispose removes DOM listeners', 0, function(t) {
+test('Dispose removes DOM listeners', function(t) {
+  t.plan(0);
   var View = Quilt.View.extend({
     events: {click: 'click'},
     click: function(){ t.ok(false); }
@@ -90,7 +92,8 @@ test('Dispose removes DOM listeners', 0, function(t) {
   t.end();
 });
 
-test('Accept template function in options.', 1, function(t) {
+test('Accept template function in options.', function(t) {
+  t.plan(1);
   var view = new Quilt.View({
     template: function(){ return 'x'; }
   }).render();
@@ -98,7 +101,8 @@ test('Accept template function in options.', 1, function(t) {
   t.end();
 });
 
-test('Null template option is discarded.', 1, function(t) {
+test('Null template option is discarded.', function(t) {
+  t.plan(1);
   var View = Quilt.View.extend({
     template: function(){ return 'x'; }
   });
@@ -107,12 +111,16 @@ test('Null template option is discarded.', 1, function(t) {
   t.end();
 });
 
-test('Undefined options does not throw.', 0, function(t) {
-  var view = new Quilt.View;
+test('Undefined options does not throw.', function(t) {
+  t.plan(1);
+  t.doesNotThrow(function() {
+    new Quilt.View;
+  });
   t.end();
 });
 
-test('Render disposes old child views.', 1, function(t) {
+test('Render disposes old child views.', function(t) {
+  t.plan(1);
   var view = new Quilt.View;
   var child = new Quilt.View;
   child.dispose = function() { t.ok(true); };
@@ -121,7 +129,8 @@ test('Render disposes old child views.', 1, function(t) {
   t.end();
 });
 
-test('addView', 1, function(t) {
+test('addView', function(t) {
+  t.plan(1);
   var view = new Quilt.View;
   var child = new Quilt.View;
   view.addView(child);
@@ -129,7 +138,8 @@ test('addView', 1, function(t) {
   t.end();
 });
 
-test('renderView', 2, function(t) {
+test('renderView', function(t) {
+  t.plan(2);
   var view = new Quilt.View;
   var View = Quilt.View.extend({
     render: function() {
@@ -143,7 +153,8 @@ test('renderView', 2, function(t) {
   t.end();
 });
 
-test('Alter attributes during iteration.', 1, function(t) {
+test('Alter attributes during iteration.', function(t) {
+  t.plan(1);
   Quilt.patches.foo = function(el) { el.removeAttribute('href'); };
   Quilt.patches.bar = function(el) { t.ok(true); };
   var view = new Quilt.View;

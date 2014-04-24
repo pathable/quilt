@@ -4,6 +4,7 @@ var Backbone = require('backbone');
 Backbone.$ = require('jquery');
 
 test('data-html', function(t) {
+  t.plan(2);
   var view = new Quilt.View({
     template: function() {
       return '<p><i data-html="x"></i></p>';
@@ -16,7 +17,8 @@ test('data-html', function(t) {
   t.end();
 });
 
-test('data-text', 1, function(t) {
+test('data-text', function(t) {
+  t.plan(1);
   var view = new Quilt.View({
     template: function() {
       return '<p><i data-text="x"></i></p>';
@@ -27,7 +29,8 @@ test('data-text', 1, function(t) {
   t.end();
 });
 
-test('missing model', 0, function(t) {
+test('missing model', function(t) {
+  t.plan(0);
   new Quilt.View({
     template: function() {
       return '<p><i data-text="x"></i></p>'
