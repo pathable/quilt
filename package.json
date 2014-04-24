@@ -14,8 +14,8 @@
     "underscore": ">=1.5.0"
   },
   "devDependencies": {
-    "tape": "2.3.2",
-    "browserify": "~3.14.1"
+    "tape": "^2.12.3",
+    "browserify": "^3.44.2"
   },
   "testling": {
     "files": "test/*.js",
