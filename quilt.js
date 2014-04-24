@@ -92,7 +92,7 @@
 
         // Bail on attributes with no corresponding patch.
         var patch = Quilt.patches[name];
-        if (!patch) return;
+        if (!patch) continue;
 
         // Execute the handler.
         var view = patch.call(this, el, $(el).data(name));
