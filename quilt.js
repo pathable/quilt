@@ -84,18 +84,18 @@
 
     // Render all patches for a particular element.
     _renderPatches: function(el) {
-      var names = this._names(el);
-      if (!names) return;
+      var attrs = this._dataAttributes(el);
+      if (!attrs) return;
 
-      for (var i = 0; i < names.length; i++) {
-        var name = names[i];
+      for (var i = 0; i < attrs.length; i++) {
+        var attr = attrs[i];
 
         // Bail on attributes with no corresponding patch.
-        var patch = Quilt.patches[name];
+        var patch = Quilt.patches[attr];
         if (!patch) continue;
 
         // Execute the handler.
-        var view = patch.call(this, el, $(el).data(name));
+        var view = patch.call(this, el, $(el).data(attr));
 
         // Render the view if appropriate.
         if (view instanceof View) this.renderView(view);
@@ -103,20 +103,20 @@
     },
 
     // Get camel cased data attribute names for an element.
-    _names: document.createElement('a').dataset
-
-    // Use dataset in supporting browsers.
-    ? function(el) {
-      var names = null;
-      for (var name in el.dataset) {
-        if (!names) names = [];
-        names.push(name);
+    _dataAttributes: function(el) {
+      var attrs = null;
+      for (var attr in el.dataset) {
+        if (!attrs) attrs = [];
+        attrs.push(attr);
       }
-      return names;
+      return attrs;
     }
 
-    // Use attributes otherwise.
-    : function(el) {
+  });
+
+  // If `dataset` is not supported, use `attributes`.
+  if (!document.createElement('a').dataset) {
+    View.prototype._dataAttributes = function(el) {
       var names = null;
       var attrs = el.attributes;
 
@@ -138,9 +138,8 @@
       }
 
       return names;
-    }
-
-  });
+    };
+  }
 
   // # Quilt.patches
   //
