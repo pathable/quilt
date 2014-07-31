@@ -166,3 +166,14 @@ test('Alter attributes during iteration.', function(t) {
   t.end();
 });
 
+test('tolerate items in views array without #dispose', function(t) {
+  t.plan(0);
+  var view = new Quilt.View;
+  view.addView({});
+  view.addView(null);
+  view.addView(undefined);
+  view.render();
+  view.dispose();
+  t.end();
+});
+

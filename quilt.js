@@ -49,7 +49,9 @@
     render: function() {
 
       // Dispose of old views.
-      if (this.views) _.invoke(this.views, 'dispose');
+      _.each(this.views, function(view) {
+        if (view != null && _.isFunction(view.dispose)) view.dispose();
+      });
 
       // Views without a template don't need to render patches.
       if (!this.template) return this;
@@ -78,7 +80,9 @@
     dispose: function() {
       this.stopListening();
       this.undelegateEvents();
-      if (this.views) _.invoke(this.views, 'dispose');
+      _.each(this.views, function(view) {
+        if (view != null && _.isFunction(view.dispose)) view.dispose();
+      });
       return this;
     },
 
